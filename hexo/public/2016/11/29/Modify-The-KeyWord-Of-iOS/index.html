@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.代理用nonatomic, weak修饰weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。 @property (nonatomic, weak) id &amp;lt;LWDelegate&amp;gt; delegate; stro">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何选择修饰关键字">
+<meta property="og:url" content="http://yoursite.com/2016/11/29/Modify-The-KeyWord-Of-iOS/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:description" content="1.代理用nonatomic, weak修饰weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。 @property (nonatomic, weak) id &amp;lt;LWDelegate&amp;gt; delegate; strong：该对象强引用delegate，外界不能销毁delegate对象，会导致循环引用(Retai">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/293993-a907c5711c7921ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-30T03:57:22.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何选择修饰关键字">
+<meta name="twitter:description" content="1.代理用nonatomic, weak修饰weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。 @property (nonatomic, weak) id &amp;lt;LWDelegate&amp;gt; delegate; strong：该对象强引用delegate，外界不能销毁delegate对象，会导致循环引用(Retai">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/293993-a907c5711c7921ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/29/Modify-The-KeyWord-Of-iOS/"/>
+
+
+
+
+
+  <title>如何选择修饰关键字 | Monkey·D·Luffy’s Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/29/Modify-The-KeyWord-Of-iOS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何选择修饰关键字</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-29T18:54:58+08:00">
+                2016-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS纪实/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS纪实</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/29/Modify-The-KeyWord-Of-iOS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/Modify-The-KeyWord-Of-iOS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1.代理用nonatomic, weak修饰<br>weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。</p>
+<pre><code>@property (nonatomic, weak) id &lt;LWDelegate&gt; delegate;
+</code></pre><p>strong：该对象强引用delegate，外界不能销毁delegate对象，会导致循环引用(Retain Cycles)，不会在dealloc方法中销毁，会导致内存泄漏。</p>
+<pre><code>@property (nonatomic, strong) id &lt;LWDelegate&gt; delegate;
+</code></pre><a id="more"></a>
+<p>2.block块用nonatomic，copy<br>block属性的声明，首先需要用copy修饰符，因为只有copy后的block才会在堆中，栈中的block的生命周期是和栈绑定的，加了copy属性后，当其所在栈被释放的时候，这些本地变量将变得不可访问，一旦代码执行到block这段就会导致bad access。另一个需要注意的问题是关于线程安全，在声明Block属性时需要确认在调用Block时另一个线程有没有可能去修改Block，如果确定不会有这种情况发生的话，那么block属性声明可以用nonatomic。</p>
+<p>3.NSString对象一般用nonatomic，copy（因为字符串一般要遵循NSCopying协议）<br>我们在声明NSString对象的时候，一般都是不希望外部来对他进行修改的，防止将NSMutableString赋值给NSString时，前者修改引起后者值变化而用的。</p>
+<pre><code>@property (nonatomic, copy) NSString *lwcopyStr;
+@property (nonatomic, strong) NSString *lwstrongStr;
+
+NSMutableString *lwmuStr = [NSMutableString stringWithString:@&quot;LWW -- MutableString&quot;];
+
+self.lwcopyStr = lwmuStr;
+self.lwstrongStr = lwmuStr;
+
+[lwmuStr appendString:@&quot;---copy&quot;];
+
+NSLog(@&quot;lwmuStr %p lwcopyStr  %p lwstrongStr  %p&quot;, lwmuStr, self.lwcopyStr,  self.lwstrongStr);
+NSLog(@&quot;%@   %@&quot;, self.lwcopyStr, self.lwstrongStr);
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/293993-a907c5711c7921ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果图.png"><br><strong>注意</strong>：在这里要用self.属性，不能用下划线属性，因为下划线是直接访问属性，没有经过get方法，看不到效果。</p>
+<p>4.BOOL、CGFloat、NSInteger、int等一般用nonatomic，assign<br>assign: 简单赋值，不更改索引计数对基础数据类型，例如NSInteger，CGFloat和C数据类型（int, float, double, char等。适用简单数据类型。此标记说明设置器直接进行赋值，这也是默认值。</p>
+<p>5.结构体，枚举属性一般用nonatomic，assign<br>因为在结构体里面的每个枚举成员均具有相关联的常数值，此值的类型就是包含了它的那个枚举的基础类型。每个枚举成员的常数值必须在该枚举的基础类型的范围之内，故枚举跟上面的简单数据类型一样，都是用assign的，进行简单赋值就行。每个枚举值却的的确确都有一个整数类型的数值相对应，而且可以转换，只不过这种转换必须用明晰的转型语法来表达。<br><strong>注意</strong>：枚举不能被继承</p>
+<p>6.一般的属性对象用nonatomic，strong<br><strong>注意</strong>：如果是用XIB或者storyBoard拖的则是用weak，自己手动创建则是用strong。<br>iOS 5 中对属性的设置新增了strong 和weak关键字来修饰属性<br>strong 用来修饰强引用的属性；</p>
+<pre><code>@property (strong) SomeClass * aObject;
+</code></pre><p>对应原来的</p>
+<pre><code>@property (retain) SomeClass * aObject; 
+@property (copy) SomeClass * aObject;
+</code></pre><p>weak 用来修饰弱引用的属性；</p>
+<pre><code>@property (weak) SomeClass * aObject;
+</code></pre><p>对应原来的</p>
+<pre><code>@property (assign) SomeClass * aObject;
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/29/MyFirst-Hexo/" rel="next" title="苦逼的改了一天">
+                <i class="fa fa-chevron-left"></i> 苦逼的改了一天
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/29/UITextFeild-cursor/" rel="prev" title="移动UITextFeild的光标">
+                移动UITextFeild的光标 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2016/11/29/Modify-The-KeyWord-Of-iOS/"
+           data-title="如何选择修饰关键字" data-url="http://yoursite.com/2016/11/29/Modify-The-KeyWord-Of-iOS/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Leo" />
+            
+              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
