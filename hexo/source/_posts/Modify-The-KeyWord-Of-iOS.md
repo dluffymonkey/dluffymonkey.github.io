@@ -1,8 +1,8 @@
 ---
 title: 如何选择修饰关键字
-date: 2016-11-29 18:54:58
+date: 2016-11-20 18:54:58
 tags: iOS
-categories: iOS纪实
+categories: iOS Tips
 ---
 
 
@@ -24,9 +24,9 @@ block属性的声明，首先需要用copy修饰符，因为只有copy后的bloc
 
     @property (nonatomic, copy) NSString *lwcopyStr;
     @property (nonatomic, strong) NSString *lwstrongStr;
-
+    
     NSMutableString *lwmuStr = [NSMutableString stringWithString:@"LWW -- MutableString"];
-    
+
     self.lwcopyStr = lwmuStr;
     self.lwstrongStr = lwmuStr;
     

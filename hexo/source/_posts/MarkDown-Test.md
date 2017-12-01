@@ -1,15 +1,15 @@
 ---
-title: MarkDown语法测试
+title: MarkDown
 date: 2016-11-30 16:21:36
-tags:
+tags: Hexo
 ---
 ><font color="#4590a3" size = "4px">文字</font>
+
 
 
 # This is an H1 
 
 ## This is an H2 
-
 
 ### This is an H3 
 
@@ -18,11 +18,11 @@ tags:
 
 	- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 	{
-    	UIView *footV = [[PurchaseSectionFooterView alloc] init];
-    	return footV;
+		UIView *footV = [[PurchaseSectionFooterView alloc] init];
+		return footV;
 	}	
-	
-	
+
+
 > This is the first level of quoting.
 >
 > > This is nested blockquote.
@@ -35,12 +35,12 @@ tags:
 <!--more -->
 
 > ## 这是一个标题。
-> 
+>
 > 1.   这是第一行列表项。
 > 2.   这是第二行列表项。
-> 
+>
 > 给出一些例子代码：
-> 
+>
 >     return shell_exec("echo $input | $markdown_script");
 
 
@@ -68,15 +68,15 @@ tags:
 </ol>
 
 1.  Bird
-1.  McHale
-1.  Parish
+2.  McHale
+3.  Parish
 
 
 
 
 3. Bird
-1. McHale
-8. Parish
+4. McHale
+5. Parish
 
 <ul>
 <li>Bird</li>
@@ -97,8 +97,8 @@ tags:
 *   This is a list item with two paragraphs.
 
     This is the second paragraph in the list item. You're
-only required to indent the first line. Lorem ipsum dolor
-sit amet, consectetuer adipiscing elit.
+    only required to indent the first line. Lorem ipsum dolor
+    sit amet, consectetuer adipiscing elit.
 
 *   Another item in the same list.
 
@@ -107,24 +107,24 @@ sit amet, consectetuer adipiscing elit.
 
     > This is a blockquote
     > inside a list item.
-  
-  
+
+
 *   一列表项包含一个列表区块：
 
         <代码写在这>
    
- 
+
 1986\. What a great season.
 
-* * *  
+* * *
 
-***  
+***
 
-*****    
+*****
 
-- - -   
+- - -
 
----------------------------------------   
+---------------------------------------
 
 This is [an example](http://example.com/ "Title") inline link.
 
@@ -142,8 +142,8 @@ This is [an example] [id] reference-style link.
 [id]: http://example.com/  "Optional Title Here"
 
 [A]: http://example.com/  "Optional Title Here"
-[foo]: http://example.com/  'Optional Title Here'
-[foo]: http://example.com/  (Optional Title Here)
+[foo]: http://example.com/  "Optional Title Here"
+[foo]: http://example.com/  "Optional Title Here"
 
 [Google][]
 [Google]: http://google.com/
@@ -154,10 +154,10 @@ Visit [Daring Fireball][] for more information.
 I get 10 times more traffic from [Google] [1] than from
 [Yahoo] [2] or [MSN] [3].
 
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
-  
+[1]: http://google.com/        "Google"
+[2]: http://search.yahoo.com/  "Yahoo Search"
+[3]: http://search.msn.com/    "MSN Search"
+
 
 <p>I get 10 times more traffic from <a href="http://google.com/"
 title="Google">Google</a> than from
