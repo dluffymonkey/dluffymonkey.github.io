@@ -1,10 +1,8 @@
 ---
-
 title: Android Studio gradle 
-date: 2017-11-30 19:06:38
+date: 2017-11-30 20:06
 tags: Android
 categories: 初识Android
-
 ---
 
 #### Android Studio gradle离线包gradle-x.x-all.zip离线配置路径问题详细解决步骤

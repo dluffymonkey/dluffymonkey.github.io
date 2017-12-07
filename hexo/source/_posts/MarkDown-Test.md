@@ -1,13 +1,13 @@
 ---
 title: MarkDown
-date: 2016-11-30 16:21:36
+date: 2016-11-21 16:21
 tags: Hexo
 ---
 ><font color="#4590a3" size = "4px">文字</font>
 
 
 
-# This is an H1 
+# This is an H1
 
 ## This is an H2 
 
@@ -199,6 +199,23 @@ Please don't use any `<blink>` tags.
 ![Alt text](http://img5q.duitang.com/uploads/item/201504/10/20150410H5845_3BHyr.jpeg)
 
 <address@example.com>
+
+
+
+插入外部链接图片
+![“图片描述”](“图片地址”)  
+
+添加本地图片
+在\hexo\source目录下新建文件夹，命名为images或者其他你喜欢的名字，然后编辑你的md博文，插入下面的代码样式：
+![“图片描述”](/images/你的图片名字.JPG)  
+
+插入音乐
+比如网易云音乐，找到喜欢的歌曲，点击分享按钮，把里面的代码复制下来，直接粘贴到博文中即可
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86>
+    src="http://music.163.com/outchain/player?type=2&id=25706282&auto=0&height=66">  
+</iframe>  
+
 
 		\   反斜线
 		`   反引号

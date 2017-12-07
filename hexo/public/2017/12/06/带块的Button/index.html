@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="今天简单的记录一下怎么用块来实现Button的点击事件 首先，我想要的做的效果是直接通过类方法来初始化Button，然后同时把点击事件的操作放在块中，最后返回创建好的Button。  第一步，创建一个UIButton的扩展(category)  第二步，在h文件中添加初始化Button的类方法声明">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带块的button">
+<meta property="og:url" content="http://yoursite.com/2017/12/06/带块的Button/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:description" content="今天简单的记录一下怎么用块来实现Button的点击事件 首先，我想要的做的效果是直接通过类方法来初始化Button，然后同时把点击事件的操作放在块中，最后返回创建好的Button。  第一步，创建一个UIButton的扩展(category)  第二步，在h文件中添加初始化Button的类方法声明">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-06T08:19:16.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="带块的button">
+<meta name="twitter:description" content="今天简单的记录一下怎么用块来实现Button的点击事件 首先，我想要的做的效果是直接通过类方法来初始化Button，然后同时把点击事件的操作放在块中，最后返回创建好的Button。  第一步，创建一个UIButton的扩展(category)  第二步，在h文件中添加初始化Button的类方法声明">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/06/带块的Button/"/>
+
+
+
+
+
+  <title>带块的button | Monkey·D·Luffy’s Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/带块的Button/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">带块的button</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T18:06:00+08:00">
+                2017-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/06/带块的Button/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/06/带块的Button/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天简单的记录一下怎么用块来实现Button的点击事件</p>
+<p>首先，我想要的做的效果是直接通过类方法来初始化Button，然后同时把点击事件的操作放在块中，最后返回创建好的Button。</p>
+<ul>
+<li><p>第一步，创建一个UIButton的扩展(category)</p>
+</li>
+<li><p>第二步，在h文件中添加初始化Button的类方法声明</p>
+<a id="more"></a>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">typedef void (^ActionBlock)(UIButton *button);</span><br><span class="line"></span><br><span class="line">@interface UIButton (Block)</span><br><span class="line"></span><br><span class="line">@property (nonatomic,copy) ActionBlock actionBlock;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 通过block对Button的点击事件进行封装</span><br><span class="line"> </span><br><span class="line"> @param frame frame大小</span><br><span class="line"> @param title 内容</span><br><span class="line"> @param titleColor 内容颜色</span><br><span class="line"> @param bgImgName 背景图片</span><br><span class="line"> @param completion 点击事件</span><br><span class="line"> @return Button</span><br><span class="line"> */</span><br><span class="line">+ (UIButton *)createButtonWithFrame:(CGRect)frame</span><br><span class="line">                              title:(NSString *)title</span><br><span class="line">                         titleColor:(UIColor *)titleColor</span><br><span class="line">                        bgImageName:(NSString *)bgImgName</span><br><span class="line">                        actionBlock:(void(^)(UIButton *sender))completion;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 通过block对Button的点击事件进行封装</span><br><span class="line"></span><br><span class="line"> @return 返回初始化后的button</span><br><span class="line"> */</span><br><span class="line">+ (UIButton *)button;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>第三步，在m文件中实现方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;UIButton+Block.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">static NSString *keyWithMethod = @&quot;keyWithMethod&quot;; //关联对象的key</span><br><span class="line">static NSString *keyWithBlock = @&quot;keyWithBlock&quot;;</span><br><span class="line"></span><br><span class="line">@implementation UIButton (Block)</span><br><span class="line"></span><br><span class="line">+ (UIButton *)createButtonWithFrame:(CGRect)frame</span><br><span class="line">                              title:(NSString *)title</span><br><span class="line">                         titleColor:(UIColor *)titleColor</span><br><span class="line">                        bgImageName:(NSString *)bgImgName</span><br><span class="line">                        actionBlock:(void (^)(UIButton *sender))completion &#123;</span><br><span class="line">    </span><br><span class="line">    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];</span><br><span class="line">    button.frame = frame;</span><br><span class="line">    [button setTitle:title forState:UIControlStateNormal];</span><br><span class="line">    [button setTitleColor:titleColor forState:UIControlStateNormal];</span><br><span class="line">    [button setBackgroundImage:[UIImage imageNamed:bgImgName] forState:UIControlStateNormal];</span><br><span class="line">    [button addTarget:button action:@selector(buttonTapAction:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">    </span><br><span class="line">    /*</span><br><span class="line">     *用runtime中的函数通过key关联对象</span><br><span class="line">     *</span><br><span class="line">     *objc_setAssociatedObject(id _Nonnull object, const void * _Nonnull key, id _Nullable value, objc_AssociationPolicy policy)</span><br><span class="line">     *id object                 表示关联者，是一个对象，变量名也是object</span><br><span class="line">     *const void *key           获取被关联者的索引</span><br><span class="line">     *id value                  被关联者，这里是一个block</span><br><span class="line">     *objc_AssociationPolicy    policy 关联时采用的协议，有assign，retain，copy等协议，一般使用OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><br><span class="line">     */</span><br><span class="line">    objc_setAssociatedObject(button, &amp;keyWithMethod, completion, OBJC_ASSOCIATION_COPY_NONATOMIC);</span><br><span class="line">    </span><br><span class="line">    return button;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (UIButton *)button &#123;</span><br><span class="line">    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];</span><br><span class="line">    [button addTarget:button action:@selector(buttonTapAction:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">    return button;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setActionBlock:(ActionBlock)actionBlock&#123;</span><br><span class="line">    objc_setAssociatedObject(self, &amp;keyWithBlock, actionBlock, OBJC_ASSOCIATION_COPY_NONATOMIC );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (ActionBlock)actionBlock&#123;</span><br><span class="line">    return objc_getAssociatedObject(self ,&amp;keyWithBlock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)buttonTapAction:(UIButton *)button &#123;</span><br><span class="line">    //通过key获取被关联对象</span><br><span class="line">    //objc_getAssociatedObject(id object, const void *key)</span><br><span class="line">    void (^tapBlock)(UIButton *) = objc_getAssociatedObject(button, &amp;keyWithMethod);</span><br><span class="line">    </span><br><span class="line">    if (tapBlock) &#123;</span><br><span class="line">        tapBlock(button);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    ActionBlock block2 = (ActionBlock)objc_getAssociatedObject(button, &amp;keyWithBlock);</span><br><span class="line">    if(block2)&#123;</span><br><span class="line">        block2(button);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第四步，简单的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">UIButton *button = [UIButton createButtonWithFrame:CGRectMake(20, 100, 200, 200) title:@&quot;带块的button&quot; titleColor:[UIColor redColor] bgImageName:@&quot;&quot; actionBlock:^(UIButton *button) &#123;</span><br><span class="line">        NSString *str = [button titleForState:UIControlStateNormal];</span><br><span class="line">        NSLog(@&quot;%@&quot;,str);</span><br><span class="line">&#125;];</span><br><span class="line">[self.view addSubview:button];</span><br><span class="line"></span><br><span class="line">UIButton *btn = [UIButton button];</span><br><span class="line">btn.frame = CGRectMake(20, 100, 200, 200);</span><br><span class="line">[btn setTitle:@&quot;1234&quot; forState:UIControlStateNormal];</span><br><span class="line">btn.actionBlock = ^(UIButton *button) &#123;</span><br><span class="line">    NSString *str = [button titleForState:UIControlStateNormal];</span><br><span class="line">    NSLog(@&quot;%@&quot;,str);</span><br><span class="line">&#125;;</span><br><span class="line">[self.view addSubview:btn];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>注意：</strong>由于扩展不能直接添加属性，所以要用运行时来自己添加属性的<code>get</code>、<code>set</code>方法。</p>
+<p>最后，简单的了解一下<code>objc_setAssociatedObject</code>，<code>objc_getAssociatedObject</code>方法</p>
+<p>​    Objective-C有两个扩展机制：<code>Associative</code>和<code>Category</code>。<code>Category</code>用来扩展类方法，<code>Associative</code>用于扩展属性。<code>Associative</code>机制的原理是把两个对象关联起来，让一个对象成为另外一个对象的一部分。它可以在不修改类的定义的前提下为其对象增加存储空间，这在我们无法访问类的源码时(例如给UILable添加一个<code>selected</code>的BOOL属性)是非常有用的。<code>Associative</code>基于关键字的，因此我们可以使用不同的关键字为任何对象添加任意多的<code>Associative</code>。<code>Associative</code>可以保证被关联的对象在对象的整个生命周期都是可用的。<code>Associative</code>基于runtime，是运行时里的东西,所以头文件需要引用<code>#import&lt;objc/runtime.h&gt;</code>文件。</p>
+<p><code>Associative</code>提供了3个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</span><br><span class="line">- objc_getAssociatedObject(id object, const void *key)</span><br><span class="line">- objc_removeAssociatedObjects(id object)</span><br></pre></td></tr></table></figure>
+<p>第一个用于给关联对象赋值：    </p>
+<p><code>objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</code>注意的是返回值类型为Object类型，注意一些不是Object类型的例如：BOOL是结构类型。当碰到这种情况可以考虑通过中间类型来转换，如设置BOOL类型属性的时候可以转换为NSNumber类型，获取的时候再转换成BOOL类型即可。<br>四个参数分别是：源对象、关键字、关联对象和关联策略。<br>关键字是一个void类型的指针，例如<code>static NSString *keyWithMethod = @&quot;keyWithMethod&quot;; //关联对象的key</code>每一个关联的关键字必须是唯一的。</p>
+<p>关联策略是枚举类型，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</span><br><span class="line">    OBJC_ASSOCIATION_ASSIGN = 0,           /**&lt; Specifies a weak reference to the associated object. */</span><br><span class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1, /**&lt; Specifies a strong reference to the associated object. </span><br><span class="line">       	                                    *   The association is not made atomically. */</span><br><span class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = 3,   /**&lt; Specifies that the associated object is copied. </span><br><span class="line">                                            *   The association is not made atomically. */</span><br><span class="line">    OBJC_ASSOCIATION_RETAIN = 01401,       /**&lt; Specifies a strong reference to the associated object.</span><br><span class="line">                                            *   The association is made atomically. */</span><br><span class="line">    OBJC_ASSOCIATION_COPY = 01403          /**&lt; Specifies that the associated object is copied.</span><br><span class="line">                                            *   The association is made atomically. */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p> 第二个用于获取关联的对象:</p>
+<p><code>objc_getAssociatedObject(id object, const void *key)</code>用于获取关联对象的值。这里需要注意的是返回值类型为Object类型，注意一些不是Object类型的例如：BOOL是结构类型。</p>
+<p>第三个用于断开关联的对象：</p>
+<p><code>objc_removeAssociatedObjects(id object)</code> 是断开关联，需要注意的是他会断开所有关联，所以不推荐这种方式。需要断开关联的时候使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/06/面试/" rel="next" title="面试体验">
+                <i class="fa fa-chevron-left"></i> 面试体验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/06/GCD学习/" rel="prev" title="GCD学习 —— 一">
+                GCD学习 —— 一 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/06/带块的Button/"
+           data-title="带块的button" data-url="http://yoursite.com/2017/12/06/带块的Button/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Leo" />
+            
+              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
