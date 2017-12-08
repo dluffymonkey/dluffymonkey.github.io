@@ -7,7 +7,7 @@ categories: iOS Tips
 
 今天继续深入了解一下GCD。
 
-####Dispatch Source
+####   Dispatch Source
 
 ​	使用      `Dispatch Source `而不使用 `dispatch_async` 的唯一原因就是利用联结的优势。
 

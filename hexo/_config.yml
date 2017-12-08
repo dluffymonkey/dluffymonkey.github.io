@@ -26,7 +26,7 @@ menu:
   categories: /categories
   about: /about
   archives: /archives
-  tags: /tags    //确保标签页已打开
+  tags: /tags   
   #schedule: /schedule     
   #commonweal: /404.html
 
@@ -89,4 +89,5 @@ deploy:
 # Duoshuo ShortName
 duoshuo_shortname: leoitachi
 duoshuo_share: false
+
 

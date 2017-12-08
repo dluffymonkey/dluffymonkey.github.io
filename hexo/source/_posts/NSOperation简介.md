@@ -23,6 +23,8 @@ NSOperation需要配合NSOperationQueue来实现多线程。**因为默认情况
 
 下面我们来学习下NSOperation和NSOperationQueue的基本使用。
 
+<!-- more -->
+
 #### 2 NSOperation和NSOperationQueue的基本使用
 
 ##### 2.1 创建任务

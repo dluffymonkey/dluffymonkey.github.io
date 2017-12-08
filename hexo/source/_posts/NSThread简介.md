@@ -5,7 +5,7 @@ tags: iOS
 categories: iOS Tips
 ---
 
-####1 pthread
+#### 1 pthread
 
 ​	pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。
 
@@ -139,9 +139,9 @@ NSThread *current = [NSThread currentThread];
 
 ![4](NSThread简介/2017_12_08_thread_four.png)
 
-##### 3 线程同步
+#### 3 线程同步
 
-###### 3.1 第一种方式@synchronized(对象)关键字
+##### 3.1 第一种方式@synchronized(对象)关键字
 
 ```objective-c
 -(void)taskRun
@@ -156,7 +156,7 @@ NSThread *current = [NSThread currentThread];
 }
 ```
 
-###### 3.2 第二种方式NSLock同步锁
+##### 3.2 第二种方式NSLock同步锁
 
 ```objective-c
 threadLock = [[NSLock alloc] init];
@@ -177,7 +177,7 @@ threadLock = [[NSLock alloc] init];
 }
 ```
 
-######3.3 第三种方式使用NSCondition同步锁和线程检查器
+##### 3.3 第三种方式使用NSCondition同步锁和线程检查器
 
 ​	锁主要为了当检测条件时保护数据源，执行条件引发的任务；线程检查器主要是根据条件决定是否继续运行线程，即线程是否被阻塞。先创建一个NSCondition对象
 
