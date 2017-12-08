@@ -1,6 +1,6 @@
 ---
 title: GCD学习 —— 三
-date: 2017-12-09 11:32
+date: 2017-12-08 19:32
 tags: iOS
 categories: iOS Tips
 ---
@@ -27,7 +27,7 @@ categories: iOS Tips
       DISPATCH_BLOCK_ENFORCE_QOS_CLASS = 0x20,
   );
   ```
-
+  <!-- more -->
 - 第二种方式如下：
 
   ```objective-c

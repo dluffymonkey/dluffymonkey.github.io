@@ -1,10 +1,17 @@
 ---
 title: GCD学习 —— 四
-date: 2017-12-08 19:36
+date: 2017-12-09 11:36
 tags: iOS
 categories: iOS Tips
 ---
-####GCD方法注释
+#### GCD方法注释
+
+- `Dispatch  Queues` 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。
+- `Dispatch Groups` 可以帮助我们处理如何判断多线程全部执行结束的问题
+- `Dispatch Semaphores` 帮助我们控制多任务对有限数量资源的访问
+- `Dispatch Objects` 帮助我们对线程队列进行更加细致的控制（挂起、恢复、取消、激活等操作）
+- `Dispatch Once` 可以帮助我们确保某个函数只执行一次，可用于单例的实现
+  <!-- more -->
 ```objective-c
 /******************dispatch_queue**********************/
 /* 

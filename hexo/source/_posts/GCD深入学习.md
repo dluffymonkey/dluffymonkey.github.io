@@ -25,7 +25,7 @@ dispatch_source_t source = dispatch_source_create(dispatch_source_type_t type, u
 | handle | 可以理解为句柄、索引或id，假如要监听进程，需要传入进程的ID |
 | mask   | 可以理解为描述，提供更详细的描述，让它知道具体要监听什么    |
 | queue  | 自定义源需要的一个队列，用来处理所有的响应句柄（block）  |
-
+<!-- more -->
 ##### 2 **Dispatch Source可处理的所有事件**
 
 | 名称                             | 内容                                 |
@@ -253,15 +253,6 @@ dispatch_async(queue, ^{
 });
 //2是将100个任务添加到queue里面，而3是在queue里面添加一个任务，而这一个任务做了100次循环
 ```
-
-
-
-- `Dispatch  Queues` 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。
-- `Dispatch Groups` 可以帮助我们处理如何判断多线程全部执行结束的问题
-- `Dispatch Semaphores` 帮助我们控制多任务对有限数量资源的访问
-- `Dispatch Objects` 帮助我们对线程队列进行更加细致的控制（挂起、恢复、取消、激活等操作）
-- `Dispatch Once` 可以帮助我们确保某个函数只执行一次，可用于单例的实现
-
 
 
 转载自[iOS多线程——Dispatch Source](http://www.jianshu.com/p/880c2f9301b6)
