@@ -232,6 +232,218 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/10/NSThread简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/10/NSThread简介/" itemprop="url">NSThread简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-10T14:12:00+08:00">
+                2017-12-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/10/NSThread简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/10/NSThread简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####1 pthread</p>
+<p>​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。</p>
+<p>&gt;</p>
+<blockquote>
+<p>POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标准，定义了创建和操纵线程的一套API。实现POSIX 线程标准的库常被称作Pthreads，一般用于Unix-like POSIX 系统，如Linux、Solaris。但是Microsoft Windows上的实现也存在，例如直接使用Windows API实现的第三方库pthreads-w32；而利用Windows的SFU/SUA子系统，则可以使用微软提供的一部分原生POSIX API。</p>
+</blockquote>
+<h5 id="1-1-pthread的使用方法"><a href="#1-1-pthread的使用方法" class="headerlink" title="1.1 pthread的使用方法"></a>1.1 pthread的使用方法</h5><ul>
+<li><p>首先要包含头文件<code>#import &lt;pthread.h&gt;</code></p>
+</li>
+<li><p>其次要创建线程，并开启线程执行任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 创建线程——定义一个pthread_t类型变量</span><br><span class="line">pthread_t thread;</span><br><span class="line">// 开启线程——执行任务</span><br><span class="line">pthread_create(&amp;thread, NULL, run, NULL);</span><br><span class="line"></span><br><span class="line">void * run(void *param)    // 新线程调用方法，里边为需要执行的任务</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line"></span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>pthread_create(&amp;thread, NULL, run, NULL);</code> 中各项参数含义：</p>
+<ul>
+<li>第一个参数&amp;thread是线程对象</li>
+<li>第二个和第四个是线程属性，可赋值NULL</li>
+<li>第三个run表示指向函数的指针(run对应函数里是需要在新线程中执行的任务)</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-NSThread"><a href="#2-NSThread" class="headerlink" title="2 NSThread"></a>2 NSThread</h4><p>​    NSThread是苹果官方提供的，使用起来比pthread更加面向对象，简单易用，可以直接操作线程对象。不过也需要需要程序员自己管理线程的生命周期(主要是创建)，我们在开发的过程中偶尔使用NSThread。比如我们会经常调用[NSThread currentThread]来显示当前的进程信息。</p>
+<h5 id="2-1-创建、启动线程"><a href="#2-1-创建、启动线程" class="headerlink" title="2.1 创建、启动线程"></a>2.1 创建、启动线程</h5><ul>
+<li><p>先创建线程，再启动线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line">[thread start];    // 线程一启动，就会在线程thread中执行self的run方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建线程后自动启动线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSThread detachNewThreadSelector:@selector(run) toTarget:self withObject:nil];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐式创建并启动线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self performSelectorInBackground:@selector(run) withObject:nil];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="2-2-线程相关用法"><a href="#2-2-线程相关用法" class="headerlink" title="2.2  线程相关用法"></a>2.2  线程相关用法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 获得主线程</span><br><span class="line">+ (NSThread *)mainThread;    </span><br><span class="line"></span><br><span class="line">// 判断是否为主线程(对象方法)</span><br><span class="line">- (BOOL)isMainThread;</span><br><span class="line"></span><br><span class="line">// 判断是否为主线程(类方法)</span><br><span class="line">+ (BOOL)isMainThread;    </span><br><span class="line"></span><br><span class="line">// 获得当前线程</span><br><span class="line">NSThread *current = [NSThread currentThread];</span><br><span class="line"></span><br><span class="line">// 线程的名字——setter方法</span><br><span class="line">- (void)setName:(NSString *)n;    </span><br><span class="line"></span><br><span class="line">// 线程的名字——getter方法</span><br><span class="line">- (NSString *)name;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-线程状态控制方法"><a href="#2-3-线程状态控制方法" class="headerlink" title="2.3 线程状态控制方法"></a>2.3 线程状态控制方法</h5><ul>
+<li><p>启动线程方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 线程进入就绪状态 -&gt; 运行状态。当线程任务执行完毕，自动进入死亡状态</span><br><span class="line">- (void)start;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>阻塞（暂停）线程方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 线程进入阻塞状态</span><br><span class="line">+ (void)sleepUntilDate:(NSDate *)date;</span><br><span class="line">+ (void)sleepForTimeInterval:(NSTimeInterval)ti;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>强制停止线程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 线程进入死亡状态</span><br><span class="line">+ (void)exit;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="2-4-线程的状态转换"><a href="#2-4-线程的状态转换" class="headerlink" title="2.4 线程的状态转换"></a>2.4 线程的状态转换</h5><p>​    当我们新建一条线程<code>NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</code>，在内存中的表现为：</p>
+<p>​    <img src="/2017/12/10/NSThread简介/2017_12_08_thread_one.png" alt="你想输入的替代文字"></p>
+<p>​    当调用<code>[thread start];</code>后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。</p>
+<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_two.png" alt="你想输入的替代文字"></p>
+<p>​    当然，可调度线程池中，会有其他的线程对象，如下图所示。在这里我们只关心左边的线程对象。</p>
+<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_three.png" alt="你想输入的替代文字"></p>
+<p><strong>下边我们来看看当前线程的状态转换。</strong></p>
+<ul>
+<li>如果CPU现在调度当前线程对象，则当前线程对象进入运行状态，如果CPU调度其他线程对象，则当前线程对象回到就绪状态。</li>
+</ul>
+<ul>
+<li>如果CPU在运行当前线程对象的时候调用了sleep方法\等待同步锁，则当前线程对象就进入了阻塞状态，等到sleep到时\得到同步锁，则回到就绪状态。</li>
+</ul>
+<ul>
+<li>如果CPU在运行当前线程对象的时候线程任务执行完毕\异常强制退出，则当前线程对象进入死亡状态。</li>
+</ul>
+<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_four.png" alt="你想输入的替代文字"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/GCD方法注释/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -335,11 +547,11 @@
       
         
           <h4 id="GCD方法注释"><a href="#GCD方法注释" class="headerlink" title="GCD方法注释"></a>GCD方法注释</h4><ul>
-<li><code>Dispatch  Queues</code> 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。</li>
+<li><code>Dispatch Queues</code> 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。</li>
 <li><code>Dispatch Groups</code> 可以帮助我们处理如何判断多线程全部执行结束的问题</li>
 <li><code>Dispatch Semaphores</code> 帮助我们控制多任务对有限数量资源的访问</li>
 <li><code>Dispatch Objects</code> 帮助我们对线程队列进行更加细致的控制（挂起、恢复、取消、激活等操作）</li>
-<li><code>Dispatch Once</code> 可以帮助我们确保某个函数只执行一次，可用于单例的实现
+<li><code>Dispatch Once</code> 可以帮助我们确保某个函数只执行一次，可用于单例的实现</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/09/GCD方法注释/#more" rel="contents">
@@ -500,7 +712,7 @@
 <li><p>第一种方式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_t block);</span><br></pre></td></tr></table></figure>
 <p>​    在该函数中，<code>flags</code> 参数用来设置 <code>block</code> 的标记，<code>block</code> 参数用来设置具体的任务。<code>flags</code> 的类型为 <code>dispatch_block_flags_t</code> 的枚举，用于设置 <code>block</code> 的标记，定义如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_ENUM(dispatch_block_flags, unsigned long,</span><br><span class="line">    DISPATCH_BLOCK_BARRIER = 0x1,</span><br><span class="line">    DISPATCH_BLOCK_DETACHED = 0x2,</span><br><span class="line">    DISPATCH_BLOCK_ASSIGN_CURRENT = 0x4,</span><br><span class="line">    DISPATCH_BLOCK_NO_QOS_CLASS = 0x8,</span><br><span class="line">    DISPATCH_BLOCK_INHERIT_QOS_CLASS = 0x10,</span><br><span class="line">    DISPATCH_BLOCK_ENFORCE_QOS_CLASS = 0x20,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_ENUM(dispatch_block_flags, unsigned long,</span><br><span class="line">    DISPATCH_BLOCK_BARRIER = 0x1,</span><br><span class="line">    DISPATCH_BLOCK_DETACHED = 0x2,</span><br><span class="line">    DISPATCH_BLOCK_ASSIGN_CURRENT = 0x4,</span><br><span class="line">    DISPATCH_BLOCK_NO_QOS_CLASS = 0x8,</span><br><span class="line">    DISPATCH_BLOCK_INHERIT_QOS_CLASS = 0x10,</span><br><span class="line">    DISPATCH_BLOCK_ENFORCE_QOS_CLASS = 0x20,</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/08/GCD 块操作/#more" rel="contents">
@@ -851,7 +1063,7 @@
 <li>GCD可用于多核的并行运算</li>
 <li>GCD会自动利用更多的CPU内核（比如双核、四核）</li>
 <li>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）</li>
-<li>只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码
+<li>只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码</li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/06/GCD学习/#more" rel="contents">
@@ -1012,7 +1224,7 @@
 <ul>
 <li><p>第一步，创建一个UIButton的扩展(category)</p>
 </li>
-<li><p>第二步，在h文件中添加初始化Button的类方法声明</p>
+<li><p>第二步，在h文件中添加初始化Button的类方法声明</p></li></ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/06/带块的Button/#more" rel="contents">
@@ -1687,166 +1899,6 @@ textF.leftViewMode = UITextFieldViewModeAlways;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/25/Modify-The-KeyWord-Of-iOS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Leo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/11/25/Modify-The-KeyWord-Of-iOS/" itemprop="url">如何选择修饰关键字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-25T18:54:00+08:00">
-                2016-11-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/11/25/Modify-The-KeyWord-Of-iOS/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/25/Modify-The-KeyWord-Of-iOS/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>1.代理用nonatomic, weak修饰<br>weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。</p>
-<pre><code>@property (nonatomic, weak) id &lt;LWDelegate&gt; delegate;
-</code></pre><p>strong：该对象强引用delegate，外界不能销毁delegate对象，会导致循环引用(Retain Cycles)，不会在dealloc方法中销毁，会导致内存泄漏。</p>
-<pre><code>@property (nonatomic, strong) id &lt;LWDelegate&gt; delegate;
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/11/25/Modify-The-KeyWord-Of-iOS/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1901,7 +1953,7 @@ textF.leftViewMode = UITextFieldViewModeAlways;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

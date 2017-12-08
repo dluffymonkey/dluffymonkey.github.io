@@ -96,9 +96,10 @@ dispatch_async(dispatch_get_global_queue(0, 0), ^{
     //网络请求
     NSLog(@"更新UI");
     dispatch_source_merge_data(source, 1); //通知队列
+    [NSThread sleepForTimeInterval:0.01];
 });
 ```
-上面的例子创建一个source，source的type为ADD的方式，然后将事件触发后要执行的句柄添加到main队列里，在source创建后默认是挂起的，需要用`dispatch_resume`函数来恢复监听，后面为了测试监听，加入了一个for循环，用`dispatch_source_merge_data`来触发事件，但是在触发事件的响应句柄里我们只打印了一次，结果是每次相加的和，也就是10，而不是打印了4次。
+上面的例子创建一个source，source的type为ADD的方式，然后将事件触发后要执行的句柄添加到main队列里，在source创建后默认是挂起的，需要用`dispatch_resume`函数来恢复监听，在执行了`dispatch_source_merge_data`后一定要执行`[NSThread sleepForTimeInterval:0.01];`否则上面的句柄操作有可能不执行，后面为了测试监听，加入了一个for循环，用`dispatch_source_merge_data`来触发事件，但是在触发事件的响应句柄里我们只打印了一次，结果是每次相加的和，也就是10，而不是打印了4次。
 
 **原因：**`DISPATCH_SOURCE_TYPE_DATA_ADD`是将所有触发结果相加，最后统一执行响应，但是加入`sleepForTimeInterval`后，如果interval的时间越长，则每次触发都会响应，但是如果interval的时间很短，则会将触发后的结果相加后统一触发。
 
@@ -113,7 +114,7 @@ dispatch_source_set_event_handler(source,^{
 });
 //开启source
 dispatch_resume(source);
-dispatch_queue_t myqueue =dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);  
+dispatch_queue_t myqueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);  
 dispatch_async(myqueue, ^ {
   for(int i = 1; i <= 4; i ++){
      NSLog(@"~~~~~~~~~~~~~~%d", i);
@@ -144,7 +145,7 @@ __block int timeout = 3;
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 //创建timer
 dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, 		queue);
-//设置2s触发一次，0s的误差，每秒执行
+//设置2s触发一次，0s的误差，2s执行
 dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),2.0 * NSEC_PER_SEC, 0); 
 //触发的事件
 dispatch_source_set_event_handler(_timer, ^{

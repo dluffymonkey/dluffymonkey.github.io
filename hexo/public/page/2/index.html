@@ -232,6 +232,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/25/Modify-The-KeyWord-Of-iOS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/25/Modify-The-KeyWord-Of-iOS/" itemprop="url">如何选择修饰关键字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-25T18:54:00+08:00">
+                2016-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/25/Modify-The-KeyWord-Of-iOS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/25/Modify-The-KeyWord-Of-iOS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1.代理用nonatomic, weak修饰<br>weak:指明该对象并不负责保持delegate这个对象，delegate这个对象的销毁由外部控制，会在dealloc方法中销毁。</p>
+<pre><code>@property (nonatomic, weak) id &lt;LWDelegate&gt; delegate;
+</code></pre><p>strong：该对象强引用delegate，外界不能销毁delegate对象，会导致循环引用(Retain Cycles)，不会在dealloc方法中销毁，会导致内存泄漏。</p>
+<pre><code>@property (nonatomic, strong) id &lt;LWDelegate&gt; delegate;
+</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/25/Modify-The-KeyWord-Of-iOS/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/Seven/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -334,7 +494,7 @@
 
       
         
-          <h4 id="第七感"><a href="#第七感" class="headerlink" title="第七感"></a><center>第七感</center></h4><center>Oh baby oh  woo<br><br>微风带走了浮云<br>​<br>浮云带走雨滴<br><br>阳光在闪耀<br><br>当我想到你<br><br>什么烦恼都痊愈<br><br>快乐不再分心<br><br>笑容多甜蜜<br><br>因为遇见你<br><br>
+          <h4 id="第七感"><a href="#第七感" class="headerlink" title="第七感"></a><center>第七感</center></h4><center>Oh baby oh  woo<br><br>微风带走了浮云<br>​<br>浮云带走雨滴<br><br>阳光在闪耀<br><br>当我想到你<br><br>什么烦恼都痊愈<br><br>快乐不再分心<br><br>笑容多甜蜜<br><br>因为遇见你<br><br></center>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/11/22/Seven/#more" rel="contents">
@@ -740,7 +900,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

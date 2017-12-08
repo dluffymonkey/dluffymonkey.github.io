@@ -6,7 +6,7 @@ categories: iOS Tips
 ---
 #### GCD方法注释
 
-- `Dispatch  Queues` 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。
+- `Dispatch Queues` 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。
 - `Dispatch Groups` 可以帮助我们处理如何判断多线程全部执行结束的问题
 - `Dispatch Semaphores` 帮助我们控制多任务对有限数量资源的访问
 - `Dispatch Objects` 帮助我们对线程队列进行更加细致的控制（挂起、恢复、取消、激活等操作）
@@ -73,7 +73,7 @@ dispatch_queue_t dispatch_get_global_queue(long identifier, unsigned long flags)
 #define DISPATCH_QUEUE_SERIAL NULL  //串行队列
 #define DISPATCH_QUEUE_SERIAL_INACTIVE//暂停状态串行队列
 dispatch_queue_attr_make_initially_inactive(DISPATCH_QUEUE_SERIAL)
-#define DISPATCH_QUEUE_CONCURRENT //并发队列
+#define DISPATCH_QUEUE_CONCURRENT //并行队列
 DISPATCH_GLOBAL_OBJECT(dispatch_queue_attr_t, _dispatch_queue_attr_concurrent)
 #define DISPATCH_QUEUE_CONCURRENT_INACTIVE  //暂停状态并发队列
 dispatch_queue_attr_make_initially_inactive(DISPATCH_QUEUE_CONCURRENT)
@@ -109,8 +109,7 @@ dispatch_queue_t dispatch_queue_create_with_target(const char *_Nullable label, 
 */
 const char *dispatch_queue_get_label(dispatch_queue_t _Nullable queue);
 
-//dispatch_qos_class_t dispatch_queue_get_qos_class(dispatch_queue_t queue,
-int *_Nullable relative_priority_ptr);
+dispatch_qos_class_t dispatch_queue_get_qos_class(dispatch_queue_t queue, int *_Nullable relative_priority_ptr);
 
 /* 
 功能：给指定对象设置目标队列

@@ -17,7 +17,9 @@ GCD的好处：
 ####2、任务和队列
 学习GCD之前，先来了解GCD中两个核心概念：任务和队列。
 
-**任务：**就是执行操作的意思，换句话说就是需要在线程中执行的那段代码。执行任务有两种方式：**同步执行和异步执行**。两者的主要区别是：**是否具备开启新线程的能力**。
+**任务：**就是执行操作的意思，换句话说就是需要在线程中执行的那段代码。
+
+执行任务有两种方式：**同步执行和异步执行**。两者的主要区别是：**是否具备开启新线程的能力**。
 
 - 同步执行(sync)：只能在当前线程中执行任务，不具备开启新线程的能力。
 - 异步执行(async)：可以在新的线程中执行任务，具备开启新线程的能力。
@@ -414,7 +416,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     // 回到主线程
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"2-------%@",[NSThread currentThread]);
+        NSLog(@"2------%@",[NSThread currentThread]);
     });
 });
 ```
@@ -423,7 +425,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 输出结果：
 GCD[11728:1913039] 1------<NSThread: 0x7f8319c06820>{number = 2, name = (null)}
 GCD[11728:1913039] 1------<NSThread: 0x7f8319c06820>{number = 2, name = (null)}
-GCD[11728:1912961] 2-------<NSThread: 0x7f8319e00560>{number = 1, name = main}
+GCD[11728:1912961] 2------<NSThread: 0x7f8319e00560>{number = 1, name = main}
 
 ```
 
@@ -451,7 +453,7 @@ GCD[11728:1912961] 2-------<NSThread: 0x7f8319e00560>{number = 1, name = main}
       });
 
       dispatch_barrier_async(queue, ^{
-          NSLog(@"----barrier-----%@", [NSThread currentThread]);
+          NSLog(@"---barrier%@", [NSThread currentThread]);
       });
 
       dispatch_async(queue, ^{
@@ -467,7 +469,7 @@ GCD[11728:1912961] 2-------<NSThread: 0x7f8319e00560>{number = 1, name = main}
   输出结果：
   GCD[11750:1914724] ----1-----<NSThread: 0x7fb1826047b0>{number = 2, name = (null)}
   GCD[11750:1914722] ----2-----<NSThread: 0x7fb182423fd0>{number = 3, name = (null)}
-  GCD[11750:1914722] ----barrier-----<NSThread: 0x7fb182423fd0>{number = 3, name = (null)}
+  GCD[11750:1914722] ---barrier<NSThread: 0x7fb182423fd0>{number = 3, name = (null)}
   GCD[11750:1914722] ----3-----<NSThread: 0x7fb182423fd0>{number = 3, name = (null)}
   GCD[11750:1914724] ----4-----<NSThread: 0x7fb1826047b0>{number = 2, name = (null)}
   ```
@@ -554,11 +556,10 @@ GCD[11728:1912961] 2-------<NSThread: 0x7f8319e00560>{number = 1, name = main}
 
 - （`dispatch_group_enter` <—>`dispatch_group_leave`) `enter<—>leave`会阻塞当前线程执行`enter<—>leave`对之前的**blocks**会和`enter<—>leave`对之内的操作同时执行，当`enter<—>leave`对之间的任务执行完毕当前线程继续执行。
 
-**注意**：不建议在主线程使用， **enter**<-->**leave**一定要成对存在否则可能崩溃
 
 - `dispatch_group_wait`阻塞当前线程，当`dispatch_group`的blocks全部执行完毕之后执行`dispatch_group_wait`之后的操作。
 
-**注意**：因为阻塞线程原因不建议在主线程使用
+**注意**：不建议在主线程使用， **enter**<-->**leave**一定要成对存在否则可能崩溃
 
 #####6.6 信号量控制并发`dispatch_semaphore`
 
