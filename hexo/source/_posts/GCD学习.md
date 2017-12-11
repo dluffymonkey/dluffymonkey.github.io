@@ -118,7 +118,7 @@ dispatch_async(queue, ^{
                 NSLog(@"3------%@",[NSThread currentThread]);
             }
         });
-        
+
         NSLog(@"syncConcurrent---end");
     }
     ```
@@ -367,7 +367,7 @@ dispatch_async(queue, ^{
       NSLog(@"asyncMain---begin");
 
       dispatch_queue_t queue = dispatch_get_main_queue();
-      
+
       dispatch_async(queue, ^{
           for (int i = 0; i < 2; ++i) {
               NSLog(@"1------%@",[NSThread currentThread]);
