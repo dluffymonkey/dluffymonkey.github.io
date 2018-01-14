@@ -84,7 +84,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSRunLoop简介">
 <meta property="og:url" content="http://yoursite.com/2017/12/08/NSRunLoop简介/index.html">
-<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:site_name" content="Monkey·D·Luffy">
 <meta property="og:description" content="1 RunLoop简介1.1 什么是RunLoop？可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。 RunLoop实际上是一个对象，这个对象在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI刷新事件、定时器事件、Selector事件），从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省CPU资源，提高程序性能。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_1.jpg">
@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_5.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_6.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_7.png">
-<meta property="og:updated_time" content="2017-12-08T09:02:47.877Z">
+<meta property="og:updated_time" content="2018-01-14T12:26:39.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSRunLoop简介">
 <meta name="twitter:description" content="1 RunLoop简介1.1 什么是RunLoop？可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。 RunLoop实际上是一个对象，这个对象在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI刷新事件、定时器事件、Selector事件），从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省CPU资源，提高程序性能。">
@@ -134,7 +134,7 @@
 
 
 
-  <title>NSRunLoop简介 | Monkey·D·Luffy’s Blog</title>
+  <title>NSRunLoop简介 | Monkey·D·Luffy</title>
   
 
 
@@ -164,7 +164,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="site-title">Monkey·D·Luffy</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -274,13 +274,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/NSRunLoop简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Leo">
+      <meta itemprop="name" content="iLeo">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+      <meta itemprop="name" content="Monkey·D·Luffy">
     </span>
 
     
@@ -549,7 +549,7 @@
 </ul>
 <h5 id="4-3-后台常驻线程（很常用）"><a href="#4-3-后台常驻线程（很常用）" class="headerlink" title="4.3 后台常驻线程（很常用）"></a>4.3 后台常驻线程（很常用）</h5><p>我们在开发应用程序的过程中，如果后台操作特别频繁，经常会在子线程做一些耗时操作（下载文件、后台播放音乐等），我们最好能让这条线程永远常驻内存。</p>
 <p>添加一条用于常驻内存的强引用的子线程，在该线程的RunLoop下添加一个Sources，开启RunLoop。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建线程，并调用run1方法执行任务</span></span><br><span class="line"><span class="keyword">self</span>.thread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run1) object:<span class="literal">nil</span>];</span><br><span class="line"><span class="comment">// 开启线程</span></span><br><span class="line">[<span class="keyword">self</span>.thread start];    </span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>) run1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 这里写任务</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"----run1-----"</span>);</span><br><span class="line">    <span class="comment">// 添加下边两句代码，就可以开启RunLoop，之后self.thread就变成了常驻线程，可随时添加任务，并交于RunLoop处理</span></span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addPort:[<span class="built_in">NSPort</span> port] forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run];</span><br><span class="line">    <span class="comment">// 测试是否开启了RunLoop，如果开启RunLoop，则来不了这里，因为RunLoop开启了循环。</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"未开启RunLoop"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 创建线程，并调用run1方法执行任务</span><br><span class="line">self.thread = [[NSThread alloc] initWithTarget:self selector:@selector(run1) object:nil];</span><br><span class="line">// 开启线程</span><br><span class="line">[self.thread start];    </span><br><span class="line"></span><br><span class="line">- (void) run1</span><br><span class="line">&#123;</span><br><span class="line">    // 这里写任务</span><br><span class="line">    NSLog(@&quot;----run1-----&quot;);</span><br><span class="line">    // 添加下边两句代码，就可以开启RunLoop，之后self.thread就变成了常驻线程，可随时添加任务，并交于RunLoop处理</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    // 测试是否开启了RunLoop，如果开启RunLoop，则来不了这里，因为RunLoop开启了循环。</span><br><span class="line">    NSLog(@&quot;未开启RunLoop&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行之后发现打印了<strong>—-run1—–</strong>，而<strong>未开启RunLoop</strong>则未打印。</p>
 
       
@@ -668,9 +668,9 @@
             
               <img class="site-author-image" itemprop="image"
                 src="/uploads/avatar.png"
-                alt="Leo" />
+                alt="iLeo" />
             
-              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-author-name" itemprop="name">iLeo</p>
               <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
           </div>
 
@@ -681,7 +681,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -692,7 +692,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -703,7 +703,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -758,11 +758,11 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Leo</span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
 
   
 </div>

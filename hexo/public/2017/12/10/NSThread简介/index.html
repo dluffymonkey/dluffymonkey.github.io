@@ -84,14 +84,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSThread简介">
 <meta property="og:url" content="http://yoursite.com/2017/12/10/NSThread简介/index.html">
-<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:site_name" content="Monkey·D·Luffy">
 <meta property="og:description" content="1 pthread​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。  POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_one.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_two.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_three.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_four.png">
-<meta property="og:updated_time" content="2017-12-08T09:27:09.831Z">
+<meta property="og:updated_time" content="2018-01-14T12:26:39.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSThread简介">
 <meta name="twitter:description" content="1 pthread​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。  POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标">
@@ -131,7 +131,7 @@
 
 
 
-  <title>NSThread简介 | Monkey·D·Luffy’s Blog</title>
+  <title>NSThread简介 | Monkey·D·Luffy</title>
   
 
 
@@ -161,7 +161,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="site-title">Monkey·D·Luffy</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -271,13 +271,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/10/NSThread简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Leo">
+      <meta itemprop="name" content="iLeo">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+      <meta itemprop="name" content="Monkey·D·Luffy">
     </span>
 
     
@@ -376,7 +376,7 @@
 <li><p>首先要包含头文件<code>#import &lt;pthread.h&gt;</code></p>
 </li>
 <li><p>其次要创建线程，并开启线程执行任务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 创建线程——定义一个pthread_t类型变量</span><br><span class="line">pthread_t thread;</span><br><span class="line">// 开启线程——执行任务</span><br><span class="line">pthread_create(&amp;thread, NULL, run, NULL);</span><br><span class="line"></span><br><span class="line">void * run(void *param)    // 新线程调用方法，里边为需要执行的任务</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line"></span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 创建线程——定义一个pthread_t类型变量</span><br><span class="line">pthread_t thread;</span><br><span class="line">// 开启线程——执行任务</span><br><span class="line">pthread_create(&amp;thread, NULL, run, NULL);</span><br><span class="line"></span><br><span class="line">void *run(void *param)    // 新线程调用方法，里边为需要执行的任务</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line"></span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>pthread_create(&amp;thread, NULL, run, NULL);</code> 中各项参数含义：</p>
 <ul>
@@ -410,9 +410,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 线程进入死亡状态</span><br><span class="line">+ (void)exit;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h5 id="2-4-线程的状态转换"><a href="#2-4-线程的状态转换" class="headerlink" title="2.4 线程的状态转换"></a>2.4 线程的状态转换</h5><p>​    当我们新建一条线程<code>NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</code>，在内存中的表现为：</p>
-<p>​    <img src="/2017/12/10/NSThread简介/2017_12_08_thread_one.png" alt="1"></p>
-<p>​    当调用<code>[thread start];</code>后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。</p>
+<h5 id="2-4-线程的状态转换"><a href="#2-4-线程的状态转换" class="headerlink" title="2.4 线程的状态转换"></a>2.4 线程的状态转换</h5><p>​    当我们新建一条线程<code>NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</code>，在内存中的表现为：    <img src="/2017/12/10/NSThread简介/2017_12_08_thread_one.png" alt="1">    当调用<code>[thread start];</code>后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。</p>
 <p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_two.png" alt="2"></p>
 <p>​    当然，可调度线程池中，会有其他的线程对象，如下图所示。在这里我们只关心左边的线程对象。</p>
 <p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_three.png" alt="3"></p>
@@ -482,6 +480,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/18/iOS后台倒计时/" rel="prev" title="iOS后台倒计时">
+                iOS后台倒计时 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -556,9 +558,9 @@
             
               <img class="site-author-image" itemprop="image"
                 src="/uploads/avatar.png"
-                alt="Leo" />
+                alt="iLeo" />
             
-              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-author-name" itemprop="name">iLeo</p>
               <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
           </div>
 
@@ -569,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +582,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -591,7 +593,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -646,11 +648,11 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Leo</span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
 
   
 </div>

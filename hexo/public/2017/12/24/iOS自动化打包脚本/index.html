@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="iOS自动化打包脚本(shell)本脚本主要作用为代替人工打包app，导出ipa包并安装的过程，如果是AppStore方式，会自动上传AppStore，不需要手动管理。 如需使用自动安装ipa功能，需要进行一些额外的环境配置。 打开autoarchive.sh脚本 主要配置如上图 projectName为当前待打包工程">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS自动化打包脚本">
+<meta property="og:url" content="http://yoursite.com/2017/12/24/iOS自动化打包脚本/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy">
+<meta property="og:description" content="iOS自动化打包脚本(shell)本脚本主要作用为代替人工打包app，导出ipa包并安装的过程，如果是AppStore方式，会自动上传AppStore，不需要手动管理。 如需使用自动安装ipa功能，需要进行一些额外的环境配置。 打开autoarchive.sh脚本 主要配置如上图 projectName为当前待打包工程的工名 下面有四种类型，分别代表打包使用的证书类型，此类型可添加，删除等。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102400273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102441596?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102503243?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102612675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102633722?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401102805794?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103014501?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103110815?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103230443?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103304912?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103433835?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103553134?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103816605?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103901182?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401103935466?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104035046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104112777?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104147808?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104227309?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104246184?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104337145?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104404137?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104440756?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104506741?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104534710?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170401104608341?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-01-14T12:26:39.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS自动化打包脚本">
+<meta name="twitter:description" content="iOS自动化打包脚本(shell)本脚本主要作用为代替人工打包app，导出ipa包并安装的过程，如果是AppStore方式，会自动上传AppStore，不需要手动管理。 如需使用自动安装ipa功能，需要进行一些额外的环境配置。 打开autoarchive.sh脚本 主要配置如上图 projectName为当前待打包工程的工名 下面有四种类型，分别代表打包使用的证书类型，此类型可添加，删除等。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170401102400273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/24/iOS自动化打包脚本/"/>
+
+
+
+
+
+  <title>iOS自动化打包脚本 | Monkey·D·Luffy</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/iOS自动化打包脚本/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS自动化打包脚本</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T15:32:23+08:00">
+                2017-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/24/iOS自动化打包脚本/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/24/iOS自动化打包脚本/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="iOS自动化打包脚本-shell"><a href="#iOS自动化打包脚本-shell" class="headerlink" title="iOS自动化打包脚本(shell)"></a>iOS自动化打包脚本(shell)</h4><p><strong>本脚本主要作用为代替人工打包app，导出ipa包并安装的过程，如果是AppStore方式，会自动上传AppStore，不需要手动管理。 如需使用自动安装ipa功能，需要进行一些额外的环境配置。</strong></p>
+<h5 id="打开autoarchive-sh脚本"><a href="#打开autoarchive-sh脚本" class="headerlink" title="打开autoarchive.sh脚本"></a>打开autoarchive.sh脚本</h5><p><img src="http://img.blog.csdn.net/20170401102400273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"></p>
+<p>主要配置如上图</p>
+<p><strong>projectName为当前待打包工程的工名</strong></p>
+<p><strong>下面有四种类型，分别代表打包使用的证书类型，此类型可添加，删除等。</strong></p>
+<blockquote>
+<ul>
+<li>development 为开发证书打包</li>
+<li>enterprise为企业证书打包</li>
+<li>appstore为上传AppStore打包</li>
+<li>adhoc为发布证书打包，发布证书一般用于安装在指定的设备上</li>
+</ul>
+</blockquote>
+ <a id="more"></a>
+<p><em><strong>四种类型的名称需要与当前工程的Scheme名称后缀一致。</strong></em></p>
+<p><strong>如何为当前工程添加多个Scheme呢，步骤如下</strong></p>
+<p><strong><em>为工程添加多个target与Scheme</em></strong></p>
+<ul>
+<li>使用Xcode打开当前工程，点击工程，选择targets中的任意一个</li>
+</ul>
+<ul>
+<li><p>右键-&gt; Duplicate,选择Duplicate Only，复制当前的target,并将复制好的target改名为QSArchiveTest_Enterprise,如图所示<br><img src="http://img.blog.csdn.net/20170401102441596?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"><br><img src="http://img.blog.csdn.net/20170401102503243?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"></p>
+</li>
+<li><p>修改QSArchiveTestcopy-Info.plist名称为QSArchiveTest _Enterprise-Info.plist，点击工程，选择target QSArchiveTest_Enterprise,点击Build Settings ,搜索plist，将如图所示的QSArchiveTest copy-Info.plist名称修改为QSArchiveTest_Enterprise-Info.plist ，然后点击info,如果成功，则如图，若不成功，可能是复制文档中名称错误，请从工程文件中复制文件名。</p>
+  <center><br>  <img src="http://img.blog.csdn.net/20170401102612675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"><br>      <img src="http://img.blog.csdn.net/20170401102633722?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"><br>  </center>
+</li>
+<li><p>为当前target添加Scheme。点击当前Scheme,选择Manage Schemes, 删除QSArchiveTest copy，然后选择新建，选择当前已新建好的target，点击ok</p>
+  <center><br>  <img src="http://img.blog.csdn.net/20170401102805794?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="30%"><br>  </center><br>  <strong>以上步骤成功新建了一个名为QSArchiveTest_Enterprise的Scheme，此时，当前工程可以运行在QSArchiveTest_Enterprise Scheme上，接下来，我们可以按照以上步骤新建QSArchiveTest_Develoment ，QSArchiveTest_AppStore, QSArchiveTest_AdHoc等Schemes</strong><br>  <center><br>  <img src="http://img.blog.csdn.net/20170401103014501?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="30%" height="30%"><br>  </center>
+
+
+</li>
+</ul>
+<p><strong>结果如图所示</strong><br>    <center><br>    <img src="http://img.blog.csdn.net/20170401103110815?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"><br>    </center></p>
+<h4 id="为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例"><a href="#为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例" class="headerlink" title="为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例"></a>为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例</h4><ul>
+<li><p>点击工程，选择target-&gt;QSArchiveTest_Enterprise,点击general,将bundle identifier修改为com.xxxx.xxxx</p>
+</li>
+<li><p>点击build settings,向下滑动到签名栏，先选择provisioning profile，然后选择证书，如图所示，配置完成后点击general，如果出现如下图所示，则配置成功。如果有警告或者错误提示，则检查上面的步骤是否正确。**<br>  <img src="http://img.blog.csdn.net/20170401103230443?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"></p>
+<p>  <img src="http://img.blog.csdn.net/20170401103304912?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"></p>
+</li>
+</ul>
+<p><strong>重复以上步骤，配置target， QSArchiveTest_Development，QSArchiveTest_AppStore，QSArchiveTest_AdHoc，分别选择对应的证书及mobileprovision。</strong></p>
+<h3 id="添加导出设置plist文件"><a href="#添加导出设置plist文件" class="headerlink" title="添加导出设置plist文件"></a>添加导出设置plist文件</h3><ul>
+<li><p>在当前项目的根目录下新建文件夹，名称为autobuild，进入autobuild，使用Xcode新建plist文件，名称为EnterpriseExportOptions.plist,将文件保存到autobuild文件夹中<br>  <img src="http://img.blog.csdn.net/20170401103433835?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"></p>
+</li>
+<li><p>为EnterpriseExportOptions.plist添加键值对，使用Xcode打开刚才新建的plist文件，为其添加如下键值对<br>  <img src="http://img.blog.csdn.net/20170401103553134?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+</ul>
+<p><strong>method为必选项，有四种选项，分别为</strong><a href="">app-store</a>, <a href="">ad-hoc</a>, <a href="">enterprise</a>, <a href="">development</a>。</p>
+<p><em>各个plist的键值对如下</em></p>
+<p><strong>AppStoreExportOptions.plist：</strong></p>
+<blockquote>
+<p> method＝<strong>app-store</strong>，uploadBitcode＝YES，uploadSymbols＝YES</p>
+</blockquote>
+<p><strong>EnterpriseExportOptions.plist：</strong></p>
+<blockquote>
+<p>method＝<strong>enterprise</strong>，compileBitcode＝NO</p>
+</blockquote>
+<p><strong>DevelopmentExportOptions.plist：</strong></p>
+<blockquote>
+<p>method＝<strong>development</strong>，compileBitcode＝NO</p>
+</blockquote>
+<p><strong>DevelopmentExportOptions.plist：</strong></p>
+<blockquote>
+<p>method＝<strong>ad-hoc</strong>，compileBitcode＝NO</p>
+</blockquote>
+<p><strong>获取不同的target对应的证书名称及mobileprovision的uuid，以下以企业证书为例</strong></p>
+<ul>
+<li><p>点击工程，选择target-&gt; QSArchiveTest_Enterprise，点击build settings,滑动到Signing，点击Provisioning Profile(Deprecated)栏，选择other，拷贝uuid，替换autoarchive.sh脚本中的enterpriseProvisioningProfile变量值，如图所示<br><img src="http://img.blog.csdn.net/20170401103816605?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170401103901182?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+</ul>
+<ul>
+<li><p>点击Code Signing Identity,选择other，拷贝证书名，替换autoarchive.sh中的** enterpriseCodeSignIdentity变量值，如图所示<br>  <img src="http://img.blog.csdn.net/20170401103935466?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>  <img src="http://img.blog.csdn.net/20170401104035046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+</ul>
+<p><strong>重复以上步骤，分别获取证书名称及provisionfile的 uuid，替换autoarchive.sh中的CodeSignIdentity，ProvisioningProfile对应变量的值，结果如图所示。此处未有adhoc证书，因此置为空</strong><br>    <center><br>    <img src="http://img.blog.csdn.net/20170401104112777?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"><br>    </center></p>
+<p><strong>如需使用上传至AppStore功能，需在脚本中设置Apple ID如图，将自己的Apple ID以及密码替换即可</strong><br>    <center><br>    <img src="http://img.blog.csdn.net/20170401104147808?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"><br>    </center></p>
+<p><strong>至此，已完成了自动化脚本执行所需要的配置，可以开始使用脚本进行打包了。</strong></p>
+<h5 id="使用autoarchive-sh进行打包，以企业证书包为例"><a href="#使用autoarchive-sh进行打包，以企业证书包为例" class="headerlink" title="使用autoarchive.sh进行打包，以企业证书包为例"></a>使用autoarchive.sh进行打包，以企业证书包为例</h5><p><strong>打开命令行，cd到当前工程的根目录，使用如下命令执行脚本</strong></p>
+<p><code>./autoarchive.sh –t Enterprise</code></p>
+<p><strong>若有错误提示，使用如下命令解决</strong></p>
+<p><code>chmod +x autoarchive.sh</code></p>
+<p><strong>再次执行脚本，等待打包过程结束，如果当前连接了设备，请先将设备上的应用删除，脚本打包完成后将会自动将ipa包安装到设备中（如需成功安装ipa到设备，需要查看下文-脚本详解，按照其中的步骤安装相应的工具）。成功如下图所示，如失败，请查看错误提示，并参照错误提示检查前面的步骤。打包完成后会自动打开当前ipa包所在目录，如未打开，请拷贝exportPath路径，打开Finder，使用快捷键 Command + shilf + g，打开ipa包路径。</strong><br>    <img src="http://img.blog.csdn.net/20170401104227309?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"><br>    <img src="http://img.blog.csdn.net/20170401104246184?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="50%" height="50%"></p>
+<h4 id="脚本详解"><a href="#脚本详解" class="headerlink" title="脚本详解"></a>脚本详解</h4><p><strong>本脚本包括以下几个方法</strong></p>
+<ul>
+<li><p>clean方法，作用为clean工程，日志将会输出到log.txt中，使用xcodebuild命令执行，关于xcodebuild命令的详细情况请使用xcodebuild –help了解，如无法使用xcodebuild，请检查mac使用安装了Xcode，如已安装，请检查是否设置Xcode为当前命令行工具，检查方法如图<br>  <img src="http://img.blog.csdn.net/20170401104337145?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>  <img src="http://img.blog.csdn.net/20170401104404137?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+<li><p>archive方法，archive方法主要为打包QSArchiveTest.xcarchive所用<br>  <img src="http://img.blog.csdn.net/20170401104440756?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+<li><p>export方法，此方法为导出ipa包，导出路径自定义</p>
+<p><img src="http://img.blog.csdn.net/20170401104506741?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+<li><p><strong>install方法，该方法生效需要安装</strong>ideviceinstaller，libimobiledevice两个工具。两个工具可以使用homebrew进行安装。这两个工具用于安装ipa或者管理iOS设备应用，查看当前连接设备的信息等。<em>**</em><br>  <img src="http://img.blog.csdn.net/20170401104534710?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+</li>
+</ul>
+<p>#####安装homebrew</p>
+<p>​ <strong>homebrew为macOS不可或缺的套件管理器，$brew install wget</strong></p>
+<p><strong>安装方式如下</strong></p>
+<p><strong>打开终端，拷贝以下脚本,回车，等待安装结束</strong></p>
+<p><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</code></p>
+<h5 id="安装ideviceinstaller以及libimobiledevice。"><a href="#安装ideviceinstaller以及libimobiledevice。" class="headerlink" title="安装ideviceinstaller以及libimobiledevice。"></a>安装ideviceinstaller以及libimobiledevice。</h5><p>安装如下命令逐个执行，前两条用于卸载，如果已安装，但是改工具使用不正常，即可使用命令卸载</p>
+<blockquote>
+<p>brew uninstall ideviceinstaller</p>
+<p>brew uninstall libimobiledevice</p>
+<p>brew install –HEAD libimobiledevice</p>
+<p>brew link –overwrite libimobiledevice</p>
+<p>brew install ideviceinstaller</p>
+<p>brew link –overwrite ideviceinstaller</p>
+</blockquote>
+<p><strong>安装完成后使用，查看当前是否有iOS设备连接</strong></p>
+<p><code>idevice_id –l</code></p>
+<p><strong>查看帮助信息</strong></p>
+<p><code>ideviceinstaler –h</code></p>
+<p><strong>将ipa包安装至iOS设备</strong></p>
+<p><code>ideviceinstaller -i ipaPath</code></p>
+<p><strong>ipaPath为需要安装的ipa的路径</strong></p>
+<p><strong>如果出现以下错误</strong></p>
+<p><code>couldnot connect to lockdownd. exiting.</code></p>
+<p>可以使用指令解决</p>
+<p><code>sudochmod -R 777 /var/db/lockdown/</code></p>
+<p><strong>或者永久的解决办法为重新进行ideviceinstaller安装过程</strong></p>
+<p><strong>ideviceinstaller工具的功能还有很多，此处不再详细解释，可自行探索</strong></p>
+<ul>
+<li>upload方法，该方法用于上传ipa至AppStore，只有在AppStore模式下才会执行。Upload方法用到了Xcode自带的工具Application Loader altool，与手动上传方法一致。altool位于Application Loader中，三个参数ipaPath,appleId,applepassword,ipaPath为ipa包导出的路径，applied为开发者帐号，applepassword为开发者帐号的密码<br>  <img src="http://img.blog.csdn.net/20170401104608341?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ul>
+<p>方法二</p>
+<p>本文最终实现的是使用脚本打 Ad-hoc 包，并发布测试，当然稍微修改一下脚本参数就可以打其他类型的 ipa 包了。另外该脚本还实现了将生成的 ipa 包上传至蒲公英进行测试分发。文中内容包括:</p>
+<ol>
+<li>xcodebuild 简介</li>
+<li>使用xcodebuild和xcrun打包签名</li>
+<li>将打包过程脚本化</li>
+</ol>
+<h2 id="xcodebuild-简介"><a href="#xcodebuild-简介" class="headerlink" title="xcodebuild 简介"></a>xcodebuild 简介</h2><p><code>xcodebuild</code> 是苹果提供的打包项目或者工程的命令，了解该命令最好的方式就是使用 <code>man xcodebuild</code> 查看其 man page. 尽管是英文，一定要老老实实的读一遍就好了。</p>
+<blockquote>
+<p>DESCRIPTION</p>
+<p>xcodebuild builds one or more targets contained in an Xcode project, or builds a scheme contained in an Xcode workspace or Xcode project.</p>
+</blockquote>
+<p>Usage</p>
+<blockquote>
+<p>To build an Xcode project, run xcodebuild from the directory containing your project (i.e. the directory containing the name.xcodeproj package). If you have multiple projects in the this directory you will need to use -project to indicate which project should be built.  By default, xcodebuild builds the first target listed in the project, with the default build configuration. The order of the targets is a property of the project and is the same for all users of the project.</p>
+<p>To build an Xcode workspace, you must pass both the -workspace and -scheme options to define the build.  The parameters of the scheme will control which targets are built and how they are built, although you may pass other options to xcodebuild to override some parameters of the scheme.</p>
+<p>There are also several options that display info about the installed version of Xcode or about projects or workspaces in the local directory, but which do not initiate an action.  These include -list, -showBuildSettings, -showsdks, -usage, and -version.</p>
+</blockquote>
+<p>总结一下:</p>
+<ol>
+<li>需要在包含 name.xcodeproj 的目录下执行 <code>xcodebuild</code> 命令，且如果该目录下有多个 projects，那么需要使用 <code>-project</code> 指定需要 build 的项目。</li>
+<li>在不指定 build 的 target 的时候，默认情况下会 build project 下的第一个 target</li>
+<li>当 build workspace 时，需要同时指定 <code>-workspace</code> 和 <code>-scheme</code> 参数，scheme 参数控制了哪些 targets 会被 build 以及以怎样的方式 build。</li>
+<li>有一些诸如 <code>-list</code>, <code>-showBuildSettings</code>, <code>-showsdks</code> 的参数可以查看项目或者工程的信息，不会对 build action 造成任何影响，放心使用。</li>
+</ol>
+<p>那么，<code>xcodebuild</code> 究竟如何使用呢？ 继续看文档:</p>
+<blockquote>
+<p>NAME</p>
+<p>xcodebuild – build Xcode projects and workspaces</p>
+<p>SYNOPSIS</p>
+<ol>
+<li>xcodebuild [-project name.xcodeproj] [[-target targetname] … | -alltargets] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action …] [buildsetting=value …] [-userdefault=value …]</li>
+<li>xcodebuild [-project name.xcodeproj] -scheme schemename [[-destination destinationspecifier] …] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action …] [buildsetting=value …] [-userdefault=value …]</li>
+<li>xcodebuild -workspace name.xcworkspace -scheme schemename [[-destination destinationspecifier] …] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action …] [buildsetting=value …] [-userdefault=value …]</li>
+<li>xcodebuild -version [-sdk [sdkfullpath | sdkname]] [infoitem]</li>
+<li>xcodebuild -showsdks</li>
+<li>xcodebuild -showBuildSettings [-project name.xcodeproj | [-workspace name.xcworkspace -scheme schemename]]</li>
+<li>xcodebuild -list [-project name.xcodeproj | -workspace name.xcworkspace]</li>
+<li>xcodebuild -exportArchive -archivePath xcarchivepath -exportPath destinationpath -exportOptionsPlist path</li>
+<li>xcodebuild -exportLocalizations -project name.xcodeproj -localizationPath path [[-exportLanguage language] …]</li>
+<li>xcodebuild -importLocalizations -project name.xcodeproj -localizationPath path</li>
+</ol>
+</blockquote>
+<p>挑几个我常用的形式介绍一下，较长的使用方式以序列号代替:</p>
+<ul>
+<li><code>xcodebuild -showsdks</code>: 列出 Xcode 所有可用的 SDKs</li>
+<li><code>xcodebuild -showBuildSettings</code>: 上述序号6的使用方式，查看当前工程 build setting 的配置参数，Xcode 详细的 build setting 参数参考官方文档 <a href="https://link.jianshu.com?t=https://developer.apple.com/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/" target="_blank" rel="noopener">Xcode Build Setting Reference</a>， 已有的配置参数可以在终端中以 <code>buildsetting=value</code> 的形式进行覆盖重新设置.</li>
+<li><code>xcodebuild -list</code>: 上述序号7的使用方式，查看 project 中的 targets 和 configurations，或者 workspace 中 schemes, 输出如下:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Information about project &quot;NavTabBar&quot;:</span><br><span class="line">    Targets:</span><br><span class="line">        NavTabBar</span><br><span class="line">        NavTabBarTests</span><br><span class="line">        NavTabBarUITests</span><br><span class="line"></span><br><span class="line">    Build Configurations:</span><br><span class="line">        Debug</span><br><span class="line">        Release</span><br><span class="line">        Ad-hoc</span><br><span class="line"></span><br><span class="line">    If no build configuration is specified and -scheme is not passed then &quot;Release&quot; is used.</span><br><span class="line"></span><br><span class="line">    Schemes:</span><br><span class="line">        NavTabBar</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>xcodebuild [-project name.xcodeproj] [[-target targetname] ... | -alltargets] build</code>: 上述序号1的使用方式，会 build 指定 project，其中 <code>-target</code> 和 <code>-configuration</code> 参数可以使用 <code>xcodebuild -list</code> 获得，<code>-sdk</code> 参数可由 <code>xcodebuild -showsdks</code> 获得，<code>[buildsetting=value ...]</code> 用来覆盖工程中已有的配置。可覆盖的参数参考官方文档 <a href="https://link.jianshu.com?t=https://developer.apple.com/documentation/DeveloperTools/Reference/XcodeBuildSettingRef/" target="_blank" rel="noopener">Xcode Build Setting Reference</a>, <code>action...</code> 的可用选项如下, 打包的话当然用 build，这也是默认选项。<ul>
+<li>build<br>Build the target in the build root (SYMROOT).  This is the default action, and is used if no action is given.</li>
+<li>analyze<br>Build and analyze a target or scheme from the build root (SYMROOT).  This requires specifying a scheme.</li>
+<li>archive<br>Archive a scheme from the build root (SYMROOT).  This requires specifying a scheme.</li>
+<li>test<br>Test a scheme from the build root (SYMROOT).  This requires specifying a scheme and optionally a destination.</li>
+<li>installsrc<br>Copy the source of the project to the source root (SRCROOT).</li>
+<li>install<br>Build the target and install it into the target’s installation directory in the distribution root (DSTROOT).</li>
+<li>clean<br>Remove build products and intermediate files from the build root (SYMROOT).</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><code>xcodebuild -workspace name.xcworkspace -scheme schemename build</code>: 上述序号3的使用方式，build 指定 workspace，当我们使用 CocoaPods 来管理第三方库时，会生成 xcworkspace 文件，这样就会用到这种打包方式.</li>
+</ul>
+<h2 id="使用xcodebuild和xcrun打包签名"><a href="#使用xcodebuild和xcrun打包签名" class="headerlink" title="使用xcodebuild和xcrun打包签名"></a>使用xcodebuild和xcrun打包签名</h2><p>开始之前，可以新建一个测试工程 TestImg 来练习打包，在使用终端命令打包之前，请确认该工程也可以直接使用 Xcode 真机调试成功。</p>
+<p>然后，打开终端，进入包含 TestImg.xcodeproj 的目录下，运行以下命令:</p>
+<p><code>xcodebuild -project TestImg.xcodeproj -target TestImg -configuration Release</code></p>
+<p>如果 build 成功，会看到 <code>** BUILD SUCCEEDED **</code> 字样，且在终端会打印出这次 build 的签名信息，如下:</p>
+<blockquote>
+<p>Signing Identity:     “iPhone Developer: xxx(59xxxxxx)”<br>Provisioning Profile: “iOS Team Provisioning Profile: *”</p>
+</blockquote>
+<p>且在该目录下会多出一个 <code>build</code> 目录，该目录下有 <code>Release-iphoneos</code> 和 <code>TestImg.build</code> 文件，根据我们 build <code>-configuration</code> 配置的参数不同，<code>Release-iphoneos</code> 的文件名会不同。</p>
+<p>在 <code>Release-iphoneos</code> 文件夹下，有我们需要的<code>TestImg.app</code>文件，但是要安装到真机上，我们需要将该文件导出为ipa文件，这里使用 xcrun 命令。</p>
+<p><code>xcrun -sdk iphoneos -v PackageApplication ./build/Release-iphoneos/TestImg.app -o ~/Desktop/TestImg.ipa</code></p>
+<p>这里又冒出一个 <code>PackageApplication</code>, 我刚开始也不知道这是个什么玩意儿，万能的google告诉我，这是 Xcode 包里自带的工具，使用 <code>xcrun -sdk iphoneos -v PackageApplication -help</code> 查看帮助信息.</p>
+<blockquote>
+<p>Usage:<br>PackageApplication [-s signature] application [-o output_directory] [-verbose] [-plugin plugin] || -man || -help</p>
+<p>Options:</p>
+<p><code>[-s signature]</code>: certificate name to resign application before packaging<br><code>[-o output_directory]</code>: specify output filename<br><code>[-plugin plugin]</code>: specify an optional plugin<br><code>-help</code>: brief help message<br><code>-man</code>: full documentation<br><code>-v[erbose]</code>: provide details during operation</p>
+</blockquote>
+<p>如果执行成功，则会在你的桌面生成 TestImg.ipa 文件，这样就可以发布测试了。如果你遇到以下警告信息:</p>
+<blockquote>
+<p>Warning: –resource-rules has been deprecated in Mac OS X &gt;= 10.10!    ResourceRules.plist: cannot read resources</p>
+</blockquote>
+<p>请参考 stackoverflow <a href="https://link.jianshu.com?t=http://stackoverflow.com/questions/32504355/error-itms-90339-this-bundle-is-invalid-the-info-plist-contains-an-invalid-ke/32762413#32762413" target="_blank" rel="noopener">这个回答</a></p>
+<h2 id="将打包过程脚本化"><a href="#将打包过程脚本化" class="headerlink" title="将打包过程脚本化"></a>将打包过程脚本化</h2><p>工作中，特别是所做项目进入测试阶段，肯定会经常打 Ad-hoc 包给测试人员进行测试，但是我们肯定不想每次进行打包的时候都要进行一些工程的设置修改，以及一系列的 next 按钮点击操作，现在就让这些操作都交给脚本化吧。</p>
+<ol>
+<li>脚本化中使用如下的命令打包:</li>
+</ol>
+<p><code>xcodebuild -project name.xcodeproj -target targetname -configuration Release -sdk iphoneos build CODE_SIGN_IDENTITY=&quot;$(CODE_SIGN_IDENTITY)&quot; PROVISIONING_PROFILE=&quot;$(PROVISIONING_PROFILE)&quot;</code></p>
+<p>或者</p>
+<p><code>xcodebuild -workspace name.xcworkspace -scheme schemename -configuration Release -sdk iphoneos build CODE_SIGN_IDENTITY=&quot;$(CODE_SIGN_IDENTITY)&quot; PROVISIONING_PROFILE=&quot;$(PROVISIONING_PROFILE)&quot;</code></p>
+<ol>
+<li>然后使用 xcrun 生成 ipa 文件:</li>
+</ol>
+<p><code>xcrun -sdk iphoneos -v PackageApplication ./build/Release-iphoneos/$(target|scheme).app&quot;</code></p>
+<ol>
+<li>清除 build 过程中产生的中间文件</li>
+<li>结合蒲公英分发平台，将 ipa 文件上传至蒲公英分发平台，同时在终端会打印上传结果以及上传应用后该应用的 URL。蒲公英分发平台能够方便地将 ipa 文件尽快分发到测试人员，该平台有开放 API，可避免人工上传。</li>
+</ol>
+<p>该脚本的使用可使用 <code>python autobuild.py -h</code> 查看，与 <code>xcodebuild</code> 的使用相似:</p>
+<blockquote>
+<p>Usage: autobuild.py [options]</p>
+<p>Options:<br><code>-h, --help</code>: show this help message and exit<br><code>-w name.xcworkspace, --workspace=name.xcworkspace</code>: Build the workspace name.xcworkspace.<br><code>-p name.xcodeproj, --project=name.xcodeproj</code>: Build the project name.xcodeproj.<br><code>-s schemename, --scheme=schemename</code>: Build the scheme specified by schemename. Required if building a workspace.<br><code>-t targetname, --target=targetname</code>: Build the target specified by targetname. Required if building a project.<br><code>-o output_filename, --output=output_filename</code>: specify output filename</p>
+</blockquote>
+<p>在脚本顶部，有几个全局变量，根据自己的项目情况修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CODE_SIGN_IDENTITY = &quot;iPhone Distribution: companyname (9xxxxxxx9A)&quot;</span><br><span class="line">PROVISIONING_PROFILE = &quot;xxxxx-xxxx-xxx-xxxx-xxxxxxxxx&quot;</span><br><span class="line">CONFIGURATION = &quot;Release&quot;</span><br><span class="line">SDK = &quot;iphoneos&quot;</span><br><span class="line"></span><br><span class="line">USER_KEY = &quot;15d6xxxxxxxxxxxxxxxxxx&quot;</span><br><span class="line">API_KEY = &quot;efxxxxxxxxxxxxxxxxxxxx&quot;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>CODE_SIGN_IDENTITY</code> 为开发者证书标识，可以在 Keychain Access -&gt; Certificates -&gt; 选中证书右键弹出菜单 -&gt; Get Info -&gt; Common Name 获取，类似 <code>iPhone Distribution: Company name Co. Ltd (xxxxxxxx9A)</code>, 包括括号内的内容。</p>
+<p><code>PROVISIONING_PROFILE</code>: 这个是 mobileprovision 文件的 identifier，获取方式：</p>
+<p>Xcode -&gt; Preferences -&gt; 选中申请开发者证书的 Apple ID -&gt; 选中开发者证书 -&gt; View Details… -&gt; 根据        Provisioning Profiles 的名字选中打包所需的 mobileprovision 文件 -&gt; 右键菜单 -&gt; Show in Finder -&gt; 找到该文件后，除了该文件后缀名的字符串就是 <code>PROVISIONING_PROFILE</code> 字段的内容。</p>
+<p>当然也可以使用脚本获取, 此处参考 <a href="https://link.jianshu.com?t=http://my.oschina.net/ioslighter/blog/494342" target="_blank" rel="noopener">命令行获取mobileprovision文件的UUID</a>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">if [ $# -ne 1 ]</span><br><span class="line">then</span><br><span class="line">  echo &quot;Usage: getmobileuuid the-mobileprovision-file-path&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">mobileprovision_uuid=`/usr/libexec/PlistBuddy -c &quot;Print UUID&quot; /dev/stdin &lt;&lt;&lt; $(/usr/bin/security cms -D -i $1)`</span><br><span class="line">echo &quot;UUID is:&quot;</span><br><span class="line">echo $&#123;mobileprovision_uuid&#125;</span><br></pre></td></tr></table></figure>
+<p><code>USER_KEY</code>, <code>API_KEY</code>: 是蒲公英开放 API 的密钥。</p>
+<p>先进入<em>autobuild</em>目录，使用脚本打包的命令如下:</p>
+<p><code>python autobuild.py -p ../AOP.xcodeproj -s AOP</code></p>
+<p>脚本执行完毕，若成功，则会在桌面生成<em>ipa</em>文件。</p>
+<p>若是打包<em>xcworkspace</em>项目，则打包命令格式如下所示:</p>
+<p><code>python autobuild.py -w ../yourworkspace.xcworkspace -s yourscheme</code></p>
+<p>常见问题:</p>
+<ol>
+<li>找不到<em>request module</em>.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">ImportError: No module named requests</span><br></pre></td></tr></table></figure>
+<p>找不到<em>request module</em>， 使用 <code>$ sudo pip install requests</code>或者<code>sudo easy_install -U requests</code>;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Requests is not a built in module (does not come with the default python installation), so you will have to install it:OSX/LinuxUse `$ sudo pip install requests` if you have `pip` installedAlternatively you can also use `sudo easy_install -U requests` if you have `easy_install`installed.</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>如果使用了上传蒲公英，且安装需要密码，请打开脚本，搜一下脚本里的<em>password</em>，将其值设置为空。</li>
+<li>使用<code>xcodebuild -exportArchive</code>替换<em>PackageApplication</em>进行打包.</li>
+<li>解析传入参数使用<em>argparse</em>替换<em>OptionParser</em>.</li>
+<li>去掉对<em>PROVISIONING_PROFILE</em>和<em>CODE_SIGN_IDENTITY</em>的配置，请使用<em>Xcode8</em>的自动证书管理。</li>
+<li>新增<em>ExportOptions.plist</em>文件，用于设置导出<em>ipa</em>文件的参数，该文件中的可配置参数可使用<code>xcodebuild --help</code>查看。</li>
+<li>脚本传入参数去掉<code>--target</code>和<code>--output</code>，<em>ipa</em>文件默认会存放在<em>Desktop</em>创建诸如<em>{scheme}{2016-12-28_08-08-10}</em>格式的文件夹中。</li>
+</ol>
+<p>假如你的项目目录如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">|____AOP</span><br><span class="line">| |____AppDelegate.h</span><br><span class="line">| |____AppDelegate.m</span><br><span class="line">| |____Base.lproj</span><br><span class="line">| | |____LaunchScreen.xib</span><br><span class="line">| | |____Main.storyboard</span><br><span class="line">| |____Images.xcassets</span><br><span class="line">| |____Info.plist</span><br><span class="line">| |____main.m</span><br><span class="line">| |____ViewController.h</span><br><span class="line">| |____ViewController.m</span><br><span class="line">|____AOP.xcodeproj</span><br><span class="line">|____autobuild</span><br><span class="line">| |____autobuild.py</span><br><span class="line">| |____exportOptions.plist</span><br></pre></td></tr></table></figure>
+<p><em>exportOptions.plist</em>文件中的可选配置参数如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">compileBitcode : Bool</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, should Xcode re-compile the app from bitcode? Defaults to YES.</span><br><span class="line"></span><br><span class="line">embedOnDemandResourcesAssetPacksInBundle : Bool</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, if the app uses On Demand Resources and this is YES, asset   </span><br><span class="line">  packs are embedded in the app bundle so that the app can be tested without a server to   </span><br><span class="line">  host asset packs. Defaults to YES unless onDemandResourcesAssetPacksBaseURL is specified.</span><br><span class="line"></span><br><span class="line">iCloudContainerEnvironment</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, if the app is using CloudKit, this configures the   </span><br><span class="line">  &quot;com.apple.developer.icloud-container-environment&quot; entitlement. Available options:   </span><br><span class="line">  Development and Production. Defaults to Development.</span><br><span class="line"></span><br><span class="line">manifest : Dictionary</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, users can download your app over the web by opening your   </span><br><span class="line">  distribution manifest file in a web browser. To generate a distribution manifest, the   </span><br><span class="line">  value of this key should be a dictionary with three sub-keys: appURL, displayImageURL,   </span><br><span class="line">  fullSizeImageURL. The additional sub-key assetPackManifestURL is required when using on demand resources.</span><br><span class="line"></span><br><span class="line">method : String</span><br><span class="line"></span><br><span class="line">  Describes how Xcode should export the archive. Available options: app-store, ad-hoc,   </span><br><span class="line">  package, enterprise, development, and developer-id. The list of options varies based on   </span><br><span class="line">  the type of archive. Defaults to development.</span><br><span class="line"></span><br><span class="line">onDemandResourcesAssetPacksBaseURL : String</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, if the app uses On Demand Resources and   </span><br><span class="line">  embedOnDemandResourcesAssetPacksInBundle isn&apos;t YES, this should be a base URL specifying   </span><br><span class="line">  where asset packs are going to be hosted. This configures the app to download asset   </span><br><span class="line">  packs from the specified URL.</span><br><span class="line"></span><br><span class="line">teamID : String</span><br><span class="line"></span><br><span class="line">  The Developer Portal team to use for this export. Defaults to the team used to build the archive.</span><br><span class="line"></span><br><span class="line">thinning : String</span><br><span class="line"></span><br><span class="line">  For non-App Store exports, should Xcode thin the package for one or more device   </span><br><span class="line">  variants? Available options: &lt;none&gt; (Xcode produces a non-thinned universal app),   </span><br><span class="line">  &lt;thin-for-all-variants&gt; (Xcode produces a universal app and all available thinned   </span><br><span class="line">  variants), or a model identifier for a specific device (e.g. &quot;iPhone7,1&quot;). Defaults to &lt;none&gt;.</span><br><span class="line"></span><br><span class="line">uploadBitcode : Bool</span><br><span class="line"></span><br><span class="line">  For App Store exports, should the package include bitcode? Defaults to YES.</span><br><span class="line"></span><br><span class="line">uploadSymbols : Bool</span><br><span class="line"></span><br><span class="line">  For App Store exports, should the package include symbols? Defaults to YES.</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>ExportOptions.plist文件可以通过先使用Xcode 9 手动打包你的项目，然后导出，导出的文件夹里会有这个文件，在导出的文件里面直接拖过来使用，直接复制到你持续集成需要的路径中即可。</p>
+</li>
+<li><p>问题概述自己使用 Jenkins 来做 iOS 项目的持续集成，升级 Xcode 9 之后，编译完成之后打包会一直报如下所示的错误：</p>
+<blockquote>
+<p>error: exportArchive: “APPNAME.app” requires a provisioning profile with the Push Notifications feature.<br>Error Domain=IDEProvisioningErrorDomain Code=9 “”APPNAME.app” requires a provisioning profile with the Push Notifications feature.” UserInfo={NSLocalizedDescription=”APPNAME.app” requires a provisioning profile with the Push Notifications feature., NSLocalizedRecoverySuggestion=Add a profile to the “provisioningProfiles” dictionary in your Export Options property list.}<br><strong> EXPORT FAILED </strong><br>Failed to build /Users/Tolecen/.jenkins/workspace/APPNAME/build/APPNAME_release.ipa<br>Build step ‘Xcode’ marked build as failure<br>Finished: FAILURE</p>
+</blockquote>
+<p>因为 Xcode 9 默认不允许访问钥匙串的内容，必须要设置 allowProvisioningUpdates 才会允许，但是由于 Xcode integration 插件封闭，并不能对其进行修改加上这个属性，所以决定使用 Shell 脚本代替插件。解决方案将 Jenkins 项目里的 Xcode integration 构建步骤去掉，使用下面所示的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -archivePath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/Debug-iphoneos/APPNAME.xcarchive&quot; -project APPNAME.xcodeproj -sdk iphoneos -scheme &quot;SCHEMENAME&quot; -configuration &quot;Debug&quot; archive</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive -archivePath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/Debug-iphoneos/BasketballLeague.xcarchive&quot; -exportPath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/APPNAME_debug&quot; -exportOptionsPlist &apos;/Users/USERNAME/.jenkins/workspace/APPNAME/build/ExportOptions.plist&apos; -allowProvisioningUpdates</span><br></pre></td></tr></table></figure>
+<p>如果是 workspace 的项目，那就将上面第一段的命令中 -project APPNAME.xcodeproj 修改为 -workspace APPNAME.xcworkspace 即可。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/22/iOS开发-友盟统计使用笔记/" rel="next" title="友盟统计使用笔记">
+                <i class="fa fa-chevron-left"></i> 友盟统计使用笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/26/Jenkins自动打包IOS/" rel="prev" title="Jenkins自动打包IOS">
+                Jenkins自动打包IOS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/24/iOS自动化打包脚本/"
+           data-title="iOS自动化打包脚本" data-url="http://yoursite.com/2017/12/24/iOS自动化打包脚本/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="iLeo" />
+            
+              <p class="site-author-name" itemprop="name">iLeo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS自动化打包脚本-shell"><span class="nav-text">iOS自动化打包脚本(shell)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#打开autoarchive-sh脚本"><span class="nav-text">打开autoarchive.sh脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例"><span class="nav-text">为各个target配置不同的证书及mobileprovision，不同的配置将生成不同的product，也就是不同的app。下面以企业证书为例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加导出设置plist文件"><span class="nav-text">添加导出设置plist文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用autoarchive-sh进行打包，以企业证书包为例"><span class="nav-text">使用autoarchive.sh进行打包，以企业证书包为例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#脚本详解"><span class="nav-text">脚本详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装ideviceinstaller以及libimobiledevice。"><span class="nav-text">安装ideviceinstaller以及libimobiledevice。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xcodebuild-简介"><span class="nav-text">xcodebuild 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用xcodebuild和xcrun打包签名"><span class="nav-text">使用xcodebuild和xcrun打包签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将打包过程脚本化"><span class="nav-text">将打包过程脚本化</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

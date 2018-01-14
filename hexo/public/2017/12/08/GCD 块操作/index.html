@@ -84,10 +84,10 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD学习 —— 三">
 <meta property="og:url" content="http://yoursite.com/2017/12/08/GCD 块操作/index.html">
-<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:site_name" content="Monkey·D·Luffy">
 <meta property="og:description" content="​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 block。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 block。 1 创建Block 第一种方式如下： 1dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-08T09:10:56.780Z">
+<meta property="og:updated_time" content="2018-01-14T12:26:39.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD学习 —— 三">
 <meta name="twitter:description" content="​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 block。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 block。 1 创建Block 第一种方式如下： 1dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_">
@@ -126,7 +126,7 @@
 
 
 
-  <title>GCD学习 —— 三 | Monkey·D·Luffy’s Blog</title>
+  <title>GCD学习 —— 三 | Monkey·D·Luffy</title>
   
 
 
@@ -156,7 +156,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="site-title">Monkey·D·Luffy</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -266,13 +266,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/GCD 块操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Leo">
+      <meta itemprop="name" content="iLeo">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+      <meta itemprop="name" content="Monkey·D·Luffy">
     </span>
 
     
@@ -371,7 +371,7 @@
 <a id="more"></a></li>
 <li><p>第二种方式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dispatch_block_t dispatch_block_create_with_qos_class(dispatch_block_flags_t flags,</span><br><span class="line">    dispatch_qos_class_t qos_class, int relative_priority,</span><br><span class="line">    dispatch_block_t block);</span><br></pre></td></tr></table></figure>
-<p>​    相比于 <code>dispatch_block_create</code> 函数，这种方式在创建 <code>block</code> 的同时可以指定了相应的优先级。<code>dispatch_qos_class_t</code> 是 <code>qos_class_t</code> 的别名，定义如下：</p>
+<p>​相比于 <code>dispatch_block_create</code> 函数，这种方式在创建 <code>block</code> 的同时可以指定了相应的优先级。<code>dispatch_qos_class_t</code> 是 <code>qos_class_t</code> 的别名，定义如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#if __has_include(&lt;sys/qos.h&gt;)</span><br><span class="line">typedef qos_class_t dispatch_qos_class_t;</span><br><span class="line">#else</span><br><span class="line">typedef unsigned int dispatch_qos_class_t;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 <p><code>qos_class_t</code> 是一种枚举，有以下类型：</p>
 <ul>
@@ -531,9 +531,9 @@
             
               <img class="site-author-image" itemprop="image"
                 src="/uploads/avatar.png"
-                alt="Leo" />
+                alt="iLeo" />
             
-              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-author-name" itemprop="name">iLeo</p>
               <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
           </div>
 
@@ -544,7 +544,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +555,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -566,7 +566,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -621,11 +621,11 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Leo</span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
 
   
 </div>
