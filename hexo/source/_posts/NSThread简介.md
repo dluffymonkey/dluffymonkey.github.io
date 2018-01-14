@@ -26,7 +26,7 @@ categories: iOS Tips
   // 开启线程——执行任务
   pthread_create(&thread, NULL, run, NULL);
 
-  void * run(void *param)    // 新线程调用方法，里边为需要执行的任务
+  void *run(void *param)    // 新线程调用方法，里边为需要执行的任务
   {
       NSLog(@"%@", [NSThread currentThread]);
 
@@ -115,17 +115,13 @@ NSThread *current = [NSThread currentThread];
 
 ##### 2.4 线程的状态转换
 
-​	当我们新建一条线程`NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];`，在内存中的表现为：
+​	当我们新建一条线程`NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];`，在内存中的表现为：	![1](_PostPicture/2017_12_08_thread_one.png)	当调用`[thread start];`后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。
 
-​	![1](NSThread简介/2017_12_08_thread_one.png)
-
-​	当调用`[thread start];`后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。
-
-![2](NSThread简介/2017_12_08_thread_two.png)
+![2](_PostPicture/2017_12_08_thread_two.png)
 
 ​	当然，可调度线程池中，会有其他的线程对象，如下图所示。在这里我们只关心左边的线程对象。
 
-![3](NSThread简介/2017_12_08_thread_three.png)
+![3](_PostPicture/2017_12_08_thread_three.png)
 
 **下边我们来看看当前线程的状态转换。**
 
@@ -137,7 +133,7 @@ NSThread *current = [NSThread currentThread];
 
 - 如果CPU在运行当前线程对象的时候线程任务执行完毕\异常强制退出，则当前线程对象进入死亡状态。
 
-![4](NSThread简介/2017_12_08_thread_four.png)
+![4](_PostPicture/2017_12_08_thread_four.png)
 
 #### 3 线程同步
 

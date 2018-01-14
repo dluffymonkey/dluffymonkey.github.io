@@ -139,8 +139,7 @@ dispatch_async(queue, ^{
 - 同时我们还可以看到，所有任务都在打印的`syncConcurrent---begin`和`syncConcurrent---end`之间，这说明任务是添加到队列中马上执行的。
 
 
-
-######  4.1.2 并行队列 + 异步步执行
+######  4.1.2 并行队列 + 异步执行
 
 - 可同时开启多线程，任务交替执行
 
@@ -589,6 +588,53 @@ dispatch_queue_t serQueue = dispatch_queue_create("test.queue", DISPATCH_QUEUE_C
 LQHelper[1389:56036] ---A---
 LQHelper[1389:56139] 发送信息
 LQHelper[1389:56036] ---B---
+```
+
+egg：
+
+```objective-c
+dispatch_semaphore_t signal;
+signal = dispatch_semaphore_create(1);
+__block long x = 0;
+NSLog(@"0_x:%ld",x);
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    NSLog(@"waiting");
+    x = dispatch_semaphore_signal(signal);
+    NSLog(@"1_x:%ld",x);
+
+    sleep(2);
+    NSLog(@"waking");
+    x = dispatch_semaphore_signal(signal);
+    NSLog(@"2_x:%ld",x);
+});
+//    dispatch_time_t duration = dispatch_time(DISPATCH_TIME_NOW, 1*1000*1000*1000); //超时1秒
+//    dispatch_semaphore_wait(signal, duration);
+
+x = dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+NSLog(@"3_x:%ld",x);
+
+x = dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+NSLog(@"wait 2");
+NSLog(@"4_x:%ld",x);
+
+x = dispatch_semaphore_wait(signal, DISPATCH_TIME_FOREVER);
+NSLog(@"wait 3");
+NSLog(@"5_x:%ld",x);
+```
+
+```objective-c
+输出结果：
+LHTest[15700:70b] 0_x:0
+LHTest[15700:70b] 3_x:0
+LHTest[15700:f03] waiting
+LHTest[15700:70b] wait 2
+LHTest[15700:f03] 1_x:1
+LHTest[15700:70b] 4_x:0
+LHTest[15700:f03] waking
+LHTest[15700:f03] 2_x:1
+LHTest[15700:70b] wait 3
+LHTest[15700:70b] 5_x:0
 ```
 
 **注意：**对于这样的阻塞线程的操作，最好不要放在主线程，除非特殊要求。我觉得这应该是我们用多线程开发的共识了。

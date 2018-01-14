@@ -36,7 +36,7 @@ categories: iOS Tips
       dispatch_block_t block);
   ```
 
-  ​	相比于 `dispatch_block_create` 函数，这种方式在创建 `block` 的同时可以指定了相应的优先级。`dispatch_qos_class_t` 是 `qos_class_t` 的别名，定义如下：
+  ​相比于 `dispatch_block_create` 函数，这种方式在创建 `block` 的同时可以指定了相应的优先级。`dispatch_qos_class_t` 是 `qos_class_t` 的别名，定义如下：
 
   ```objective-c
   #if __has_include(<sys/qos.h>)
