@@ -262,6 +262,442 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/iOS手势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/13/iOS手势/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T14:21:28+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/13/iOS手势/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/13/iOS手势/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>iOS的手势识别模型其实是一个状态机</strong><br>所有手势识别从一个可能状态(UIGestureRecognizerStatePossible)开始，然后开始分析、识别手势，如果识别失败将会进入失败状态 (UIGestureRecognizerStateFailed)。<br>如果识别成功，进入成功状态(UIGestureRecognizerStateRecognized)<br>对于连续性的手势，手势识别从Possible进入Began(UIGestureRecognizerStateBegan) ，然后会进入Change (UIGestureRecognizerStateChanged)状态，并在Change状态循环，在最后用户手指离开屏幕的时候会进入End(UIGestureRecognizerStateEnded)状态<br>连续手势也会从Change进入cancel (UIGestureRecognizerStateCancelled)，如果判断手势已经不符合该要求了。<br>每次Gesture recognizer改变状态的时候都会发送一个action message到target，知道Failed或者Cancel。<br>有时候会出现iOS判断该手势符合多个条件，而用户此时只想要其中一种，这个情况下可以调用 requireGestureRecognizerToFail: ，该方法会让当前手势对象根据指定对象状态来进行下一步操作。如果指定对象进入Begin状态，当前对象直接进入Failed；如果指定对象进入Failed或Cancel状态，当前对象会进入Begin状态。这里就涉及到了不同手势之间执行的问题。（如果想要单击和双击都要执行，并分别执行不同的逻辑，这里可以先让单机等待双击失败在执行，但这样会导致单击事件稍微延迟执行，因为单击事件需要等待双击事件失败）。<br>可以选择不让接收、分析手势事件，通过 gestureRecognizer:shouldReceiveTouch: 在最开始的时候允许、拒绝接收手势时间；如果想延后判断则可以通过 gestureRecognizerShouldBegin:，如果返回No则会导致Failed时间<br>如果想要同时接收两个事件，就调用gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer: 默认这个方法返回No，返回Yes则运行同时运行<br>单向影响，事件A和B， 如果想要让A影响B，但不想让B影响A，则可以通过重载方法 canPreventGestureRecognizer: 或者canBePreventedByGestureRecognizer:实现，比如<br>[rotationGestureRecognizer canPreventGestureRecognizer:pinchGestureRecognizer];<br>Touch事件传递过程是上到下，也就是从App-&gt;Window-&gt;View的过程<br>Touch事件，window会让Gesture recognizer优先分析touch对象，如果Gesture recognizer成功识别这些对象，touch事件就不会执行。总结就是Gesture recognizer的优先级会低于touch事件<br>影响touch传递给views<br>delaysTouchesBegan 阻止在Begin阶段Windows交付touch事件<br>delaysTouchesEnded Window不会在Enable阶段交付Touch事件<br>Gesture Recognizer是iOS定制的一些Touch事件类型，Dev可以订制自己的Gesture Recognizer，这里要继承UIGestureRecognizer并覆盖主要的四个类。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/React Native/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/10/React Native/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T12:41:53+08:00">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/10/React Native/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/10/React Native/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://www.jianshu.com/p/ff36c9dcf50b" target="_blank" rel="noopener">http://www.jianshu.com/p/ff36c9dcf50b</a></p>
+<p><a href="http://www.jianshu.com/p/5c0659ace329" target="_blank" rel="noopener">http://www.jianshu.com/p/5c0659ace329</a></p>
+<p><a href="http://www.tuicool.com/articles/qEJbAfy" target="_blank" rel="noopener">http://www.tuicool.com/articles/qEJbAfy</a></p>
+<p><a href="http://blog.163.com/huang_tai_shan/blog/static/25917911120168245653718/" target="_blank" rel="noopener">http://blog.163.com/huang_tai_shan/blog/static/25917911120168245653718/</a></p>
+<p><a href="http://www.jianshu.com/p/3dc9d70a790f" target="_blank" rel="noopener">http://www.jianshu.com/p/3dc9d70a790f</a>  集成到原生项目中</p>
+<p><a href="http://www.open-open.com/lib/view/open1463060059009.html" target="_blank" rel="noopener">http://www.open-open.com/lib/view/open1463060059009.html</a>   集成到原生项目中</p>
+<p><a href="http://www.tuicool.com/articles/BfInEv" target="_blank" rel="noopener">http://www.tuicool.com/articles/BfInEv</a> (配合这个创建自工程的方法<a href="http://www.open-open.com/lib/view/open1452090394558.html" target="_blank" rel="noopener">http://www.open-open.com/lib/view/open1452090394558.html</a>)集成到原生项目中</p>
+<p>记住一定要有  JavascriptCore.framework</p>
+<p>还有如果报错:”std::__1::mutex::~mutex()”, referenced from:       -[RCTModuleData .cxx_destruct] in libReact.a(RCT</p>
+<p>修改方法如图：</p>
+<p><img src="http://img.blog.csdn.net/20170228141159376" alt="img"></p>
+<p>如果cmd+R无法刷新 试试把模拟器的硬键盘打开</p>
+<p><a href="http://www.lcode.org/react-native-integrating/" target="_blank" rel="noopener">http://www.lcode.org/react-native-integrating/</a>  一个RN大拿</p>
+<p><a href="http://www.jianshu.com/u/9895046b765d" target="_blank" rel="noopener">http://www.jianshu.com/u/9895046b765d</a></p>
+<p><a href="http://www.jianshu.com/p/2b1c14f1a9a8" target="_blank" rel="noopener">http://www.jianshu.com/p/2b1c14f1a9a8</a>  打包</p>
+<p>示例应用：<a href="https://github.com/fbsamples/f8app" target="_blank" rel="noopener">https://github.com/fbsamples/f8app</a></p>
+<p><a href="http://www.tuicool.com/articles/bIz6Bnm" target="_blank" rel="noopener">http://www.tuicool.com/articles/bIz6Bnm</a>  去哪儿app的RN实践讲解</p>
+<p>Webstorm 破解版：<a href="http://www.jianshu.com/p/492309c60348" target="_blank" rel="noopener">http://www.jianshu.com/p/492309c60348</a></p>
+<p>react-native run-ios报错</p>
+<p>localhost:AwesomeProject allan$ react-native run-ios</p>
+<p>Found Xcode project AwesomeProject.xcodeproj</p>
+<p>xcrun: error: unable to find utility “instruments”, not a developer tool or in PATH</p>
+<p>Command failed: xcrun instruments -s</p>
+<p>xcrun: error: unable to find utility “instruments”, not a developer tool or in PATH</p>
+<p>解决办法：（注意前提是finder的应用程序中得有Xcode.app这个名字的Xcode）</p>
+<p>localhost:AwesomeProject allan$ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer/</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/2017个人总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/08/2017个人总结/" itemprop="url">2017个人总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T18:30:00+08:00">
+                2018-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/总结/" itemprop="url" rel="index">
+                    <span itemprop="name">总结</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/08/2017个人总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/08/2017个人总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/移除构建版本和测试员/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -364,7 +800,7 @@
 
       
         
-          <p>对于一个外包公司或个人开发者来说，转让APP是再平常不过的事了，相信很多人都有过转让APP的经历，今天要说的就是在转让APP的过程中遇到的一个问题，之前转让过不少APP，都很顺利（除有一个由于苹果的问题导致无限失联的个例外），最近需要转让一个APP，然后就按照之前的步骤开始了，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：</p>
+          <p>​    之前没有转让过APP，在这里记录一下转让App过程中遇到的一个问题，最近需要转让一个APP，然后就按照之前的步骤开始了(流程请看App主体转移)，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/28/移除构建版本和测试员/#more" rel="contents">
@@ -521,8 +957,8 @@
       
         
           <p>下面是我的执行步骤</p>
-<p>首先在iTunes Connect中找到要更换开发者账号的app，点击其中的转让app</p>
-<p><img src="http://images2015.cnblogs.com/blog/758551/201510/758551-20151013162239460-1909213247.png" alt="img"></p>
+<p>1.首先在iTunes Connect中找到要更换开发者账号的app，点击其中的转让app</p>
+<p><img src="/images/2018_01_09_App transfer_1.png" alt="img"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/27/App主体转移/#more" rel="contents">
@@ -678,106 +1114,15 @@
 
       
         
-          
-            <h4 id="Jenkins自动打包IOS与分发fir"><a href="#Jenkins自动打包IOS与分发fir" class="headerlink" title="Jenkins自动打包IOS与分发fir"></a>Jenkins自动打包IOS与分发fir</h4><p>周末看了《大话测试2》突然有想法把公司的IOS打包做一下自动打包和分发，于是今天就开始行动啦！</p>
-<h5 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h5><p>CI（持续集成）是现在非常流行的软件开发实践，可以自动化的持续打包部署代码或者安装包，减少了手工干预，大大的提高了工作效率，因此，不论如何，都需要对它做一些了解和实践。</p>
+          <h4 id="Jenkins自动打包IOS与分发fir"><a href="#Jenkins自动打包IOS与分发fir" class="headerlink" title="Jenkins自动打包IOS与分发fir"></a>Jenkins自动打包IOS与分发fir</h4><h5 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h5><p>CI（持续集成）是现在非常流行的软件开发实践，可以自动化的持续打包部署代码或者安装包，减少了手工干预，大大的提高了工作效率，因此，不论如何，都需要对它做一些了解和实践。</p>
 <p>每次开发完，我们要做的是先找开发打包，打完包后拿来放到fir.im上，再生成二维码，最后把二维码做到我们内部分发的网站上分发，然后才能开始测试。整个流程很长，如果当天有很多小问题不断的修复，那感觉真是坑爹，一两个小时时间就浪费在这个过程上。使用CI能够很好的解决这个问题。</p>
-<h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h5><p>我使用的是现在使用比较普遍的Jenkins。打包的对象是IOS。所以首先，你必须有一个Mac。</p>
-<blockquote>
-<p>操作系统：Mac OS X EI Caption 10.11.5<br>Jenkins版本：2.17</p>
-</blockquote>
-<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>Jenkins的安装非常简单了，只要直接安装DMG就行了。安装完毕之后，进入<em><a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></em>就可以看到Jenkins的配置界面了，由于是Web端配置，所以使用起来非常友好。</p>
-<p>一下两个命令可能会经常用到，由于安装Jenkins的时候，默认是自动启动的，有时候为了减少不必要的资源消耗，可以关闭Jenkins。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Start Jenkins: sudo launchctl load /Library/LaunchDaemons/org<span class="selector-class">.jenkins-ci</span><span class="selector-class">.plist</span></span><br><span class="line">Stop Jenkins: sudo launchctl unload /Library/LaunchDaemons/org<span class="selector-class">.jenkins-ci</span><span class="selector-class">.plist12</span></span><br></pre></td></tr></table></figure>
-<p>第一条命令是启动，第二条命令是关闭。</p>
-<h5 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h5><p>本次使用Jenkins的工作流如下图所示（Jenkins不仅仅只有这些功能，这些只是本次使用的功能）</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-Jenkins%E5%B7%A5%E4%BD%9C%E6%B5%81-1.png" alt="Jenkins工作流"></p>
-<h4 id="构建工程"><a href="#构建工程" class="headerlink" title="构建工程"></a>构建工程</h4><p>使用Jenkins部署打包IOS程序有一个最大的前提，就是你必须要有一个Mac，否则免谈。</p>
-<p>Jenkins的安装就不说了，百度一下一大堆，首先要新建一个自由风格的项目。</p>
-<h5 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h5><p>项目名称和描述都是给自己看的，因此可以凭自己的喜好填写，只要自己能看得懂即可。接下来的构建方式我并没有使用，因为对我来说确实用不到，应用打包完成上传fir.im之后，基本上这个包就可以丢弃了。有需要的可以按需选择。</p>
-<p>源码管理，我选择SVN，其他也是一样的，配置仓库地址和账户。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713489712796.jpg" alt="img"></p>
-<p><em>Credentials</em>是用户，右侧的ADD按钮可以添加用户，其他项默认配置即可。</p>
-<p>构建触发器也是非必须选项，如果不配置则需要手工触发，我这里配置5分钟检查一次代码仓库。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713490615348.jpg" alt="img"></p>
-<p>具体的配置规则百度即可。</p>
-<p>接下来是Xcode的配置，IOS打包有两种方式，一种是命令行打包，直接写打包脚本即可。另一种是Jenkins的Xcode插件来实现打包。我使用的是Xcode插件来配置，因为我们的开发说他对项目的工程架构有做过改动，我也尝试过一下使用命令行，由于对shell一窍不通，所以还是放弃了。</p>
-<ul>
-<li>Xcode插件——General build settings</li>
-</ul>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713495959005.jpg" alt="img"></p>
-<p><code>Target</code>是构建的目标。如果留空，那么就会构建所有的目标。</p>
-<p><code>Clean before build</code>这个选项建议勾选，构建之前最好Clean一下，至于为什么，我也不知道，我们开发之前打包的时候没有Clean，有时候会出一些莫名其妙的bug。</p>
-<p><code>Configuration</code>此处填写Release或者Debug，指的是IOS打包的类型，Debug版本还是Release版本。</p>
-<p><code>Pack application and build .ipa</code>需要打钩，因为我们需要打包成ipa文件来安装。</p>
-<p><code>ipa filename pattern</code>打包成ipa文件的名称，就是最终的xxx.ipa。</p>
-<p><code>Output directory</code>打包输出的路径，我这里填写的<code>${WORKSPACE}</code>指的是<code>/Users/Shared/Jenkins/Home/workspace</code></p>
-<p>其他项我使用的都是默认的，需要的请自己研究，项目右侧的问号都有很明确的提示，唯一不爽的就是提示都是英文的。。。。。</p>
-<ul>
-<li>Xcode插件——Code signing &amp; OS X keychain options</li>
-</ul>
-<p>这部分应该算是比较重要的地方，因为这里是配置打包签名的地方。</p>
-<p>首先需要在钥匙串访问中找到开发者证书对证书进行权限开放，否则Jenkins无法获取证书。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713504489601.jpg" alt="img"></p>
-<p>然后在配置项中做如下配置。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713505500822.jpg" alt="img"></p>
-<p><code>Keychain path</code>是固定填写<em>${HOME}/Library/Keychains/login.keychain</em></p>
-<p><code>Keychain password</code>指的是你的授权密码，不是证书密码。</p>
-<p>注意：<em>${HOME}</em>目录指的是Jenkins的根目录，也就是<em>/Users/Shared/Jenkins</em>，如果你的jenkins是新装的，你会发现Library目录中压根就没有Keychains目录。你需要去<em>/Users/SvenWeng/Library</em>目录下把Keychains目录复制过来。</p>
-<ul>
-<li>Xcode插件——Advanced Xcode build options</li>
-</ul>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713511269062.jpg" alt="img"></p>
-<p><code>Xcode Project File</code>是项目的地址，xxx.xcodeproj的地址。</p>
-<p><code>Build output directory</code>是构建后的输出地址，我这里设置于ipa文件地址一致。</p>
-<p>注意：如果你的项目是使用<em>.workspace</em>。请使用<code>Xcode Workspace File</code>，留空<code>Xcode Project File</code>.</p>
-<p>到此，Xcode插件的配置就完成了。</p>
-<h5 id="构建后执行"><a href="#构建后执行" class="headerlink" title="构建后执行"></a>构建后执行</h5><p>这里我使用了<code>Post-Build Script Plug-in</code>插件。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713515952747.jpg" alt="img"></p>
-<p>进入我们构建后的目录，使用fir-cli的命令把打包后的ipa文件上传到fir.im上，其中<code>-T</code>参数是使用fir.im的token，可以注册后登陆fir.im查看自己的token。<code>-Q</code>参数是上传完毕之后把对应的二维码下载到当前目录下。</p>
-<p>下方还有一个勾选项<code>Execute script only if build succeeds</code>。构建成功才执行这个命令，也就避免了重复上传的问题。</p>
-<h5 id="邮件通知"><a href="#邮件通知" class="headerlink" title="邮件通知"></a>邮件通知</h5><p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713518531932.jpg" alt="img"></p>
-<p>我使用的是Jenkins自带的邮件功能，看勾选的结果是构建失败才会发送邮件，经过我自己的测试，构建成功也能收到邮件，不过我配置的163服务邮箱经常坑爹的拒绝我使用smtp发送邮件。</p>
-<p>邮件的内容还是比较人性化的，比如如果档次构建SVN有变动，Jenkins会把变动日志和打包的日志一起发给你，比如这样</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713523250962.jpg" alt="img"></p>
-<p>至此，整个构建就结束了，可以手工触发来看看结果。</p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713519707240.jpg" alt="img"></p>
-<p>蓝色表示构建成功，红色表示构建失败。</p>
-<h4 id="一些注意点"><a href="#一些注意点" class="headerlink" title="一些注意点"></a>一些注意点</h4><p>配置过程中总是会出这样那样奇奇怪怪的错误。我整理了一下我自己遇到的问题。</p>
-<ul>
-<li>scheme name是什么鬼</li>
-</ul>
-<p>好吧，其实我也不太了解，翻译上是计划名称。其实这个是Xcode的一个配置（不知道这么说准确不准确）。进入方式：<em>Xcode menu &gt; Product &gt; Scheme &gt; Edit scheme</em>点击<em>Manage Scheme</em></p>
-<p><img src="http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713527408190.jpg" alt="img"></p>
-<p>被我框起来涂掉的地方就是Scheme名称。</p>
-<ul>
-<li>Code Sign error: No matching provisioning profile found: Your build settings specify a provisioning profile with the UUID “XXXXX”, however, no such provisioning profile was found.</li>
-</ul>
-<p>这个报错还是由于证书的问题，Xcode工程的证书放在<em>/Users/SvenWeng/Library/MobileDevice/Provisioning Profiles</em>这里，而Jenkins的根目录是没有这个东西的，之前我放的是一个错的证书，所以导致了这样的报错。需要把工程证书拷贝到Jenkins根目录下的<em>Library</em>中。</p>
-<ul>
-<li>FATAL: Unable to unlock the keychain.</li>
-</ul>
-<p>这个报错是由于你解锁<em>keychain</em>的密码不正确，在配置项中需要配置授权密码（也就是你的mac的登录密码），而不是证书的密码。</p>
-<ul>
-<li>xcodebuild: error: ‘./workspace/.xcworkspace’ does not exist.</li>
-</ul>
-<p>这个报错很明显了，我的工程使用的是<em>.xcodeproj</em>，而不是<em>.scworkspace</em>，因此在Xcode插件配置的时候需要配置<code>Xcode Project File</code>而不是<code>Xcode Workspace File</code></p>
-<ul>
-<li>ERROR: Failed to update svn://xxxx<br>org.tmatesoft.svn.core.SVNException: svn: E204899: Cannot create new file ‘/Users/Shared/Jenkins/Home/workspace/HLSC/.xcodeproj/.svn/lock’: No such file or directory</li>
-</ul>
-<p>这个报错也很明显了，是SVN配置的有问题。</p>
-<ul>
-<li>xcodebuild: error: The project ‘xxx.xcodeproj’ does not contain a target named ‘XXX’.</li>
-</ul>
-<p>这个报错是target named指定错误，检查一下Xcode的工程是否有相关配置，我报这个错是因为正确的名字是xxx_iOS,而我打成了xxx_IOS，就是一个大小写的区别。</p>
-<h4 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h4><p>后续可以做的事很多啦，比如写个Python脚本来处理本地的文件，把打包的内容做一下归档，然后生成的二维码通过FTP方式上传到内部的分发网站上。编写自动化单元测试，每次代码改动的时候做一下自动化测试，把Android客户端也用这种方式自动打包出来等等。。。。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>持续集成看上去很高大上，其实走一遍流程，也并不是那么困难，困难的地方Jenkins都帮你处理好了。</p>
-<p>配置的时候如果是IOS开发人员，或者对IOS有一定的了解，那么配置起来应该是非常快的，否则最好有一个人来指导你，今天配置的时候我们的IOS开发总能在关键点上给一个方向，省去很多时间，不然现在可能都还配不出来，很多报错网络上找不到，即使找到了，大多也是英文的，虽然看得懂，但是看起来总是有点不爽。</p>
-<p>耐心，耐心，耐心，在配置过程中一定会有各种各样奇奇怪怪的报错，有时候看起来很烦，但是一定要有耐心，多静下心来想想，多看看日志，日志的报错一般来说都是非常清晰准确的。</p>
-<p>多尝试，配置完就构建一次，反正构建失败了，电脑不会爆炸，世界也不会毁灭。整个配置过程构建失败了30次，直到第三十一次才构建成功。</p>
-<p>当完成之后，可以省去很多很多很多处理这些杂事的时间。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/26/Jenkins自动打包IOS/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1094,10 +1439,9 @@
 
       
         
-          <h3 id="iOS开发-友盟统计使用笔记"><a href="#iOS开发-友盟统计使用笔记" class="headerlink" title="iOS开发-友盟统计使用笔记"></a>iOS开发-友盟统计使用笔记</h3><p>一般项目中集成统计功能随因产品类型不同而使用功能不同，但大多数统计一般只有一个目的，就是记录用户习惯，研究用户习惯，从而为用户带来更好的体验。<br>这里记录一下之前在项目中使用友盟统计时的过程和踩过的坑。<br>话不多说，开整。</p>
+          <h3 id="iOS开发-友盟统计使用笔记"><a href="#iOS开发-友盟统计使用笔记" class="headerlink" title="iOS开发-友盟统计使用笔记"></a>iOS开发-友盟统计使用笔记</h3><p>一般项目中集成统计功能随因产品类型不同而使用功能不同，但大多数统计一般只有一个目的，就是记录用户习惯，研究用户习惯，从而为用户带来更好的体验。<br>这里记录一下之前在项目中使用友盟统计时的过程和踩过的坑。 </p>
 <h4 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h4><p>在使用前，准备好如下几点</p>
 <ul>
-<li>需要继承统计功能的iOS项目。（这是一句废话）</li>
 <li>申请友盟后台账号。</li>
 <li>在账号中选择统计功能，并添加新应用，从而获取AppKey。注册步骤参考<a href="http://dev.umeng.com/analytics/ios-doc/integration" target="_blank" rel="noopener">友盟官方文档</a>。</li>
 </ul>
@@ -1108,158 +1452,6 @@
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/2017个人总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="iLeo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/2017个人总结/" itemprop="url">2017个人总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T18:30:00+08:00">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/总结/" itemprop="url" rel="index">
-                    <span itemprop="name">总结</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/21/2017个人总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/21/2017个人总结/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>测试测试8：42</p>
-
-          
         
       
     </div>
@@ -1606,326 +1798,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/10/NSThread简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="iLeo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/10/NSThread简介/" itemprop="url">NSThread简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-10T14:12:00+08:00">
-                2017-12-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/10/NSThread简介/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/10/NSThread简介/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="1-pthread"><a href="#1-pthread" class="headerlink" title="1 pthread"></a>1 pthread</h4><p>​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。</p>
-<blockquote>
-<p>POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标准，定义了创建和操纵线程的一套API。实现POSIX 线程标准的库常被称作Pthreads，一般用于Unix-like POSIX 系统，如Linux、Solaris。但是Microsoft Windows上的实现也存在，例如直接使用Windows API实现的第三方库pthreads-w32；而利用Windows的SFU/SUA子系统，则可以使用微软提供的一部分原生POSIX API。</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/10/NSThread简介/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/GCD方法注释/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="iLeo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/09/GCD方法注释/" itemprop="url">GCD学习 —— 四</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T11:36:00+08:00">
-                2017-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/09/GCD方法注释/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/09/GCD方法注释/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="GCD方法注释"><a href="#GCD方法注释" class="headerlink" title="GCD方法注释"></a>GCD方法注释</h4><ul>
-<li><code>Dispatch Queues</code> 中的任务按照FIFO的顺序进行处理，并且，由于加入任务的方式不同，执行分为同步／异步。</li>
-<li><code>Dispatch Groups</code> 可以帮助我们处理如何判断多线程全部执行结束的问题</li>
-<li><code>Dispatch Semaphores</code> 帮助我们控制多任务对有限数量资源的访问</li>
-<li><code>Dispatch Objects</code> 帮助我们对线程队列进行更加细致的控制（挂起、恢复、取消、激活等操作）</li>
-<li><code>Dispatch Once</code> 可以帮助我们确保某个函数只执行一次，可用于单例的实现</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/09/GCD方法注释/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1980,7 +1852,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

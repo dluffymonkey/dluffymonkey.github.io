@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="对于一个外包公司或个人开发者来说，转让APP是再平常不过的事了，相信很多人都有过转让APP的经历，今天要说的就是在转让APP的过程中遇到的一个问题，之前转让过不少APP，都很顺利（除有一个由于苹果的问题导致无限失联的个例外），最近需要转让一个APP，然后就按照之前的步骤开始了，哪知刚点了第一步的“转让”按钮问题就来了，">
+<meta name="description" content="​    之前没有转让过APP，在这里记录一下转让App过程中遇到的一个问题，最近需要转让一个APP，然后就按照之前的步骤开始了(流程请看App主体转移)，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="移除构建版本和测试员">
 <meta property="og:url" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/index.html">
 <meta property="og:site_name" content="Monkey·D·Luffy">
-<meta property="og:description" content="对于一个外包公司或个人开发者来说，转让APP是再平常不过的事了，相信很多人都有过转让APP的经历，今天要说的就是在转让APP的过程中遇到的一个问题，之前转让过不少APP，都很顺利（除有一个由于苹果的问题导致无限失联的个例外），最近需要转让一个APP，然后就按照之前的步骤开始了，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：">
+<meta property="og:description" content="​    之前没有转让过APP，在这里记录一下转让App过程中遇到的一个问题，最近需要转让一个APP，然后就按照之前的步骤开始了(流程请看App主体转移)，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_1.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_2.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_3.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_4.png">
-<meta property="og:updated_time" content="2018-01-14T12:40:40.635Z">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_28_bulid_1.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_28_bulid_2.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_28_bulid_3.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_28_bulid_4.png">
+<meta property="og:updated_time" content="2018-01-09T06:33:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="移除构建版本和测试员">
-<meta name="twitter:description" content="对于一个外包公司或个人开发者来说，转让APP是再平常不过的事了，相信很多人都有过转让APP的经历，今天要说的就是在转让APP的过程中遇到的一个问题，之前转让过不少APP，都很顺利（除有一个由于苹果的问题导致无限失联的个例外），最近需要转让一个APP，然后就按照之前的步骤开始了，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_1.png">
+<meta name="twitter:description" content="​    之前没有转让过APP，在这里记录一下转让App过程中遇到的一个问题，最近需要转让一个APP，然后就按照之前的步骤开始了(流程请看App主体转移)，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：">
+<meta name="twitter:image" content="http://yoursite.com/images/2017_12_28_bulid_1.png">
 
 
 
@@ -367,15 +367,16 @@
       
 
       
-        <p>对于一个外包公司或个人开发者来说，转让APP是再平常不过的事了，相信很多人都有过转让APP的经历，今天要说的就是在转让APP的过程中遇到的一个问题，之前转让过不少APP，都很顺利（除有一个由于苹果的问题导致无限失联的个例外），最近需要转让一个APP，然后就按照之前的步骤开始了，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：</p>
+        <p>​    之前没有转让过APP，在这里记录一下转让App过程中遇到的一个问题，最近需要转让一个APP，然后就按照之前的步骤开始了(流程请看App主体转移)，哪知刚点了第一步的“转让”按钮问题就来了，界面如下：</p>
 <a id="more"></a>
-<p><img src="/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_1.png" alt="1"></p>
-<p>最后一条不符合条件，说有测试版本没有移除，好吧，其实我并没有添加什么测试版本，不知道是不是现在默认会把提交的版本加入到测试版本，这个不是重点，重点是这个问题的解决方法，问题的原因已经很清楚了，就是因为存在测试版本，那么解决的方法也就出来了：删除测试构建版本。具体步骤如下：1.点击“TestFlight”找到所有的测试构建版本，如下图所示。</p>
-<p><img src="/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_2.png" alt="1"></p>
+<p><img src="/images/2017_12_28_bulid_1.png" alt="1"></p>
+<p>最后一条不符合条件，说有测试版本没有移除，好吧，其实我并没有添加什么测试版本，不知道是不是现在默认会把提交的版本加入到测试版本，这个不是重点，重点是这个问题的解决方法，问题的原因已经很清楚了，就是因为存在测试版本，那么解决的方法也就出来了：删除测试构建版本。具体步骤如下：</p>
+<p>1.点击“TestFlight”找到所有的测试构建版本，如下图所示。</p>
+<p><img src="/images/2017_12_28_bulid_2.png" alt="1"></p>
 <p>2.点击进入到每个构建版本里面去，出现构建版本的详细信息界面，如下图。</p>
-<p><img src="/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_3.png" alt="1"></p>
+<p><img src="/images/2017_12_28_bulid_3.png" alt="1"></p>
 <p>3.点击右上角的“将构建版本设为过期”按钮，即可将该构建版本成功移除。以此类推，将所有的构建版本移除。这样再回到转让界面点击“转让”按钮后就可以正常进行转让操作了。</p>
-<p><img src="/2017/12/28/移除构建版本和测试员/2017_12_28_bulid_4.png" alt="1"></p>
+<p><img src="/images/2017_12_28_bulid_4.png" alt="1"></p>
 
       
     </div>
@@ -415,6 +416,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/08/2017个人总结/" rel="prev" title="2017个人总结">
+                2017个人总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +498,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

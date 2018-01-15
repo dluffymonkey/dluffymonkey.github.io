@@ -113,7 +113,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20170401104506741?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170401104534710?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170401104608341?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQ1ODgwOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2018-01-14T12:40:40.635Z">
+<meta property="og:updated_time" content="2018-01-09T08:57:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS自动化打包脚本">
 <meta name="twitter:description" content="iOS自动化打包脚本(shell)本脚本主要作用为代替人工打包app，导出ipa包并安装的过程，如果是AppStore方式，会自动上传AppStore，不需要手动管理。 如需使用自动安装ipa功能，需要进行一些额外的环境配置。 打开autoarchive.sh脚本 主要配置如上图 projectName为当前待打包工程的工名 下面有四种类型，分别代表打包使用的证书类型，此类型可添加，删除等。">
@@ -664,6 +664,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -archivePath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/Debug-iphoneos/APPNAME.xcarchive&quot; -project APPNAME.xcodeproj -sdk iphoneos -scheme &quot;SCHEMENAME&quot; -configuration &quot;Debug&quot; archive</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive -archivePath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/Debug-iphoneos/BasketballLeague.xcarchive&quot; -exportPath &quot;/Users/USERNAME/.jenkins/workspace/APPNAME/build/APPNAME_debug&quot; -exportOptionsPlist &apos;/Users/USERNAME/.jenkins/workspace/APPNAME/build/ExportOptions.plist&apos; -allowProvisioningUpdates</span><br></pre></td></tr></table></figure>
 <p>如果是 workspace 的项目，那就将上面第一段的命令中 -project APPNAME.xcodeproj 修改为 -workspace APPNAME.xcworkspace 即可。</p>
 </li>
+<li><p>Permission denied</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原因：当前开发帐号对项目目录没有足够的权限解决： 打开终端，输入命令 sudo chmod -R 777 工作目录 sudo chmod -R 777 /Users/路径</span><br><span class="line"></span><br><span class="line">把py文件的最上面2句话改成</span><br><span class="line"># !/bin/bash</span><br><span class="line">#coding:utf-8(解决中文编码问题)</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
 </ol>
 
       
@@ -795,7 +799,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

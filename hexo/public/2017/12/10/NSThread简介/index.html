@@ -87,15 +87,15 @@
 <meta property="og:site_name" content="Monkey·D·Luffy">
 <meta property="og:description" content="1 pthread​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。  POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_one.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_two.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_three.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_four.png">
-<meta property="og:updated_time" content="2018-01-14T12:40:40.620Z">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08_thread_one.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08_thread_two.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08_thread_three.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08_thread_four.png">
+<meta property="og:updated_time" content="2018-01-09T06:23:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSThread简介">
 <meta name="twitter:description" content="1 pthread​    pthread简单介绍下，pthread是一套通用的多线程的API，可以在Unix / Linux / Windows 等系统跨平台使用，使用C语言编写，需要程序员自己管理线程的生命周期，使用难度较大，所以我们在iOS开发中几乎不使用pthread，简单了解下就可以了。  POSIX线程（英语：POSIX Threads，常被缩写为Pthreads）是POSIX的线程标">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/10/NSThread简介/2017_12_08_thread_one.png">
+<meta name="twitter:image" content="http://yoursite.com/images/2017_12_08_thread_one.png">
 
 
 
@@ -410,10 +410,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 线程进入死亡状态</span><br><span class="line">+ (void)exit;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h5 id="2-4-线程的状态转换"><a href="#2-4-线程的状态转换" class="headerlink" title="2.4 线程的状态转换"></a>2.4 线程的状态转换</h5><p>​    当我们新建一条线程<code>NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</code>，在内存中的表现为：    <img src="/2017/12/10/NSThread简介/2017_12_08_thread_one.png" alt="1">    当调用<code>[thread start];</code>后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。</p>
-<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_two.png" alt="2"></p>
+<h5 id="2-4-线程的状态转换"><a href="#2-4-线程的状态转换" class="headerlink" title="2.4 线程的状态转换"></a>2.4 线程的状态转换</h5><p>​    当我们新建一条线程<code>NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];</code>，在内存中的表现为：    <img src="/images/2017_12_08_thread_one.png" alt="1">    当调用<code>[thread start];</code>后，系统把线程对象放入可调度线程池中，线程对象进入就绪状态，如下图所示。</p>
+<p><img src="/images/2017_12_08_thread_two.png" alt="2"></p>
 <p>​    当然，可调度线程池中，会有其他的线程对象，如下图所示。在这里我们只关心左边的线程对象。</p>
-<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_three.png" alt="3"></p>
+<p><img src="/images/2017_12_08_thread_three.png" alt="3"></p>
 <p><strong>下边我们来看看当前线程的状态转换。</strong></p>
 <ul>
 <li>如果CPU现在调度当前线程对象，则当前线程对象进入运行状态，如果CPU调度其他线程对象，则当前线程对象回到就绪状态。</li>
@@ -424,7 +424,7 @@
 <ul>
 <li>如果CPU在运行当前线程对象的时候线程任务执行完毕\异常强制退出，则当前线程对象进入死亡状态。</li>
 </ul>
-<p><img src="/2017/12/10/NSThread简介/2017_12_08_thread_four.png" alt="4"></p>
+<p><img src="/images/2017_12_08_thread_four.png" alt="4"></p>
 <h4 id="3-线程同步"><a href="#3-线程同步" class="headerlink" title="3 线程同步"></a>3 线程同步</h4><h5 id="3-1-第一种方式-synchronized-对象-关键字"><a href="#3-1-第一种方式-synchronized-对象-关键字" class="headerlink" title="3.1 第一种方式@synchronized(对象)关键字"></a>3.1 第一种方式@synchronized(对象)关键字</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-(void)taskRun</span><br><span class="line">&#123;</span><br><span class="line">    while (count&gt;0) &#123;</span><br><span class="line">        @synchronized(self) &#123; // 需要锁定的代码</span><br><span class="line">            [NSThread sleepForTimeInterval:0.1];</span><br><span class="line">            count--;</span><br><span class="line">            NSLog(@&quot;threadName:%@ count:%d &quot;,[NSThread currentThread].name, count);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="3-2-第二种方式NSLock同步锁"><a href="#3-2-第二种方式NSLock同步锁" class="headerlink" title="3.2 第二种方式NSLock同步锁"></a>3.2 第二种方式NSLock同步锁</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">threadLock = [[NSLock alloc] init];</span><br></pre></td></tr></table></figure>
 <p>然后在需要加锁的代码块开始时调用 lock函数 在结束时调用unLock函数</p>
@@ -571,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

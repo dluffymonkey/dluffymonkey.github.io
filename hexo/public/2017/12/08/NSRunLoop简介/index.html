@@ -87,18 +87,18 @@
 <meta property="og:site_name" content="Monkey·D·Luffy">
 <meta property="og:description" content="1 RunLoop简介1.1 什么是RunLoop？可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。 RunLoop实际上是一个对象，这个对象在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI刷新事件、定时器事件、Selector事件），从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省CPU资源，提高程序性能。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_1.jpg">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_2.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_3.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_4.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_5.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_6.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_7.png">
-<meta property="og:updated_time" content="2018-01-14T12:40:40.619Z">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_2.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_3.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_4.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_5.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_6.png">
+<meta property="og:image" content="http://yoursite.com/images/2017_12_08RunLoop_7.png">
+<meta property="og:updated_time" content="2018-01-09T06:23:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSRunLoop简介">
 <meta name="twitter:description" content="1 RunLoop简介1.1 什么是RunLoop？可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。 RunLoop实际上是一个对象，这个对象在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI刷新事件、定时器事件、Selector事件），从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省CPU资源，提高程序性能。">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_1.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/2017_12_08RunLoop_1.jpg">
 
 
 
@@ -386,7 +386,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;        </span><br><span class="line">    BOOL running = YES;</span><br><span class="line">    do &#123;</span><br><span class="line">        // 执行各种任务，处理各种事件</span><br><span class="line">        // ......</span><br><span class="line">    &#125; while (running);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从上边可看出，程序一直在do-while循环中执行，所以UIApplicationMain函数一直没有返回，我们在运行程序之后程序不会马上退出，会保持持续运行状态。</p>
 <p>下图是苹果官方给出的RunLoop模型图。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_1.jpg" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_1.jpg" alt="1"></p>
 <p>从上图中可以看出，RunLoop就是线程中的一个循环，RunLoop在循环中会不断检测，通过Input sources（输入源）和Timer sources（定时源）两种来源等待接受事件；然后对接受到的事件通知线程进行处理，并在没有事件的时候进行休息。</p>
 <h4 id="2-RunLoop相关类"><a href="#2-RunLoop相关类" class="headerlink" title="2 RunLoop相关类"></a>2 RunLoop相关类</h4><p>下面我们来了解一下Core Foundation框架下关于RunLoop的5个类，只有弄懂这几个类的含义，我们才能深入了解RunLoop运行机制。</p>
 <ul>
@@ -397,7 +397,7 @@
 <li>5 CFRunLoopObserverRef：观察者，能够监听RunLoop的状态改变</li>
 </ul>
 <p>下边详细讲解下几种类的具体含义和关系。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_2.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_2.png" alt="1"></p>
 <p>一个RunLoop对象（CFRunLoopRef）中包含若干个运行模式（CFRunLoopModeRef）。而每一个运行模式下又包含若干个输入源（CFRunLoopSourceRef）、定时源（CFRunLoopTimerRef）、观察者（CFRunLoopObserverRef）。</p>
 <ul>
 <li>每次RunLoop启动时，只能指定其中一个运行模式（CFRunLoopModeRef），这个运行模式（CFRunLoopModeRef）被称作CurrentMode。</li>
@@ -479,15 +479,15 @@
 <li><p>1 在我们的项目中的Main.storyboard中添加一个Button按钮，并添加点击动作。</p>
 </li>
 <li><p>2 然后在点击动作的代码中加入一句输出语句，并打上断点，如下图所示：</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_3.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_3.png" alt="1"></p>
 </li>
 <li><p>3 然后运行程序，并点击按钮。</p>
 </li>
 <li><p>4 然后在项目中单击下下图红色部分。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_4.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_4.png" alt="1"></p>
 </li>
 <li><p>5 可以看到如下图所示就是点击事件产生的函数调用栈。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_5.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_5.png" alt="1"></p>
 </li>
 </ul>
 <p>所以点击事件是这样来的：</p>
@@ -505,12 +505,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 创建观察者</span><br><span class="line">CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) &#123;</span><br><span class="line">    NSLog(@&quot;监听到RunLoop发生改变---%zd&quot;,activity);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 添加观察者到当前RunLoop中</span><br><span class="line">CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);</span><br><span class="line"></span><br><span class="line">// 释放observer，最后添加完需要释放掉</span><br><span class="line">CFRelease(observer);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>然后运行，看下打印结果，如下图。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_6.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_6.png" alt="1"></p>
 <p>可以看到RunLoop的状态在不断的改变，最终变成了状态 32，也就是即将进入睡眠状态，说明RunLoop之后就会进入睡眠状态。</p>
 </li>
 </ol>
 <h4 id="3-RunLoop原理"><a href="#3-RunLoop原理" class="headerlink" title="3  RunLoop原理"></a>3  RunLoop原理</h4><p>下面我们就可以来理解RunLoop的运行逻辑了。</p>
-<p><img src="/2017/12/08/NSRunLoop简介/2017_12_08RunLoop_7.png" alt="1"></p>
+<p><img src="/images/2017_12_08RunLoop_7.png" alt="1"></p>
 <p>在每次运行开启RunLoop的时候，所在线程的RunLoop会自动处理之前未处理的事件，并且通知相关的观察者。</p>
 <p>具体的顺序如下：</p>
 <ol>
@@ -681,7 +681,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
