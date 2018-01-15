@@ -557,3 +557,15 @@ uploadSymbols : Bool
 
    如果是 workspace 的项目，那就将上面第一段的命令中 -project APPNAME.xcodeproj 修改为 -workspace APPNAME.xcworkspace 即可。
 
+10. Permission denied
+
+   ```objective-c
+   原因：当前开发帐号对项目目录没有足够的权限解决： 打开终端，输入命令 sudo chmod -R 777 工作目录 sudo chmod -R 777 /Users/路径
+
+   把py文件的最上面2句话改成
+   # !/bin/bash
+   #coding:utf-8(解决中文编码问题)
+   ```
+
+   ​
+

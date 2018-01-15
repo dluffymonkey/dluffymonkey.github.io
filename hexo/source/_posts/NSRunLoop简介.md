@@ -54,7 +54,7 @@ int main(int argc, char * argv[]) {
 
 下图是苹果官方给出的RunLoop模型图。
 
-![1](_PostPicture/2017_12_08RunLoop_1.jpg)
+![1](/images/2017_12_08RunLoop_1.jpg)
 
 从上图中可以看出，RunLoop就是线程中的一个循环，RunLoop在循环中会不断检测，通过Input sources（输入源）和Timer sources（定时源）两种来源等待接受事件；然后对接受到的事件通知线程进行处理，并在没有事件的时候进行休息。
 
@@ -70,7 +70,7 @@ int main(int argc, char * argv[]) {
 
 下边详细讲解下几种类的具体含义和关系。
 
-![1](_PostPicture/2017_12_08RunLoop_2.png)
+![1](/images/2017_12_08RunLoop_2.png)
 
 一个RunLoop对象（CFRunLoopRef）中包含若干个运行模式（CFRunLoopModeRef）。而每一个运行模式下又包含若干个输入源（CFRunLoopSourceRef）、定时源（CFRunLoopTimerRef）、观察者（CFRunLoopObserverRef）。
 
@@ -184,17 +184,17 @@ CFRunLoopSourceRef是事件源（RunLoop模型图中提到过），CFRunLoopSour
 
 - 2 然后在点击动作的代码中加入一句输出语句，并打上断点，如下图所示：
 
-  ![1](_PostPicture/2017_12_08RunLoop_3.png)
+  ![1](/images/2017_12_08RunLoop_3.png)
 
 - 3 然后运行程序，并点击按钮。
 
 - 4 然后在项目中单击下下图红色部分。
 
-  ![1](_PostPicture/2017_12_08RunLoop_4.png)
+  ![1](/images/2017_12_08RunLoop_4.png)
 
 - 5 可以看到如下图所示就是点击事件产生的函数调用栈。
 
-  ![1](_PostPicture/2017_12_08RunLoop_5.png)
+  ![1](/images/2017_12_08RunLoop_5.png)
 
 所以点击事件是这样来的：
 
@@ -239,7 +239,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
 2. 然后运行，看下打印结果，如下图。
 
-   ![1](_PostPicture/2017_12_08RunLoop_6.png)
+   ![1](/images/2017_12_08RunLoop_6.png)
 
    可以看到RunLoop的状态在不断的改变，最终变成了状态 32，也就是即将进入睡眠状态，说明RunLoop之后就会进入睡眠状态。
 
@@ -247,7 +247,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
 下面我们就可以来理解RunLoop的运行逻辑了。
 
-![1](_PostPicture/2017_12_08RunLoop_7.png)
+![1](/images/2017_12_08RunLoop_7.png)
 
 在每次运行开启RunLoop的时候，所在线程的RunLoop会自动处理之前未处理的事件，并且通知相关的观察者。
 

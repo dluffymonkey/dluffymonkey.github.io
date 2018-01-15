@@ -9,13 +9,11 @@ categories: iOS Tips
 
 一般项目中集成统计功能随因产品类型不同而使用功能不同，但大多数统计一般只有一个目的，就是记录用户习惯，研究用户习惯，从而为用户带来更好的体验。 
 这里记录一下之前在项目中使用友盟统计时的过程和踩过的坑。 
-话不多说，开整。
 
 #### 准备阶段
 
 在使用前，准备好如下几点
 
-- 需要继承统计功能的iOS项目。（这是一句废话）
 - 申请友盟后台账号。
 - 在账号中选择统计功能，并添加新应用，从而获取AppKey。注册步骤参考[友盟官方文档](http://dev.umeng.com/analytics/ios-doc/integration)。
 
@@ -27,7 +25,7 @@ categories: iOS Tips
 需要注意的是：
 
 - 自行下载SDK需要将SDK中的UMMobClick.framework添加到项目，并添加CoreTelephony.framework和libz.tbd和libsqlite.tbd系统依赖库。
-- 使用cocoapods时，要在Podfile内加入 pod’UMengAnalytics-NO-IDFA’。 并执行 pod install 命令。
+- 使用cocoapods时，要在Podfile内加入` pod’UMengAnalytics-NO-IDFA’`。 并执行 pod install 命令。
 
 #### 集成
 
@@ -59,9 +57,15 @@ NSString *version = [[[NSBundlemainBundle] infoDictionary]objectForKey:@"CFBundl
 
 修正： 
 建议添加分版本统计功能，因为如果不加，则友盟会像个疯子一样的乱抓数据，比如，会使用你的build version来进行版本统计。。。 
+
 这就会导致，你提了几个审核的包，里面就会有几个版本。 
+
 建议添加分版本统计功能 
+
 建议添加分版本统计功能 
+
+建议添加分版本统计功能 
+
 重要的事说三遍。。。
 
 编译程序，如不报错，恭喜集成成功。
@@ -99,7 +103,7 @@ NSDictionary *dict = @{@"参数1" :@"值",@"参数2" :@"值"};//创建携带参�
 此类事件包含计数事件的所有功能。使用情景是当出现每次的事件触发时会有不同的数值数据跟随产生，则可使用计算事件。如
 
 ```objective-c
-[MobClickevent:@"pay"attributes:@{@"book" :@"Swift Fundamentals"}counter:110];//支付行为，商品参数，所花金额。就可使用计算事件。
+[MobClickevent:@"pay"attributes:@{@"book" :@"Swift Fundamentals"} counter:110];//支付行为，商品参数，所花金额。就可使用计算事件。
 ```
 
 ##### 页面统计
@@ -123,8 +127,7 @@ NSDictionary *dict = @{@"参数1" :@"值",@"参数2" :@"值"};//创建携带参�
 
 NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
 
-这里的解决方法是利用runtime中的方法交换机制，来重写系统方法，让每个页面在调用时都会走我们重写过的方法，再执行页面中的原有方法。 
-我的解决步骤是：
+这里的解决方法是利用runtime中的方法交换机制，来重写系统方法，让每个页面在调用时都会走我们重写过的方法，再执行页面中的原有方法。 我的解决步骤是：
 
 首先，一般的项目都会写一个BaseViewController或者类似的基类，用于整合一些控制器可以用到的通用功能（如果您的所有控制器都继承的是UIViewController，那恭喜，您的统计数据将会非常庞大）。创建一个该基类的分类文件，并导入头文件`#import<objc/runtime.h>`。 
 接下来，在分类文件的.m文件内，粘贴以下代码：
@@ -136,14 +139,12 @@ NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
 + (void)load{
     staticdispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [selfmethod_exchange:@selector(viewWillAppear:)with:@selector(um_viewWillAppear:)];
-        [selfmethod_exchange:@selector(viewWillDisappear:)with:@selector(um_viewWillDisappear:)];
-    });
+      [self method_exchange:@selector(viewWillAppear:)with:@selector(um_viewWillAppear:)]; 
+      [self method_exchange:@selector(viewWillDisappear:)with:@selector(um_viewWillDisappear:)];		});
 }
 
 /**
  交换方法，将IMP部分交换
-
  @param oldMethod 旧方法
  @param newMethod 新方法
  */
@@ -170,7 +171,7 @@ NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
 {
     //这里调用自身并不会产生循环调用的死循环，因为在调用时，这个方法已被替换成系统的viewWillAppear方法了。
     [selfum_viewWillAppear:animated];
-    NSLog(@"\n——————————————————————————进入页面: %@ ——————————————————————————",NSStringFromClass([self class]));
+    NSLog(@"\n—————————————进入页面: %@ ————————————",NSStringFromClass([self class]));
     [MobClickbeginLogPageView:NSStringFromClass([selfclass])];
 }
 
@@ -179,7 +180,7 @@ NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
  */
 -(void)um_viewWillDisappear:(BOOL)animated{
     [selfum_viewWillDisappear:animated];
-    NSLog(@"\n——————————————————————————离开页面: %@ ——————————————————————————",NSStringFromClass([self class]));
+    NSLog(@"\n————————————离开页面: %@ ————————————————",NSStringFromClass([self class]));
     [MobClickendLogPageView:NSStringFromClass([selfclass])];
 }
 ```
@@ -192,8 +193,7 @@ NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
 
 **修改：**
 
-后来经过某位大神劈头盖脸一顿说，幡然醒悟。。。 
-是的，我们已经有了一个自定义的基类了，你还重写个毛线的系统方法啊。。。
+后来经过某位大神劈头盖脸一顿说，幡然醒悟。。。 是的，我们已经有了一个自定义的基类了，你还重写个毛线的系统方法啊。。。
 
 因此，上述方法，仅实用与以系统类作为继承基类的项目（不过应该很少了）。
 
@@ -217,9 +217,8 @@ NO，坚决是NO。重复写代码可不是一个程序员该干的事情。
 
 其他功能有兴趣请自行查看[友盟官方文档](http://dev.umeng.com/analytics/ios-doc/integration)。
 
-------
 
-## 坑
+#### 坑
 
 1. 事件统计方法传入参数前在封装字典的时候，一定要对参数进行是否为nil的防崩处理，自己写死的参数还好，如果是后台传来的参数，直接写入字典，程序会崩到你生活不能自理。
 2. 友盟后台批量导入事件的时候事件ID一定不能有中文，否则事件不能成功导入，但如果单独创建事件事件ID可以带中文（不知道友盟抽的什么风）。
