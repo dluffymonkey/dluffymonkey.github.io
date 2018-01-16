@@ -1,3 +1,10 @@
+---
+title: UIBezierPath初识
+date: 2018-01-17 10:32:47
+tags: iOS
+categories: iOS Tips
+---
+
 ## 前言
 
 `UIBezierPath`是`UIKit`中的一个关于图形绘制的类，是通过`Quartz 2D`也就是`CG（Core Graphics）CGPathRef`的封装得到的，从高级特性支持来看不及`CG`。
@@ -439,4 +446,4 @@ typedef NS_OPTIONS(NSUInteger, UIRectCorner) {
 [http://www.jianshu.com/p/60aad4957923](https://www.jianshu.com/p/60aad4957923)
 [http://www.jianshu.com/p/bbb2cc485a45](https://www.jianshu.com/p/bbb2cc485a45)
 
-**版权声明：**出自[MajorLMJ技术博客](https://www.jianshu.com/users/37f2920f6848/)的原创作品 ，转载时必须注明出处及相应链接！
+出自[MajorLMJ技术博客](https://www.jianshu.com/users/37f2920f6848/)的原创作品
