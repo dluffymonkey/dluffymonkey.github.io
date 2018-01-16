@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言UIBezierPath是UIKit中的一个关于图形绘制的类，是通过Quartz 2D也就是CG（Core Graphics）CGPathRef的封装得到的，从高级特性支持来看不及CG。 UIBezierPath类可以绘制矩形、圆形、直线、曲线以及它们的组合图形。">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIBezierPath初识">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/UIBezierPath介绍/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy">
+<meta property="og:description" content="前言UIBezierPath是UIKit中的一个关于图形绘制的类，是通过Quartz 2D也就是CG（Core Graphics）CGPathRef的封装得到的，从高级特性支持来看不及CG。 UIBezierPath类可以绘制矩形、圆形、直线、曲线以及它们的组合图形。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-1778719cecb8cb42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/244">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-e965b86e1a8b0d26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/376">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-3560bf1e9b3776e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-e9087db1a1d44667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-6d690c6cd7bfd909.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/218">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-6a1cce12bcbb51e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/270">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-8bab915329fd8005.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/234">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-e3a3066ad2e979cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/324">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-bffac4e8bd6adcfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/573">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-ff178198c20a8115.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/190">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-f196ea7dd4009345.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/351">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-feba5815d5d88a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/268">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-a27985b015ae6f9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1208202-647a3537cdc84519.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/246">
+<meta property="og:updated_time" content="2018-01-16T15:06:33.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIBezierPath初识">
+<meta name="twitter:description" content="前言UIBezierPath是UIKit中的一个关于图形绘制的类，是通过Quartz 2D也就是CG（Core Graphics）CGPathRef的封装得到的，从高级特性支持来看不及CG。 UIBezierPath类可以绘制矩形、圆形、直线、曲线以及它们的组合图形。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1208202-1778719cecb8cb42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/244">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/17/UIBezierPath介绍/"/>
+
+
+
+
+
+  <title>UIBezierPath初识 | Monkey·D·Luffy</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/UIBezierPath介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UIBezierPath初识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T10:32:47+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/17/UIBezierPath介绍/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/17/UIBezierPath介绍/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>UIBezierPath</code>是<code>UIKit</code>中的一个关于图形绘制的类，是通过<code>Quartz 2D</code>也就是<code>CG（Core Graphics）CGPathRef</code>的封装得到的，从高级特性支持来看不及<code>CG</code>。</p>
+<p><code>UIBezierPath</code>类可以绘制矩形、圆形、直线、曲线以及它们的组合图形。</p>
+<a id="more"></a>
+<h2 id="UIBezierPath对象"><a href="#UIBezierPath对象" class="headerlink" title="UIBezierPath对象"></a>UIBezierPath对象</h2><p>对象创建方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 创建基本路径</span><br><span class="line">+ (instancetype)bezierPath;</span><br><span class="line">// 创建矩形路径</span><br><span class="line">+ (instancetype)bezierPathWithRect:(CGRect)rect;</span><br><span class="line">// 创建椭圆路径</span><br><span class="line">+ (instancetype)bezierPathWithOvalInRect:(CGRect)rect;</span><br><span class="line">// 创建圆角矩形</span><br><span class="line">+ (instancetype)bezierPathWithRoundedRect:(CGRect)rect cornerRadius:(CGFloat)cornerRadius; // rounds all corners with the same horizontal and vertical radius</span><br><span class="line">// 创建指定位置圆角的矩形路径</span><br><span class="line">+ (instancetype)bezierPathWithRoundedRect:(CGRect)rect byRoundingCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii;</span><br><span class="line">// 创建弧线路径</span><br><span class="line">+ (instancetype)bezierPathWithArcCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise;</span><br><span class="line">// 通过CGPath创建</span><br><span class="line">+ (instancetype)bezierPathWithCGPath:(CGPathRef)CGPath;</span><br></pre></td></tr></table></figure>
+<h2 id="相关属性和方法"><a href="#相关属性和方法" class="headerlink" title="相关属性和方法"></a>相关属性和方法</h2><ul>
+<li><strong>属性</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 与之对应的CGPath</span><br><span class="line">@property(nonatomic) CGPathRef CGPath;</span><br><span class="line">- (CGPathRef)CGPath NS_RETURNS_INNER_POINTER CF_RETURNS_NOT_RETAINED;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 是否为空</span><br><span class="line">@property(readonly,getter=isEmpty) BOOL empty;</span><br><span class="line">// 整个路径相对于原点的位置及宽高</span><br><span class="line">@property(nonatomic,readonly) CGRect bounds;</span><br><span class="line">// 当前画笔位置</span><br><span class="line">@property(nonatomic,readonly) CGPoint currentPoint;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// 线宽</span><br><span class="line">@property(nonatomic) CGFloat lineWidth;</span><br><span class="line"></span><br><span class="line">// 终点类型</span><br><span class="line">@property(nonatomic) CGLineCap lineCapStyle; </span><br><span class="line">typedef CF_ENUM(int32_t, CGLineCap) &#123;</span><br><span class="line">    kCGLineCapButt,</span><br><span class="line">    kCGLineCapRound,</span><br><span class="line">    kCGLineCapSquare</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 交叉点的类型</span><br><span class="line">@property(nonatomic) CGLineJoin lineJoinStyle; </span><br><span class="line">typedef CF_ENUM(int32_t, CGLineJoin) &#123;</span><br><span class="line">    kCGLineJoinMiter,</span><br><span class="line">    kCGLineJoinRound,</span><br><span class="line">    kCGLineJoinBevel</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 两条线交汇处内角和外角之间的最大距离,需要交叉点类型为kCGLineJoinMiter是生效，最大限制为10</span><br><span class="line">@property(nonatomic) CGFloat miterLimit; </span><br><span class="line">// 个人理解为绘线的精细程度，默认为0.6，数值越大，需要处理的时间越长</span><br><span class="line">@property(nonatomic) CGFloat flatness; </span><br><span class="line">// 决定使用even-odd或者non-zero规则</span><br><span class="line">@property(nonatomic) BOOL usesEvenOddFillRule;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>方法</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 反方向绘制path</span><br><span class="line">- (UIBezierPath *)bezierPathByReversingPath;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 设置画笔起始点</span><br><span class="line">- (void)moveToPoint:(CGPoint)point;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 从当前点到指定点绘制直线</span><br><span class="line">- (void)addLineToPoint:(CGPoint)point;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 添加弧线</span><br><span class="line">- (void)addArcWithCenter:(CGPoint)center radius:(CGFloat)radius startAngle:(CGFloat)startAngle endAngle:(CGFloat)endAngle clockwise:(BOOL)clockwise NS_AVAILABLE_IOS(4_0);</span><br><span class="line">/* center弧线圆心坐标 radius弧线半径 startAngle弧线起始角度 endAngle弧线结束角度 clockwise是否顺时针绘制 */</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 添加贝塞尔曲线</span><br><span class="line">- (void)addQuadCurveToPoint:(CGPoint)endPoint controlPoint:(CGPoint)controlPoint;</span><br><span class="line">/* endPoint终点 controlPoint控制点 */</span><br><span class="line">- (void)addCurveToPoint:(CGPoint)endPoint controlPoint1:(CGPoint)controlPoint1 controlPoint2:(CGPoint)controlPoint2;</span><br><span class="line">/* endPoint终点 controlPoint1、controlPoint2控制点 */</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 移除所有的点，删除所有的subPath</span><br><span class="line">- (void)removeAllPoints;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 将bezierPath添加到当前path</span><br><span class="line">- (void)appendPath:(UIBezierPath *)bezierPath;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 填充</span><br><span class="line">- (void)fill;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 路径绘制</span><br><span class="line">- (void)stroke;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 在这以后的图形绘制超出当前路径范围则不可见</span><br><span class="line">- (void)addClip;</span><br></pre></td></tr></table></figure>
+<h2 id="直线"><a href="#直线" class="headerlink" title="直线"></a>直线</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    </span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    // 起点</span><br><span class="line">    [path moveToPoint:CGPointMake(20, 100)];</span><br><span class="line">    </span><br><span class="line">    // 绘制线条</span><br><span class="line">    [path addLineToPoint:CGPointMake(200, 20)];</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-1778719cecb8cb42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/244" alt="img"></p>
+<h2 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a>矩形</h2><ul>
+<li><strong>直角矩形</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    // 创建矩形路径对象</span><br><span class="line">    UIBezierPath * path = [UIBezierPath bezierPathWithRect:CGRectMake(50, 50, 150, 100)];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-e965b86e1a8b0d26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/376" alt="img"></p>
+<ul>
+<li><strong>圆角矩形</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    // 创建圆角矩形路径对象</span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(20, 20, 150, 100) cornerRadius:30]; // 圆角半径为30</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-3560bf1e9b3776e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200" alt="img"></p>
+<ul>
+<li><strong>指定位置圆角矩形</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    </span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(20, 20, 150, 100) byRoundingCorners:UIRectCornerTopLeft cornerRadii:CGSizeMake(30, 30)];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-e9087db1a1d44667.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200" alt="img"></p>
+<p>corners：</p>
+<p>cornerRadii：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_OPTIONS(NSUInteger, UIRectCorner) &#123;</span><br><span class="line">    UIRectCornerTopLeft     = 1 &lt;&lt; 0,</span><br><span class="line">    UIRectCornerTopRight    = 1 &lt;&lt; 1,</span><br><span class="line">    UIRectCornerBottomLeft  = 1 &lt;&lt; 2,</span><br><span class="line">    UIRectCornerBottomRight = 1 &lt;&lt; 3,</span><br><span class="line">    UIRectCornerAllCorners  = ~0UL</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="圆形和椭圆形"><a href="#圆形和椭圆形" class="headerlink" title="圆形和椭圆形"></a>圆形和椭圆形</h2><ul>
+<li><strong>圆形</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    // 创建圆形路径对象</span><br><span class="line">    UIBezierPath * path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(50, 50, 100, 100)];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-6d690c6cd7bfd909.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/218" alt="img"></p>
+<ul>
+<li><strong>椭圆形</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    // 创建椭圆形路径对象</span><br><span class="line">    UIBezierPath * path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(50, 50, 100, 100)];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-6a1cce12bcbb51e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/270" alt="img"></p>
+<h2 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h2><ul>
+<li><strong>弧线</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    // 创建弧线路径对象</span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(100, 100)</span><br><span class="line">                                                         radius:70</span><br><span class="line">                                                     startAngle:3.1415926</span><br><span class="line">                                                       endAngle:3.1415926 *3/2</span><br><span class="line">                                                      clockwise:YES];</span><br><span class="line"></span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-8bab915329fd8005.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/234" alt="img"></p>
+<p><strong>center：</strong>弧线圆心坐标<br><strong>radius：</strong>弧线半径<br><strong>startAngle：</strong>弧线起始角度<br><strong>endAngle：</strong>弧线结束角度<br><strong>clockwise：</strong>是否顺时针绘制</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-e3a3066ad2e979cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/324" alt="img"></p>
+<p>默认坐标系统中的角度值</p>
+<ul>
+<li><strong>贝塞尔曲线1</strong></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-bffac4e8bd6adcfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/573" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    </span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path moveToPoint:CGPointMake(20, 100)];</span><br><span class="line">    // 给定终点和控制点绘制贝塞尔曲线</span><br><span class="line">    [path addQuadCurveToPoint:CGPointMake(150, 100) controlPoint:CGPointMake(20, 0)];</span><br><span class="line"></span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-ff178198c20a8115.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/190" alt="img"></p>
+<ul>
+<li><strong>贝塞尔曲线2</strong></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-f196ea7dd4009345.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/351" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    </span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    [path moveToPoint:CGPointMake(20, 100)];</span><br><span class="line">    // 给定终点和两个控制点绘制贝塞尔曲线</span><br><span class="line">    [path addCurveToPoint:CGPointMake(220, 100) controlPoint1:CGPointMake(120, 20) controlPoint2:CGPointMake(120, 180)];</span><br><span class="line"></span><br><span class="line">    [path stroke];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-feba5815d5d88a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/268" alt="img"></p>
+<h2 id="扇形"><a href="#扇形" class="headerlink" title="扇形"></a>扇形</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    [[UIColor redColor] set]; // 画笔颜色设置</span><br><span class="line"></span><br><span class="line">    UIBezierPath * path = [UIBezierPath bezierPath]; // 创建路径</span><br><span class="line">    </span><br><span class="line">    [path moveToPoint:CGPointMake(100, 100)]; // 设置起始点</span><br><span class="line"></span><br><span class="line">    [path addArcWithCenter:CGPointMake(100, 100) radius:75 startAngle:0 endAngle:3.14159/2 clockwise:NO]; // 绘制一个圆弧</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.0;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound; //线条拐角</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound; //终点处理</span><br><span class="line">    </span><br><span class="line">    [path closePath]; // 封闭未形成闭环的路径</span><br><span class="line">    </span><br><span class="line">    [path stroke]; // 绘制</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-a27985b015ae6f9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="img"></p>
+<h2 id="多边形"><a href="#多边形" class="headerlink" title="多边形"></a>多边形</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (void)drawRect:(CGRect)rect&#123;</span><br><span class="line">    </span><br><span class="line">    [[UIColor redColor] set];</span><br><span class="line">    </span><br><span class="line">    UIBezierPath* path = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    path.lineWidth     = 5.f;</span><br><span class="line">    path.lineCapStyle  = kCGLineCapRound;</span><br><span class="line">    path.lineJoinStyle = kCGLineCapRound;</span><br><span class="line">    </span><br><span class="line">    // 起点</span><br><span class="line">    [path moveToPoint:CGPointMake(100, 50)];</span><br><span class="line">    </span><br><span class="line">    // 添加直线</span><br><span class="line">    [path addLineToPoint:CGPointMake(150, 50)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(200, 100)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(200, 150)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(150, 200)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(100, 200)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(50, 150)];</span><br><span class="line">    [path addLineToPoint:CGPointMake(50, 100)];</span><br><span class="line">    [path closePath];</span><br><span class="line">    </span><br><span class="line">    //根据坐标点连线</span><br><span class="line">    [path stroke];</span><br><span class="line">    [path fill];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1208202-647a3537cdc84519.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/246" alt="img"></p>
+<p>参考：<br><a href="https://www.jianshu.com/p/60aad4957923" target="_blank" rel="noopener">http://www.jianshu.com/p/60aad4957923</a><br><a href="https://www.jianshu.com/p/bbb2cc485a45" target="_blank" rel="noopener">http://www.jianshu.com/p/bbb2cc485a45</a></p>
+<p>出自<a href="https://www.jianshu.com/users/37f2920f6848/" target="_blank" rel="noopener">MajorLMJ技术博客</a>的原创作品</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/16/动画/" rel="next" title="动画">
+                <i class="fa fa-chevron-left"></i> 动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/17/iOS给UIView设置渐变背景色/" rel="prev" title="iOS给UIView设置渐变背景色">
+                iOS给UIView设置渐变背景色 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/01/17/UIBezierPath介绍/"
+           data-title="UIBezierPath初识" data-url="http://yoursite.com/2018/01/17/UIBezierPath介绍/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="iLeo" />
+            
+              <p class="site-author-name" itemprop="name">iLeo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIBezierPath对象"><span class="nav-text">UIBezierPath对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关属性和方法"><span class="nav-text">相关属性和方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直线"><span class="nav-text">直线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形"><span class="nav-text">矩形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#圆形和椭圆形"><span class="nav-text">圆形和椭圆形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#曲线"><span class="nav-text">曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扇形"><span class="nav-text">扇形</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多边形"><span class="nav-text">多边形</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

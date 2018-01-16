@@ -1,3 +1,11 @@
+---
+title: React Native
+date: 2018-01-14 10:32:47
+tags: iOS
+categories: iOS Tips
+---
+
+
 <http://www.jianshu.com/p/ff36c9dcf50b>
 
 <http://www.jianshu.com/p/5c0659ace329>
@@ -11,6 +19,8 @@
 <http://www.open-open.com/lib/view/open1463060059009.html>   集成到原生项目中
 
 <http://www.tuicool.com/articles/BfInEv> (配合这个创建自工程的方法<http://www.open-open.com/lib/view/open1452090394558.html>)集成到原生项目中
+
+<!-- more -->
 
 记住一定要有  JavascriptCore.framework
 

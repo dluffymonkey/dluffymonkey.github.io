@@ -11,6 +11,8 @@ categories: iOS Tips
 
 `UIBezierPath`类可以绘制矩形、圆形、直线、曲线以及它们的组合图形。
 
+<!-- more -->
+
 ## UIBezierPath对象
 
 对象创建方法
