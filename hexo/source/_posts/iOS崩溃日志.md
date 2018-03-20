@@ -1,6 +1,6 @@
 ---
 title: iOS崩溃日志收集上传
-date: 2017-12-05 18:06
+date: 2017-12-05
 tags: iOS
 categories: iOS Tips
 ---

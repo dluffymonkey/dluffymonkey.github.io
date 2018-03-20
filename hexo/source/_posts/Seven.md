@@ -1,6 +1,6 @@
 ---
 title: 第七感
-date: 2016-11-22 14:12
+date: 2016-11-22
 tags: relax
 categories: Music
 ---

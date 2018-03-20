@@ -1,6 +1,6 @@
 ---
 title: UIBezierPath初识
-date: 2018-01-17 10:32:47
+date: 2018-01-17
 tags: iOS
 categories: iOS Tips
 ---

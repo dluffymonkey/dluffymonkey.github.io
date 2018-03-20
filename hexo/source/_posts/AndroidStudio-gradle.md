@@ -1,6 +1,6 @@
 ---
 title: Android Studio gradle 
-date: 2017-11-30 20:06
+date: 2017-11-30
 tags: Android
 categories: 初识Android
 ---

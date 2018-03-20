@@ -1,6 +1,6 @@
 ---
 title: App主体转移
-date: 2017-12-27 09:48:47
+date: 2017-12-27
 tags: iOS
 categories: iOS Tips
 ---

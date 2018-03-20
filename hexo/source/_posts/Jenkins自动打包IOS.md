@@ -1,6 +1,6 @@
 ---
 title: Jenkins自动打包IOS
-date: 2017-12-26 17:22:10
+date: 2017-12-26
 tags: iOS
 categories: iOS Tips
 ---

@@ -1,6 +1,6 @@
 ---
 title: 友盟统计使用笔记
-date: 2017-12-22 10:32:47
+date: 2017-12-22
 tags: iOS
 categories: iOS Tips
 ---

@@ -1,6 +1,6 @@
 ---
 title: iOS自动化打包脚本
-date: 2017-12-24 15:32:23
+date: 2017-12-24
 tags: iOS
 categories: iOS Tips
 ---

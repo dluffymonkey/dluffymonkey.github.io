@@ -1,6 +1,6 @@
 ---
-title: 友盟统计使用笔记
-date: 2018-01-15 10:32:47
+title: iOS手势
+date: 2018-01-15
 tags: iOS
 categories: iOS Tips
 ---

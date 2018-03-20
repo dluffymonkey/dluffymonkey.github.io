@@ -1,6 +1,6 @@
 ---
 title: MarkDown
-date: 2016-11-21 16:21
+date: 2016-11-21
 tags: Hexo
 ---
 ><font color="#4590a3" size = "4px">文字</font>

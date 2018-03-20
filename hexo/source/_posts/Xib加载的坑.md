@@ -1,3 +1,8 @@
+title: Xib加载崩溃
+date: 2018-01-18
+tags:
+categories: iOS Tips
+
 #### Xib加载控制器的时候,出现的一个坑
 
 今天在公司的项目中,iOS8出现了push到一个Xib的控制器时,出现crash的现象,直接蹦到了main函数,错误信息:libc++abi.dylib: terminate_handler unexpectedly threw an exception.当实例化这个控制器的时候,用的是

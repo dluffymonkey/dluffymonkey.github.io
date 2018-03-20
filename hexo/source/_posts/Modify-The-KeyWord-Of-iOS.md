@@ -1,6 +1,6 @@
 ---
 title: 如何选择修饰关键字
-date: 2016-11-25 18:54
+date: 2016-11-25
 tags: iOS
 categories: iOS Tips
 ---

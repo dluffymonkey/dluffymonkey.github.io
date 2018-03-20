@@ -1,6 +1,6 @@
 ---
 title: GCD学习 —— 四
-date: 2017-12-09 11:36
+date: 2017-12-09
 tags: iOS
 categories: iOS Tips
 ---

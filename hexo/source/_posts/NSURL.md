@@ -1,6 +1,6 @@
 ---
 title: NSURL
-date: 2018-03-10 14:12
+date: 2018-03-10
 tags: iOS
 categories: iOS Tips
 ---

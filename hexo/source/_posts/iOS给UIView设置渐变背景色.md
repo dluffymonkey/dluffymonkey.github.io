@@ -1,6 +1,6 @@
 ---
 title: iOS给UIView设置渐变背景色
-date: 2018-01-17 16:12
+date: 2018-01-17
 tags: iOS
 categories: iOS Tips
 ---

@@ -1,6 +1,6 @@
 ---
 title: React Native
-date: 2018-01-14 10:32:47
+date: 2018-01-14
 tags: iOS
 categories: iOS Tips
 ---

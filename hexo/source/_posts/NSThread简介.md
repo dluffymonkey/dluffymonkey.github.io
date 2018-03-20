@@ -1,6 +1,6 @@
 ---
 title: NSThread简介
-date: 2017-12-10 14:12
+date: 2017-12-10
 tags: iOS
 categories: iOS Tips
 ---
