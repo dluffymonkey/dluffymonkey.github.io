@@ -1,3 +1,10 @@
+---
+title: URL问题处理
+date: 2018-03-12 16:48:47
+tags: iOS
+categories: iOS Tips
+---
+
 #### 问题描述
 
 URLWithString:(NSString *)str relativeToURL:(NSURL *)baseURL中baseURL结尾字段的相关问题拼接后被去掉的问题，情况如下图：
@@ -13,6 +20,8 @@ NSLog(@"newURL:%@",[newURL absoluteString]);
 ![img](http://upload-images.jianshu.io/upload_images/3327593-ef971bfa8f031577.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700)
 
 其中“v1”拼接后就被去掉了。
+
+<!--more -->
 
 #### 解决方法一
 

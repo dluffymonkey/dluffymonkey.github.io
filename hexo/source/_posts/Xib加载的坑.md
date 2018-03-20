@@ -3,13 +3,13 @@
 今天在公司的项目中,iOS8出现了push到一个Xib的控制器时,出现crash的现象,直接蹦到了main函数,错误信息:libc++abi.dylib: terminate_handler unexpectedly threw an exception.当实例化这个控制器的时候,用的是
 
 ```objective-c
-LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]init];1
+LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]init];
 ```
 
 后来实例化控制器的方法修改成了
 
 ```objective-c
-LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]initWithNibName:@"LQFundBrowseViewController" bundle:[NSBundle mainBundle]];1
+LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]initWithNibName:@"LQFundBrowseViewController" bundle:[NSBundle mainBundle]];
 ```
 
 就没了这个crash. 
