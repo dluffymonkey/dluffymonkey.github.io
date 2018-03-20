@@ -293,7 +293,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T19:57:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T00:00:00+08:00">
                 2018-03-19
               </time>
             
@@ -450,7 +450,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T16:48:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T00:00:00+08:00">
                 2018-03-12
               </time>
             
@@ -609,7 +609,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-10T14:12:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-10T00:00:00+08:00">
                 2018-03-10
               </time>
             
@@ -766,7 +766,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T14:17:11+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">
                 2018-01-31
               </time>
             
@@ -973,164 +973,13 @@
       
         
           
-            <h4 id="Xib加载控制器的时候-出现的一个坑"><a href="#Xib加载控制器的时候-出现的一个坑" class="headerlink" title="Xib加载控制器的时候,出现的一个坑"></a>Xib加载控制器的时候,出现的一个坑</h4><p>今天在公司的项目中,iOS8出现了push到一个Xib的控制器时,出现crash的现象,直接蹦到了main函数,错误信息:libc++abi.dylib: terminate_handler unexpectedly threw an exception.当实例化这个控制器的时候,用的是</p>
+            <p>title: Xib加载崩溃<br>date: 2018-01-18<br>tags:<br>categories: iOS Tips</p>
+<h4 id="Xib加载控制器的时候-出现的一个坑"><a href="#Xib加载控制器的时候-出现的一个坑" class="headerlink" title="Xib加载控制器的时候,出现的一个坑"></a>Xib加载控制器的时候,出现的一个坑</h4><p>今天在公司的项目中,iOS8出现了push到一个Xib的控制器时,出现crash的现象,直接蹦到了main函数,错误信息:libc++abi.dylib: terminate_handler unexpectedly threw an exception.当实例化这个控制器的时候,用的是</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]init];</span><br></pre></td></tr></table></figure>
 <p>后来实例化控制器的方法修改成了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LQFundBrowseViewController *fundBrowseVC = [[LQFundBrowseViewController alloc]initWithNibName:@&quot;LQFundBrowseViewController&quot; bundle:[NSBundle mainBundle]];</span><br></pre></td></tr></table></figure>
 <p>就没了这个crash.<br>按道理说,alloc init方法还是会调用initWithNibName的方法,但是如果你创建控制器的时候,用到了xib,而且后来实例化的时候,没有指定xib的名称,<strong>并且项目中出现了一个同名的自定义的view(LQFundBrowseView,上面是LQFundBrowseViewController,这就叫同名)</strong>那么系统就会优先匹配这个同名的view作为控制器的view,尽管你在xib里面做了view的关联,<br>解决方法:<br>1:new file控制器的时候,命名把viewContoller直接简写成VC(eg:把LQFundBrowseViewController命名为LQFundBrowseVC)<br>2:使用指定xib名称的实例化方法,即上面的第二种方法</p>
 <p>但是为什么在iOS9/iOS10里面就没有出现这种情况呢? </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/iOS给UIView设置渐变背景色/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="iLeo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Monkey·D·Luffy">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/17/iOS给UIView设置渐变背景色/" itemprop="url">iOS给UIView设置渐变背景色</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T16:12:00+08:00">
-                2018-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS Tips</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/01/17/iOS给UIView设置渐变背景色/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/17/iOS给UIView设置渐变背景色/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="iOS给UIView设置渐变背景色"><a href="#iOS给UIView设置渐变背景色" class="headerlink" title="iOS给UIView设置渐变背景色"></a>iOS给UIView设置渐变背景色</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//UIView设置渐变色</span><br><span class="line">- (void)setupGradientWithFrame:(CGRect)rect &#123;</span><br><span class="line">    UIColor *startColor = UIColorFromRGB(0xFC864A);</span><br><span class="line">    UIColor *endColor = UIColorFromRGB(0xF85E45);</span><br><span class="line">    NSArray *colors = @[(id)startColor.CGColor, (id)endColor.CGColor];</span><br><span class="line">    NSArray *locations = @[@(0.1),@(0.7)];</span><br><span class="line">    CAGradientLayer *gradientLayer = [CAGradientLayer layer];</span><br><span class="line">    gradientLayer.colors = colors;</span><br><span class="line">    gradientLayer.locations = locations;</span><br><span class="line">    gradientLayer.startPoint = CGPointMake(0, 0);</span><br><span class="line">    gradientLayer.endPoint = CGPointMake(0, 1);</span><br><span class="line">    gradientLayer.frame = rect;</span><br><span class="line">    [self.layer addSublayer:gradientLayer];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1210,7 +1059,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T10:32:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T00:00:00+08:00">
                 2018-01-17
               </time>
             
@@ -1336,6 +1185,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/iOS给UIView设置渐变背景色/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/17/iOS给UIView设置渐变背景色/" itemprop="url">iOS给UIView设置渐变背景色</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T00:00:00+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/17/iOS给UIView设置渐变背景色/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/17/iOS给UIView设置渐变背景色/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="iOS给UIView设置渐变背景色"><a href="#iOS给UIView设置渐变背景色" class="headerlink" title="iOS给UIView设置渐变背景色"></a>iOS给UIView设置渐变背景色</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//UIView设置渐变色</span><br><span class="line">- (void)setupGradientWithFrame:(CGRect)rect &#123;</span><br><span class="line">    UIColor *startColor = UIColorFromRGB(0xFC864A);</span><br><span class="line">    UIColor *endColor = UIColorFromRGB(0xF85E45);</span><br><span class="line">    NSArray *colors = @[(id)startColor.CGColor, (id)endColor.CGColor];</span><br><span class="line">    NSArray *locations = @[@(0.1),@(0.7)];</span><br><span class="line">    CAGradientLayer *gradientLayer = [CAGradientLayer layer];</span><br><span class="line">    gradientLayer.colors = colors;</span><br><span class="line">    gradientLayer.locations = locations;</span><br><span class="line">    gradientLayer.startPoint = CGPointMake(0, 0);</span><br><span class="line">    gradientLayer.endPoint = CGPointMake(0, 1);</span><br><span class="line">    gradientLayer.frame = rect;</span><br><span class="line">    [self.layer addSublayer:gradientLayer];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/动画/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1367,7 +1368,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T22:06:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T00:00:00+08:00">
                 2018-01-16
               </time>
             
@@ -1601,7 +1602,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/15/iOS手势/" itemprop="url">友盟统计使用笔记</a></h1>
+                <a class="post-title-link" href="/2018/01/15/iOS手势/" itemprop="url">iOS手势</a></h1>
         
 
         <div class="post-meta">
@@ -1613,7 +1614,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T10:32:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T00:00:00+08:00">
                 2018-01-15
               </time>
             
@@ -1770,7 +1771,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-14T10:32:47+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-14T00:00:00+08:00">
                 2018-01-14
               </time>
             
