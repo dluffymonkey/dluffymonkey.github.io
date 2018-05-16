@@ -28,7 +28,7 @@ Jenkins的安装非常简单了，只要直接安装DMG就行了。安装完毕�
 
 一下两个命令可能会经常用到，由于安装Jenkins的时候，默认是自动启动的，有时候为了减少不必要的资源消耗，可以关闭Jenkins。
 
-```
+```shell
 Start Jenkins: sudo launchctl load /Library/LaunchDaemons/org.jenkins-ci.plist
 Stop Jenkins: sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist12
 ```
@@ -51,13 +51,13 @@ Jenkins的安装就不说了，百度一下一大堆，首先要新建一个自�
 
 项目名称和描述都是给自己看的，因此可以凭自己的喜好填写，只要自己能看得懂即可。接下来的构建方式我并没有使用，因为对我来说确实用不到，应用打包完成上传fir.im之后，基本上这个包就可以丢弃了。有需要的可以按需选择。
 
-源码管理，我选择SVN，其他也是一样的，配置仓库地址和账户。
+#####源码管理，我选择SVN，其他也是一样的，配置仓库地址和账户。
 
 ![img](http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713489712796.jpg)
 
 *Credentials*是用户，右侧的ADD按钮可以添加用户，其他项默认配置即可。
 
-构建触发器也是非必须选项，如果不配置则需要手工触发，我这里配置5分钟检查一次代码仓库。
+#####构建触发器也是非必须选项，如果不配置则需要手工触发，我这里配置5分钟检查一次代码仓库。
 
 ![img](http://7xsgl3.com1.z0.glb.clouddn.com/2016-08-16-14713490615348.jpg)
 
