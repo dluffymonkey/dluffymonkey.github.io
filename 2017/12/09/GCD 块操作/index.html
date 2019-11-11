@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 block。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 block。 1 创建Block 第一种方式如下： 1dispatch_block_t dispatch_block_create(dispa">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GCD学习 —— 三">
+<meta property="og:url" content="http://yoursite.com/2017/12/09/GCD 块操作/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy’s Blog">
+<meta property="og:description" content="​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 block。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 block。 1 创建Block 第一种方式如下： 1dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-07T09:40:16.145Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GCD学习 —— 三">
+<meta name="twitter:description" content="​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 block。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 block。 1 创建Block 第一种方式如下： 1dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/09/GCD 块操作/"/>
+
+
+
+
+
+  <title>GCD学习 —— 三 | Monkey·D·Luffy’s Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy’s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/GCD 块操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GCD学习 —— 三</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T11:32:00+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/09/GCD 块操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/09/GCD 块操作/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>​    学习学习dispatch_block，在向队列中添加任务时，可以直接在对应的函数中添加 <code>block</code>。但是如果想对任务进行操作，比如监听任务、取消任务，就需要获取对应的 <code>block</code>。</p>
+<h4 id="1-创建Block"><a href="#1-创建Block" class="headerlink" title="1 创建Block"></a>1 创建Block</h4><ul>
+<li><p>第一种方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_block_t dispatch_block_create(dispatch_block_flags_t flags, dispatch_block_t block);</span><br></pre></td></tr></table></figure>
+<p>​    在该函数中，<code>flags</code> 参数用来设置 <code>block</code> 的标记，<code>block</code> 参数用来设置具体的任务。<code>flags</code> 的类型为 <code>dispatch_block_flags_t</code> 的枚举，用于设置 <code>block</code> 的标记，定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_ENUM(dispatch_block_flags, unsigned long,</span><br><span class="line">    DISPATCH_BLOCK_BARRIER = 0x1,</span><br><span class="line">    DISPATCH_BLOCK_DETACHED = 0x2,</span><br><span class="line">    DISPATCH_BLOCK_ASSIGN_CURRENT = 0x4,</span><br><span class="line">    DISPATCH_BLOCK_NO_QOS_CLASS = 0x8,</span><br><span class="line">    DISPATCH_BLOCK_INHERIT_QOS_CLASS = 0x10,</span><br><span class="line">    DISPATCH_BLOCK_ENFORCE_QOS_CLASS = 0x20,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dispatch_block_t dispatch_block_create_with_qos_class(dispatch_block_flags_t flags,</span><br><span class="line">    dispatch_qos_class_t qos_class, int relative_priority,</span><br><span class="line">    dispatch_block_t block);</span><br></pre></td></tr></table></figure>
+<p>​    相比于 <code>dispatch_block_create</code> 函数，这种方式在创建 <code>block</code> 的同时可以指定了相应的优先级。<code>dispatch_qos_class_t</code> 是 <code>qos_class_t</code> 的别名，定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#if __has_include(&lt;sys/qos.h&gt;)</span><br><span class="line">typedef qos_class_t dispatch_qos_class_t;</span><br><span class="line">#else</span><br><span class="line">typedef unsigned int dispatch_qos_class_t;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p><code>qos_class_t</code> 是一种枚举，有以下类型：</p>
+<ul>
+<li>QOS_CLASS_USER_INTERACTIVE：<code>user interactive</code> 等级表示任务需要被立即执行，用来在响应事件之后更新 UI，来提供好的用户体验。这个等级最好保持小规模。</li>
+<li>QOS_CLASS_USER_INITIATED：<code>user initiated</code> 等级表示任务由 UI 发起异步执行。适用场景是需要及时，结果同时又可以继续交互的时候。</li>
+<li>QOS_CLASS_DEFAULT：<code>default</code> 默认优先级</li>
+<li>QOS_CLASS_UTILITY：<code>utility</code> 等级表示需要长时间运行的任务，伴有用户可见进度指示器。经常会用来做计算，I/O，网络，持续的数据填充等任务。这个任务节能。</li>
+<li>QOS_CLASS_BACKGROUND：<code>background</code> 等级表示用户不会察觉的任务，使用它来处理预加载，或者不需要用户交互和对时间不敏感的任务。</li>
+<li>QOS_CLASS_UNSPECIFIED：<code>unspecified</code> 未指明</li>
+</ul>
+<p>egg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t concurrentQuene = dispatch_queue_create(&quot;concurrentQuene&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_block_t block = dispatch_block_create(0, ^&#123;</span><br><span class="line">    NSLog(@&quot;normal do some thing...&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(concurrentQuene, block);</span><br><span class="line"></span><br><span class="line">dispatch_block_t qosBlock = dispatch_block_create_with_qos_class(0, QOS_CLASS_USER_INTERACTIVE, 0, ^&#123;</span><br><span class="line">    NSLog(@&quot;qos do some thing...&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(concurrentQuene, qosBlock);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LQHelper[1528:112987] qos do some thing...</span><br><span class="line">LQHelper[1528:112985] normal do some thing...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>####2 监听 block 执行结束</p>
+<p>​    有时我们需要等待特定的 <code>block</code> 执行完成之后，再去执行其他任务。有两种方法可以获取到指定 <code>block</code> 执行结束的时机。</p>
+<ul>
+<li><p>第一种方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">long dispatch_block_wait(dispatch_block_t block, dispatch_time_t timeout);</span><br></pre></td></tr></table></figure>
+<p>​    该函数会阻塞当前线程进行等待。传入需要设置的 block 和等待时间 timeout。timeout 参数表示函数在等待 block 执行完毕时，应该等待多久。如果执行 block 所需的时间小于 timeout，则返回 0，否则返回非 0 值。此参数也可以取常量 <code>DISPATCH_TIME_FOREVER</code>，这表示函数会一直等待 block 执行完，而不会超时。可以使用 dispatch_time 函数和 <code>DISPATCH_TIME_NOW</code> 常量来方便的设置具体的超时时间。</p>
+<p>​    如果 block 执行完成，<code>dispatch_block_wait</code> 就会立即返回。不能使用 <code>dispatch_block_wait</code> 来等待同一个 block 的多次执行全部结束；这种情况可以考虑使用 <code>dispatch_group_wait</code> 来解决。也不能在多个线程中，同时等待同一个 block 的结束。同一个 block 只能执行一次，被等待一次。</p>
+<p><strong>注意：</strong>因为 <code>dispatch_block_wait</code> 会阻塞当前线程，所以不应该放在主线程中调用。</p>
+<p>egg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t concurrentQuene = dispatch_queue_create(&quot;concurrentQuene&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(concurrentQuene, ^&#123;</span><br><span class="line">    dispatch_queue_t allTasksQueue = dispatch_queue_create(&quot;allTasksQueue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">    dispatch_block_t block = dispatch_block_create(0, ^&#123;</span><br><span class="line">        NSLog(@&quot;开始执行&quot;);</span><br><span class="line">        [NSThread sleepForTimeInterval:3];</span><br><span class="line">        NSLog(@&quot;结束执行&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    dispatch_async(allTasksQueue, block);</span><br><span class="line">    // 等待时长，10s 之后超时</span><br><span class="line">    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC));</span><br><span class="line">    long resutl = dispatch_block_wait(block, timeout);</span><br><span class="line">    if (resutl == 0) &#123;</span><br><span class="line">        NSLog(@&quot;执行成功&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSLog(@&quot;执行超时&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">执行结果：(把上面的sleepForTimeInterval:时间设置成3s)</span><br><span class="line">LQHelper[1582:121193] 开始执行</span><br><span class="line">LQHelper[1582:121194] 结束执行</span><br><span class="line">LQHelper[1582:121193] 执行成功</span><br><span class="line">执行结果：(把上面的sleepForTimeInterval:时间设置成12s)</span><br><span class="line">LQHelper[1582:121193] 开始执行</span><br><span class="line">LQHelper[1582:121194] 执行超时</span><br><span class="line">LQHelper[1582:121193] 结束执行</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void dispatch_block_notify(dispatch_block_t block, dispatch_queue_t queue, dispatch_block_t notification_block);</span><br></pre></td></tr></table></figure>
+<p>​    该函数接收三个参数，第一个参数是需要监视的 block，第二个参数是监听的 block 执行结束之后要提交执行的队列 queue，第三个参数是待加入到队列中的 block。 和 <code>dispatch_block_wait</code> 的不同之处在于：<code>dispatch_block_notify</code> 函数不会阻塞当前线程。</p>
+<p>egg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@&quot;---- 开始设置任务 ----&quot;);</span><br><span class="line">dispatch_queue_t serialQueue =   dispatch_queue_create(&quot;com.itachi.serialqueue&quot;,   DISPATCH_QUEUE_SERIAL);</span><br><span class="line"></span><br><span class="line">// 耗时任务</span><br><span class="line">dispatch_block_t taskBlock = dispatch_block_create(0, ^&#123;</span><br><span class="line">    NSLog(@&quot;开始耗时任务&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:2.f];</span><br><span class="line">    NSLog(@&quot;完成耗时任务&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(serialQueue, taskBlock);</span><br><span class="line"></span><br><span class="line">// 更新 UI</span><br><span class="line">dispatch_block_t refreshUI = dispatch_block_create(0, ^&#123;</span><br><span class="line">    NSLog(@&quot;更新 UI&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 设置监听</span><br><span class="line">dispatch_block_notify(taskBlock, dispatch_get_main_queue(), refreshUI);</span><br><span class="line">NSLog(@&quot;---- 完成设置任务 ----&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">执行结果：</span><br><span class="line">LQHelper[1615:127135] ---- 开始设置任务 ----</span><br><span class="line">LQHelper[1615:127135] ---- 完成设置任务 ----</span><br><span class="line">LQHelper[1615:127227] 开始耗时任务</span><br><span class="line">LQHelper[1615:127227] 完成耗时任务</span><br><span class="line">LQHelper[1615:127135] 更新 UI</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<h4 id="3-任务的取消"><a href="#3-任务的取消" class="headerlink" title="3 任务的取消"></a>3 任务的取消</h4><p>iOS8 后 GCD 支持对 <code>dispatch block</code> 的取消。方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void dispatch_block_cancel(dispatch_block_t block);</span><br></pre></td></tr></table></figure>
+<p>​    这个函数用异步的方式取消指定的 block。取消操作使将来执行 <code>dispatch block</code> 立即返回，但是对已经在执行的 <code>dispatch block</code> 没有任何影响。当一个 block 被取消时，它会立即释放捕获的资源。如果要在一个 block 中对某些对象进行释放操作，在取消这个 block 的时候，需要确保内存不会泄漏。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.itachi.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">// 耗时任务</span><br><span class="line">dispatch_block_t firstTaskBlock = dispatch_block_create(0, ^&#123;</span><br><span class="line">    NSLog(@&quot;开始第一个任务&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:1.5f];</span><br><span class="line">    NSLog(@&quot;结束第一个任务&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 耗时任务</span><br><span class="line">dispatch_block_t secTaskBlock = dispatch_block_create(0, ^&#123;</span><br><span class="line">    NSLog(@&quot;开始第二个任务&quot;);</span><br><span class="line">    [NSThread sleepForTimeInterval:2.f];</span><br><span class="line">    NSLog(@&quot;结束第二个任务&quot;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(serialQueue, firstTaskBlock);</span><br><span class="line">dispatch_async(serialQueue, secTaskBlock);</span><br><span class="line"></span><br><span class="line">// 等待1s，让第一个任务开始运行</span><br><span class="line">[NSThread sleepForTimeInterval:1];</span><br><span class="line"></span><br><span class="line">dispatch_block_cancel(firstTaskBlock);</span><br><span class="line">NSLog(@&quot;尝试过取消第一个任务&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_block_cancel(secTaskBlock);</span><br><span class="line">NSLog(@&quot;尝试过取消第二个任务&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">执行结果：</span><br><span class="line">LQHelper[1645:130881] 开始第一个任务</span><br><span class="line">LQHelper[1645:130771] 尝试过取消第一个任务</span><br><span class="line">LQHelper[1645:130771] 尝试过取消第二个任务</span><br><span class="line">LQHelper[1645:130881] 结束第一个任务</span><br></pre></td></tr></table></figure>
+<p>可见 <code>dispatch_block_cancel</code> 对已经在执行的任务不起作用，只能取消尚未执行的任务。</p>
+<p>转载自<a href="http://www.jianshu.com/p/5a16dfd36fad" target="_blank" rel="noopener">GCD 之任务操作</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/08/GCD方法注释/" rel="next" title="GCD学习 —— 四">
+                <i class="fa fa-chevron-left"></i> GCD学习 —— 四
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/09/GCD 块操作/"
+           data-title="GCD学习 —— 三" data-url="http://yoursite.com/2017/12/09/GCD 块操作/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Leo" />
+            
+              <p class="site-author-name" itemprop="name">Leo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建Block"><span class="nav-number">1.</span> <span class="nav-text">1 创建Block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-任务的取消"><span class="nav-number">2.</span> <span class="nav-text">3 任务的取消</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、需求1.1 功能项1.1.1 温度 设置温度类别  华氏温度、摄氏温度   设置温度 |      | 华氏温度                            | 摄氏温度                            || —- | ——————————- | ——————————- || 温度范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Monkey·D·Luffy">
+<meta property="og:url" content="http://yoursite.com/2018/08/06/温控app/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy">
+<meta property="og:description" content="一、需求1.1 功能项1.1.1 温度 设置温度类别  华氏温度、摄氏温度   设置温度 |      | 华氏温度                            | 摄氏温度                            || —- | ——————————- | ——————————- || 温度范围 | 302-464                         | 15">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/793D54E28AE24D90B2DA1F9816841572?method=download&shareKey=1ab167a9792aa3206d8bb75ef82264db">
+<meta property="og:updated_time" content="2018-11-29T07:25:39.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Monkey·D·Luffy">
+<meta name="twitter:description" content="一、需求1.1 功能项1.1.1 温度 设置温度类别  华氏温度、摄氏温度   设置温度 |      | 华氏温度                            | 摄氏温度                            || —- | ——————————- | ——————————- || 温度范围 | 302-464                         | 15">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/793D54E28AE24D90B2DA1F9816841572?method=download&shareKey=1ab167a9792aa3206d8bb75ef82264db">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/06/温控app/"/>
+
+
+
+
+
+  <title> | Monkey·D·Luffy</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/温控app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T15:00:52+08:00">
+                2018-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/06/温控app/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/08/06/温控app/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、需求"><a href="#一、需求" class="headerlink" title="一、需求"></a>一、需求</h1><h2 id="1-1-功能项"><a href="#1-1-功能项" class="headerlink" title="1.1 功能项"></a>1.1 功能项</h2><h3 id="1-1-1-温度"><a href="#1-1-1-温度" class="headerlink" title="1.1.1 温度"></a>1.1.1 温度</h3><ul>
+<li><p>设置温度类别</p>
+<blockquote>
+<p>华氏温度、摄氏温度</p>
+</blockquote>
+</li>
+<li><p>设置温度</p>
+<p>|      | 华氏温度                            | 摄氏温度                            |<br>| —- | ——————————- | ——————————- |<br>| 温度范围 | 302-464                         | 150-240                         |<br>| 温度拆解 | 8个挡位                            | 8个挡位                            |<br>| 拆分值  | 302、326、349、372、395、418、441、464 | 150、165、178、190、203、215、228、240 |</p>
+</li>
+</ul>
+<p>注：华氏温度作为温度通信基础温度，摄氏温度下需将数值转成华氏温度传输(F=C*1.8+32)</p>
+<a id="more"></a>
+<h3 id="1-1-2-电量"><a href="#1-1-2-电量" class="headerlink" title="1.1.2 电量"></a>1.1.2 电量</h3><ul>
+<li><p>显示电量</p>
+<blockquote>
+<p>显示当前电子烟电量</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="1-1-3-灯"><a href="#1-1-3-灯" class="headerlink" title="1.1.3 灯"></a>1.1.3 灯</h3><ul>
+<li><p>设置亮度</p>
+<blockquote>
+<p>亮灯级别待定</p>
+</blockquote>
+<p>|      | 亮灯                |<br>| —- | —————– |<br>| 范围   | 0-100             |<br>| 拆分值  | 0、20、40、60、80、100 |</p>
+</li>
+<li><p>设置颜色</p>
+<blockquote>
+<p>设置灯的颜色(紫、红、白)</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="1-1-4-其他"><a href="#1-1-4-其他" class="headerlink" title="1.1.4 其他"></a>1.1.4 其他</h3><ul>
+<li><p>震动开关设置</p>
+</li>
+<li><p>设备状态</p>
+<blockquote>
+<p>查询设备状态(温度、电量、灯颜色、灯亮度，灯颜色)</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="1-2-UI"><a href="#1-2-UI" class="headerlink" title="1.2 UI"></a>1.2 UI</h2><h3 id="1-2-1"><a href="#1-2-1" class="headerlink" title="1.2.1"></a>1.2.1</h3><ul>
+<li><p>主界面</p>
+<blockquote>
+<p>温度显示、调节 电量显示</p>
+</blockquote>
+</li>
+<li><p>设置页面</p>
+<blockquote>
+<p>温度单位设置<br>灯光亮度、颜色设置<br>震动开关设置</p>
+</blockquote>
+</li>
+<li><p>蓝牙链接提示界面</p>
+<blockquote>
+<p>提示摇摆电子烟开启蓝牙配对</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="二、约束"><a href="#二、约束" class="headerlink" title="二、约束"></a>二、约束</h1><h2 id="2-1-软件约束"><a href="#2-1-软件约束" class="headerlink" title="2.1 软件约束"></a>2.1 软件约束</h2><h3 id="2-1-1-Android约束"><a href="#2-1-1-Android约束" class="headerlink" title="2.1.1 Android约束"></a>2.1.1 Android约束</h3><p>适配版本：5.0及以上<br>适配机型：小米、三星、华为</p>
+<h3 id="2-1-2-iOS约束"><a href="#2-1-2-iOS约束" class="headerlink" title="2.1.2 iOS约束"></a>2.1.2 iOS约束</h3><p>适配版本：iOS9及以上<br>适配机型：所有iPhone</p>
+<h3 id="2-1-3-其他"><a href="#2-1-3-其他" class="headerlink" title="2.1.3 其他"></a>2.1.3 其他</h3><p>APP名称：tofein<br>启动页：不需要<br><a href="https://note.youdao.com/yws/api/personal/file/793D54E28AE24D90B2DA1F9816841572?method=download&amp;shareKey=1ab167a9792aa3206d8bb75ef82264db" target="_blank" rel="noopener">icon</a> <img src="https://note.youdao.com/yws/api/personal/file/793D54E28AE24D90B2DA1F9816841572?method=download&amp;shareKey=1ab167a9792aa3206d8bb75ef82264db" alt="icon"></p>
+<h2 id="2-2-硬件约束"><a href="#2-2-硬件约束" class="headerlink" title="2.2 硬件约束"></a>2.2 硬件约束</h2><h3 id="2-2-1-蓝牙名称"><a href="#2-2-1-蓝牙名称" class="headerlink" title="2.2.1 蓝牙名称"></a>2.2.1 蓝牙名称</h3><p>固定值：HOTT-Ble</p>
+<h3 id="2-2-2-蓝牙UUID"><a href="#2-2-2-蓝牙UUID" class="headerlink" title="2.2.2 蓝牙UUID"></a>2.2.2 蓝牙UUID</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>UUID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务</td>
+<td>0xFFF0</td>
+</tr>
+<tr>
+<td>接收</td>
+<td>0xFFF1</td>
+</tr>
+<tr>
+<td>发送</td>
+<td>0xFFF2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-2-3-电子烟"><a href="#2-2-3-电子烟" class="headerlink" title="2.2.3 电子烟"></a>2.2.3 电子烟</h3><p>硬件温度范围(-10，300)，精度1摄氏度</p>
+<h1 id="三、附录"><a href="#三、附录" class="headerlink" title="三、附录"></a>三、附录</h1><h2 id="3-1-功能报文"><a href="#3-1-功能报文" class="headerlink" title="3.1 功能报文"></a>3.1 功能报文</h2><p>S：发送(send)  R：接收(receive)<br>报文发送应存在失败重试机制，发送失败再次发送。包括第一次发送最多发送三次报文</p>
+<h3 id="3-1-1-设置温度"><a href="#3-1-1-设置温度" class="headerlink" title="3.1.1 设置温度"></a>3.1.1 设置温度</h3><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>302F</td>
+<td>0a 10 02 01 2e 41</td>
+</tr>
+<tr>
+<td>S</td>
+<td>326F</td>
+<td>0a 10 02 01 46 59</td>
+</tr>
+<tr>
+<td>S</td>
+<td>349F</td>
+<td>0a 10 02 01 5d 70</td>
+</tr>
+<tr>
+<td>S</td>
+<td>372F</td>
+<td>0a 10 02 01 74 87</td>
+</tr>
+<tr>
+<td>S</td>
+<td>395F</td>
+<td>0a 10 02 01 8b 9e</td>
+</tr>
+<tr>
+<td>S</td>
+<td>418F</td>
+<td>0a 10 02 01 a2 b5</td>
+</tr>
+<tr>
+<td>S</td>
+<td>441F</td>
+<td>0a 10 02 01 b9 cc</td>
+</tr>
+<tr>
+<td>S</td>
+<td>464F</td>
+<td>0a 10 02 01 d0 e3</td>
+</tr>
+<tr>
+<td>R</td>
+<td>成功</td>
+<td>0b 10 01 01 12</td>
+</tr>
+<tr>
+<td>R</td>
+<td>失败</td>
+<td>0b 10 01 00 11</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-2-设置灯亮度"><a href="#3-1-2-设置灯亮度" class="headerlink" title="3.1.2 设置灯亮度"></a>3.1.2 设置灯亮度</h3><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>0</td>
+<td>0a 15 01 00 16</td>
+</tr>
+<tr>
+<td>S</td>
+<td>20</td>
+<td>0a 15 01 14 2a</td>
+</tr>
+<tr>
+<td>S</td>
+<td>40</td>
+<td>0a 15 01 28 3e</td>
+</tr>
+<tr>
+<td>S</td>
+<td>60</td>
+<td>0a 15 01 3c 52</td>
+</tr>
+<tr>
+<td>S</td>
+<td>80</td>
+<td>0a 15 01 50 66</td>
+</tr>
+<tr>
+<td>S</td>
+<td>100(默认)</td>
+<td>0a 15 01 64 7a</td>
+</tr>
+<tr>
+<td>R</td>
+<td>成功</td>
+<td>0b 15 01 01 17</td>
+</tr>
+<tr>
+<td>R</td>
+<td>失败</td>
+<td>0b 15 01 00 16</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-3-设置灯颜色"><a href="#3-1-3-设置灯颜色" class="headerlink" title="3.1.3 设置灯颜色"></a>3.1.3 设置灯颜色</h3><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>紫色(默认)</td>
+<td>0a 14 01 00 15</td>
+</tr>
+<tr>
+<td>S</td>
+<td>红色</td>
+<td>0a 14 01 01 16</td>
+</tr>
+<tr>
+<td>S</td>
+<td>白色</td>
+<td>0a 14 01 02 17</td>
+</tr>
+<tr>
+<td>R</td>
+<td>成功</td>
+<td>0b 14 01 01 16</td>
+</tr>
+<tr>
+<td>R</td>
+<td>失败</td>
+<td>0b 14 01 00 15</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-4-震动开关设置"><a href="#3-1-4-震动开关设置" class="headerlink" title="3.1.4 震动开关设置"></a>3.1.4 震动开关设置</h3><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>开(默认)</td>
+<td>0a 12 01 01 14</td>
+</tr>
+<tr>
+<td>S</td>
+<td>关</td>
+<td>0a 12 01 00 13</td>
+</tr>
+<tr>
+<td>R</td>
+<td>成功</td>
+<td>0b 12 01 01 14</td>
+</tr>
+<tr>
+<td>R</td>
+<td>失败</td>
+<td>0b 12 01 00 13</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-5-查询设备状态"><a href="#3-1-5-查询设备状态" class="headerlink" title="3.1.5 查询设备状态"></a>3.1.5 查询设备状态</h3><p>设备蓝牙链接成功时执行一次，初始化设备状态即可(电子烟不能手动调整设备)</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>查询</td>
+<td>0a 11 01 00 12</td>
+</tr>
+<tr>
+<td>R</td>
+<td>温度、电量、颜色、亮灯、震动开关</td>
+<td>0b 11 06 (xx xx) (xx) (xx) (xx) (xx) xx</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-6-查询温度"><a href="#3-1-6-查询温度" class="headerlink" title="3.1.6 查询温度"></a>3.1.6 查询温度</h3><p>蓝牙链接成功后，暂定2s查询一次(温度可能会波动)</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>查询</td>
+<td>0a 16 01 00 17</td>
+</tr>
+<tr>
+<td>R</td>
+<td>电量</td>
+<td>0b 16 02 xx xx xx</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-7-查询电量"><a href="#3-1-7-查询电量" class="headerlink" title="3.1.7 查询电量"></a>3.1.7 查询电量</h3><p>蓝牙链接成功后，暂定1m查询一次</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>数据/说明</th>
+<th>报文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S</td>
+<td>查询</td>
+<td>0a 13 01 00 14</td>
+</tr>
+<tr>
+<td>R</td>
+<td>电量</td>
+<td>0b 13 02 xx xx xx</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/20/WorkFlow/" rel="next" title="Workflow 使用教程">
+                <i class="fa fa-chevron-left"></i> Workflow 使用教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/20/Linux 命令大全/" rel="prev" title="Linux命令">
+                Linux命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2018/08/06/温控app/"
+           data-title="" data-url="http://yoursite.com/2018/08/06/温控app/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="iLeo" />
+            
+              <p class="site-author-name" itemprop="name">iLeo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、需求"><span class="nav-text">一、需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-功能项"><span class="nav-text">1.1 功能项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-温度"><span class="nav-text">1.1.1 温度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-电量"><span class="nav-text">1.1.2 电量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-灯"><span class="nav-text">1.1.3 灯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-其他"><span class="nav-text">1.1.4 其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-UI"><span class="nav-text">1.2 UI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1"><span class="nav-text">1.2.1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、约束"><span class="nav-text">二、约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-软件约束"><span class="nav-text">2.1 软件约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-Android约束"><span class="nav-text">2.1.1 Android约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-iOS约束"><span class="nav-text">2.1.2 iOS约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-其他"><span class="nav-text">2.1.3 其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-硬件约束"><span class="nav-text">2.2 硬件约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-蓝牙名称"><span class="nav-text">2.2.1 蓝牙名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-蓝牙UUID"><span class="nav-text">2.2.2 蓝牙UUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-电子烟"><span class="nav-text">2.2.3 电子烟</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、附录"><span class="nav-text">三、附录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-功能报文"><span class="nav-text">3.1 功能报文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-设置温度"><span class="nav-text">3.1.1 设置温度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-设置灯亮度"><span class="nav-text">3.1.2 设置灯亮度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-设置灯颜色"><span class="nav-text">3.1.3 设置灯颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-4-震动开关设置"><span class="nav-text">3.1.4 震动开关设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-5-查询设备状态"><span class="nav-text">3.1.5 查询设备状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-6-查询温度"><span class="nav-text">3.1.6 查询温度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-7-查询电量"><span class="nav-text">3.1.7 查询电量</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

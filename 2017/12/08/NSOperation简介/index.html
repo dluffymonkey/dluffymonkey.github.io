@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1 NSOperation简介NSOperation是苹果提供给我们的一套多线程解决方案。实际上NSOperation是基于GCD更高一层的封装，但是比GCD更简单易用、代码可读性也更高。 NSOperation需要配合NSOperationQueue来实现多线程。因为默认情况下，NSOperation单独使用时系统同">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSOperation简介">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/NSOperation简介/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy">
+<meta property="og:description" content="1 NSOperation简介NSOperation是苹果提供给我们的一套多线程解决方案。实际上NSOperation是基于GCD更高一层的封装，但是比GCD更简单易用、代码可读性也更高。 NSOperation需要配合NSOperationQueue来实现多线程。因为默认情况下，NSOperation单独使用时系统同步执行操作，并没有开辟新线程的能力，只有配合NSOperationQueue才能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-20T02:43:20.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NSOperation简介">
+<meta name="twitter:description" content="1 NSOperation简介NSOperation是苹果提供给我们的一套多线程解决方案。实际上NSOperation是基于GCD更高一层的封装，但是比GCD更简单易用、代码可读性也更高。 NSOperation需要配合NSOperationQueue来实现多线程。因为默认情况下，NSOperation单独使用时系统同步执行操作，并没有开辟新线程的能力，只有配合NSOperationQueue才能">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/NSOperation简介/"/>
+
+
+
+
+
+  <title>NSOperation简介 | Monkey·D·Luffy</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/NSOperation简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NSOperation简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T00:00:00+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/08/NSOperation简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/08/NSOperation简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-NSOperation简介"><a href="#1-NSOperation简介" class="headerlink" title="1 NSOperation简介"></a>1 NSOperation简介</h4><p>NSOperation是苹果提供给我们的一套多线程解决方案。实际上NSOperation是基于GCD更高一层的封装，但是比GCD更简单易用、代码可读性也更高。</p>
+<p>NSOperation需要配合NSOperationQueue来实现多线程。<strong>因为默认情况下，NSOperation单独使用时系统同步执行操作，并没有开辟新线程的能力，只有配合NSOperationQueue才能实现异步执行。</strong></p>
+<p>因为NSOperation是基于GCD的，那么使用起来也和GCD差不多，其中，NSOperation相当于GCD中的任务，而NSOperationQueue则相当于GCD中的队列。NSOperation实现多线程的使用步骤分为三步：</p>
+<ul>
+<li><p>1 创建任务：先将需要执行的操作封装到一个NSOperation对象中。</p>
+</li>
+<li><p>2 创建队列：创建NSOperationQueue对象。</p>
+</li>
+<li><p>3 将任务加入到队列中：然后将NSOperation对象添加到NSOperationQueue中。</p>
+</li>
+</ul>
+<p>之后呢，系统就会自动将NSOperationQueue中的NSOperation取出来，在新线程中执行操作。</p>
+<p>下面我们来学习下NSOperation和NSOperationQueue的基本使用。</p>
+<a id="more"></a>
+<h4 id="2-NSOperation和NSOperationQueue的基本使用"><a href="#2-NSOperation和NSOperationQueue的基本使用" class="headerlink" title="2 NSOperation和NSOperationQueue的基本使用"></a>2 NSOperation和NSOperationQueue的基本使用</h4><h5 id="2-1-创建任务"><a href="#2-1-创建任务" class="headerlink" title="2.1 创建任务"></a>2.1 创建任务</h5><p>NSOperation是个抽象类，并不能封装任务。我们只有使用它的子类来封装任务。我们有三种方式来封装任务。</p>
+<ul>
+<li>1 使用子类NSInvocationOperation</li>
+<li>2 使用子类NSBlockOperation</li>
+<li>3 定义继承自NSOperation的子类，通过实现内部相应的方法来封装任务。</li>
+</ul>
+<p>在不使用NSOperationQueue，单独使用NSOperation的情况下系统同步执行操作，下面我们学习以下任务的三种创建方式。</p>
+<h6 id="2-1-1-使用子类-NSInvocationOperation"><a href="#2-1-1-使用子类-NSInvocationOperation" class="headerlink" title="2.1.1 使用子类- NSInvocationOperation:"></a>2.1.1 使用子类<code>- NSInvocationOperation:</code></h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 1.创建NSInvocationOperation对象</span><br><span class="line">NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line"></span><br><span class="line">// 2.调用start方法开始执行操作</span><br><span class="line">[op start];</span><br><span class="line"></span><br><span class="line">- (void)run</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;------%@&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperation[15834:2384555] ------&lt;NSThread: 0x7fa3e2e05410&gt;&#123;number = 1, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>从中可以看到，在没有使用NSOperationQueue、单独使用NSInvocationOperation的情况下，NSInvocationOperation在主线程执行操作，并没有开启新线程。</p>
+<h6 id="2-1-2-使用子类-NSBlockOperation"><a href="#2-1-2-使用子类-NSBlockOperation" class="headerlink" title="2.1.2 使用子类- NSBlockOperation"></a>2.1.2 使用子类<code>- NSBlockOperation</code></h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">    // 在主线程</span><br><span class="line">    NSLog(@&quot;------%@&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[op start];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperation[15884:2387780] ------&lt;NSThread: 0x7fb2196012c0&gt;&#123;number = 1, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>我们同样可以看到，在没有使用NSOperationQueue、单独使用NSBlockOperation的情况下，NSBlockOperation也是在主线程执行操作，并没有开启新线程。</p>
+<p><strong>但是，NSBlockOperation还提供了一个方法<code>addExecutionBlock:</code>，通过<code>addExecutionBlock:</code>就可以为NSBlockOperation添加额外的操作，这些额外的操作就会在其他线程并发执行。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (void)blockOperation</span><br><span class="line">&#123;</span><br><span class="line">    NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">        // 在主线程</span><br><span class="line">        NSLog(@&quot;1------%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];    </span><br><span class="line"></span><br><span class="line">    // 添加额外的任务(在子线程执行)</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;2------%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;3------%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;4------%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [op start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperation[15896:2390616] 1------&lt;NSThread: 0x7ff633f03be0&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">NSOperation[15896:2390825] 2------&lt;NSThread: 0x7ff633e24600&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperation[15896:2390657] 3------&lt;NSThread: 0x7ff633c411e0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperation[15896:2390656] 4------&lt;NSThread: 0x7ff633f1d3e0&gt;&#123;number = 4, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，<code>blockOperationWithBlock:</code>方法中的操作是在主线程中执行的，而<code>addExecutionBlock:</code>方法中的操作是在其他线程中执行的。</p>
+<h6 id="2-1-3-定义继承自NSOperation的子类"><a href="#2-1-3-定义继承自NSOperation的子类" class="headerlink" title="2.1.3 定义继承自NSOperation的子类"></a>2.1.3 定义继承自NSOperation的子类</h6><p>h文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">@interface LQOperation : NSOperation</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>m文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;LQOperation.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation LQOperation</span><br><span class="line">/**</span><br><span class="line"> * 需要执行的任务</span><br><span class="line"> */</span><br><span class="line">- (void)main</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; 2; ++i) &#123;</span><br><span class="line">        NSLog(@&quot;1-----%@&quot;,[NSThread currentThread]);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>然后使用的时候导入头文件<code>LQOperation.h</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 创建YSCOperation</span><br><span class="line">LQOperation *op = [[LQOperation alloc] init];</span><br><span class="line">[op start];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperation[16566:2501606] 1-----&lt;NSThread: 0x7f8030d05150&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">NSOperation[16566:2501606] 1-----&lt;NSThread: 0x7f8030d05150&gt;&#123;number = 1, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：在没有使用NSOperationQueue、单独使用自定义子类的情况下，是在主线程执行操作，并没有开启新线程。</p>
+<h5 id="2-2-创建队列"><a href="#2-2-创建队列" class="headerlink" title="2.2 创建队列"></a>2.2 创建队列</h5><p>和GCD中的并发队列、串行队列略有不同的是：<code>NSOperationQueue</code>一共有两种队列：主队列、其他队列。其中其他队列同时包含了串行、并发功能。下边是主队列、其他队列的基本创建方法和特点</p>
+<ul>
+<li><p>主队列</p>
+<ul>
+<li><p>凡是添加到主队列中的任务（NSOperation），都会放到主线程中执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSOperationQueue *queue = [NSOperationQueue mainQueue];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>其他队列（非主队列）</p>
+<ul>
+<li><p>添加到这种队列中的任务（NSOperation），就会自动放到子线程中执行</p>
+</li>
+<li><p>同时包含了：串行、并发功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-3-将任务加入到队列中"><a href="#2-3-将任务加入到队列中" class="headerlink" title="2.3 将任务加入到队列中"></a>2.3 将任务加入到队列中</h5><p>前边说了，NSOperation需要配合NSOperationQueue来实现多线程。<br>那么我们需要将创建好的任务加入到队列中去。总共有两种方法</p>
+<h6 id="2-3-1-void-addOperation-NSOperation-op"><a href="#2-3-1-void-addOperation-NSOperation-op" class="headerlink" title="2.3.1 -(void)addOperation:(NSOperation *)op;"></a>2.3.1 <code>-(void)addOperation:(NSOperation *)op;</code></h6><ul>
+<li><p>需要先创建任务，再将创建好的任务加入到创建好的队列中去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (void)addOperationToQueue</span><br><span class="line">&#123;</span><br><span class="line">    // 1.创建队列</span><br><span class="line">    NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br><span class="line"></span><br><span class="line">    // 2. 创建操作  </span><br><span class="line">    // 创建NSInvocationOperation    </span><br><span class="line">    NSInvocationOperation *op1 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run) object:nil];    </span><br><span class="line">    // 创建NSBlockOperation    </span><br><span class="line">    NSBlockOperation *op2 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 2; ++i) &#123;</span><br><span class="line">            NSLog(@&quot;1-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    // 3. 添加操作到队列中：addOperation:   </span><br><span class="line">    [queue addOperation:op1]; // [op1 start]    </span><br><span class="line">    [queue addOperation:op2]; // [op2 start]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)run</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; 2; ++i) &#123;</span><br><span class="line">        NSLog(@&quot;2-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperationQueue[16201:2452281] 1-----&lt;NSThread: 0x7fe4824080e0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16201:2452175] 2-----&lt;NSThread: 0x7fe482404a50&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16201:2452175] 2-----&lt;NSThread: 0x7fe482404a50&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16201:2452281] 1-----&lt;NSThread: 0x7fe4824080e0&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：NSInvocationOperation和NSOperationQueue结合后能够开启新线程，进行并发执行，NSBlockOperation和NSOperationQueue也能够开启新线程，进行并发执行。</p>
+</li>
+</ul>
+<h6 id="2-3-2-void-addOperationWithBlock-void-void-block"><a href="#2-3-2-void-addOperationWithBlock-void-void-block" class="headerlink" title="2.3.2 - (void)addOperationWithBlock:(void (^)(void))block;"></a>2.3.2 <code>- (void)addOperationWithBlock:(void (^)(void))block;</code></h6><ul>
+<li><p>无需先创建任务，在block中添加任务，直接将任务block加入到队列中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)addOperationWithBlockToQueue</span><br><span class="line">&#123;</span><br><span class="line">    // 1. 创建队列</span><br><span class="line">    NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br><span class="line"></span><br><span class="line">    // 2. 添加操作到队列中：addOperationWithBlock:</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 2; ++i) &#123;</span><br><span class="line">            NSLog(@&quot;-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">NSOperationQueue[16293:2457487] -----&lt;NSThread: 0x7ffa6bc0e1e0&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16293:2457487] -----&lt;NSThread: 0x7ffa6bc0e1e0&gt;&#123;number = 2, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出addOperationWithBlock:和NSOperationQueue能够开启新线程，进行并发执行。</p>
+</li>
+</ul>
+<h4 id="3-控制串行执行和并行执行的关键"><a href="#3-控制串行执行和并行执行的关键" class="headerlink" title="3 控制串行执行和并行执行的关键"></a>3 控制串行执行和并行执行的关键</h4><p>之前我们说过，NSOperationQueue创建的其他队列同时具有串行、并发功能，上边我们演示了并发功能，那么他的串行功能是如何实现的？</p>
+<p>这里有个关键参数<code>maxConcurrentOperationCount</code>，叫做<strong>最大并发数</strong>。</p>
+<ul>
+<li><p>最大并发数：<code>maxConcurrentOperationCount</code></p>
+<ul>
+<li><code>maxConcurrentOperationCount</code>默认情况下为-1，表示不进行限制，默认为并发执行。</li>
+<li>当<code>maxConcurrentOperationCount</code>为1时，进行串行执行。</li>
+<li>当<code>maxConcurrentOperationCount</code>大于1时，进行并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">- (void)opetationQueue</span><br><span class="line">&#123;</span><br><span class="line">    // 创建队列</span><br><span class="line">    NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br><span class="line"></span><br><span class="line">    // 设置最大并发操作数</span><br><span class="line">    //    queue.maxConcurrentOperationCount = 2;</span><br><span class="line">    queue.maxConcurrentOperationCount = 1; // 就变成了串行队列</span><br><span class="line"></span><br><span class="line">    // 添加操作</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;1-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;2-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;3-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;4-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;5-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;6-----%@&quot;, [NSThread currentThread]);</span><br><span class="line">        [NSThread sleepForTimeInterval:0.01];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">最大并发数为1输出结果：</span><br><span class="line">NSOperationQueue[16320:2464630] 1-----&lt;NSThread: 0x7fc892d0b3a0&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16320:2464631] 2-----&lt;NSThread: 0x7fc892c0a7b0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16320:2464630] 3-----&lt;NSThread: 0x7fc892d0b3a0&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16320:2464631] 4-----&lt;NSThread: 0x7fc892c0a7b0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16320:2464631] 5-----&lt;NSThread: 0x7fc892c0a7b0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16320:2464630] 6-----&lt;NSThread: 0x7fc892d0b3a0&gt;&#123;number = 2, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">最大并发数为2输出结果：</span><br><span class="line">NSOperationQueue[16331:2466366] 2-----&lt;NSThread: 0x7fd729f0f270&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16331:2466491] 1-----&lt;NSThread: 0x7fd729f4e290&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16331:2466367] 3-----&lt;NSThread: 0x7fd729d214e0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16331:2466366] 4-----&lt;NSThread: 0x7fd729f0f270&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16331:2466366] 6-----&lt;NSThread: 0x7fd729f0f270&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">NSOperationQueue[16331:2466511] 5-----&lt;NSThread: 0x7fd729e056c0&gt;&#123;number = 5, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：当最大并发数为1时，任务是按顺序串行执行的。当最大并发数为2时，任务是并发执行的。而且开启线程数量是由系统决定的，不需要我们来管理。这样看来，是不是比GCD还要简单了许多？</p>
+</li>
+</ul>
+<h4 id="4-操作依赖"><a href="#4-操作依赖" class="headerlink" title="4 操作依赖"></a>4 操作依赖</h4><p>NSOperation和NSOperationQueue最吸引人的地方是它能添加操作之间的依赖关系。比如说有A、B两个操作，其中A执行完操作，B才能执行操作，那么就需要让B依赖于A。具体如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)addDependency</span><br><span class="line">&#123;</span><br><span class="line">    NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br><span class="line"></span><br><span class="line">    NSBlockOperation *op1 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;1-----%@&quot;, [NSThread  currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">    NSBlockOperation *op2 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;2-----%@&quot;, [NSThread  currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [op1 addDependency:op2];    // 让op1 依赖于 op2，则先执行op2，再执行op1</span><br><span class="line"></span><br><span class="line">    [queue addOperation:op1];</span><br><span class="line">    [queue addOperation:op2];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line">操作依赖[16423:2484866] 2-----&lt;NSThread: 0x7fc138e1e7c0&gt;&#123;number = 2, name = (null)&#125;</span><br><span class="line">操作依赖[16423:2484866] 1-----&lt;NSThread: 0x7fc138e1e7c0&gt;&#123;number = 2, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，无论运行几次，其结果都是op2先执行，op1后执行。</p>
+<h4 id="5-一些其他方法"><a href="#5-一些其他方法" class="headerlink" title="5 一些其他方法"></a>5 一些其他方法</h4><ul>
+<li><code>- (void)cancel;</code> NSOperation提供的方法，可取消单个操作</li>
+<li><code>- (void)cancelAllOperations;</code> NSOperationQueue提供的方法，可以取消队列的所有操作</li>
+<li><code>- (void)setSuspended:(BOOL)b;</code> 可设置任务的暂停和恢复，YES代表暂停队列，NO代表恢复队列</li>
+<li><code>- (BOOL)isSuspended;</code> 判断暂停状态</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li><p>这里的暂停和取消并不代表可以将当前的操作立即取消，而是当当前的操作执行完毕之后不再执行新的操作。</p>
+</li>
+<li><p>暂停和取消的区别就在于：暂停操作之后还可以恢复操作，继续向下执行；而取消操作之后，所有的操作就清空了，无法再接着执行剩下的操作。</p>
+<p>​</p>
+</li>
+</ul>
+<p>转载自<a href="http://www.jianshu.com/p/4b1d77054b35" target="_blank" rel="noopener">iOS多线程–彻底学会多线程</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/08/NSRunLoop简介/" rel="next" title="NSRunLoop简介">
+                <i class="fa fa-chevron-left"></i> NSRunLoop简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/08/GCD 块操作/" rel="prev" title="GCD学习 —— 三">
+                GCD学习 —— 三 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/08/NSOperation简介/"
+           data-title="NSOperation简介" data-url="http://yoursite.com/2017/12/08/NSOperation简介/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="iLeo" />
+            
+              <p class="site-author-name" itemprop="name">iLeo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-NSOperation简介"><span class="nav-text">1 NSOperation简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-NSOperation和NSOperationQueue的基本使用"><span class="nav-text">2 NSOperation和NSOperationQueue的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-创建任务"><span class="nav-text">2.1 创建任务</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-1-使用子类-NSInvocationOperation"><span class="nav-text">2.1.1 使用子类- NSInvocationOperation:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-2-使用子类-NSBlockOperation"><span class="nav-text">2.1.2 使用子类- NSBlockOperation</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-3-定义继承自NSOperation的子类"><span class="nav-text">2.1.3 定义继承自NSOperation的子类</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-创建队列"><span class="nav-text">2.2 创建队列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-将任务加入到队列中"><span class="nav-text">2.3 将任务加入到队列中</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-3-1-void-addOperation-NSOperation-op"><span class="nav-text">2.3.1 -(void)addOperation:(NSOperation *)op;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-3-2-void-addOperationWithBlock-void-void-block"><span class="nav-text">2.3.2 - (void)addOperationWithBlock:(void (^)(void))block;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-控制串行执行和并行执行的关键"><span class="nav-text">3 控制串行执行和并行执行的关键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-操作依赖"><span class="nav-text">4 操作依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-一些其他方法"><span class="nav-text">5 一些其他方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

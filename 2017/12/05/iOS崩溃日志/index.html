@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需要保存到日志里面的信息有：手机号  设备标识UUID  设备类型  网络类型  是否越狱 版本号 操作系统版本   时间   崩溃原因 1234567891011121314#import &amp;lt;Foundation/Foundation.h&amp;gt;/** 崩溃日志收集 */@interface L">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS崩溃日志收集上传">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/iOS崩溃日志/index.html">
+<meta property="og:site_name" content="Monkey·D·Luffy">
+<meta property="og:description" content="需要保存到日志里面的信息有：手机号  设备标识UUID  设备类型  网络类型  是否越狱 版本号 操作系统版本   时间   崩溃原因 1234567891011121314#import &amp;lt;Foundation/Foundation.h&amp;gt;/** 崩溃日志收集 */@interface LQUncaughtExceptionHandler : NSObject+ (void)setD">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-20T02:44:26.947Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS崩溃日志收集上传">
+<meta name="twitter:description" content="需要保存到日志里面的信息有：手机号  设备标识UUID  设备类型  网络类型  是否越狱 版本号 操作系统版本   时间   崩溃原因 1234567891011121314#import &amp;lt;Foundation/Foundation.h&amp;gt;/** 崩溃日志收集 */@interface LQUncaughtExceptionHandler : NSObject+ (void)setD">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/05/iOS崩溃日志/"/>
+
+
+
+
+
+  <title>iOS崩溃日志收集上传 | Monkey·D·Luffy</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Monkey·D·Luffy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/iOS崩溃日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="iLeo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Monkey·D·Luffy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS崩溃日志收集上传</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T00:00:00+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Tips/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS Tips</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/05/iOS崩溃日志/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/05/iOS崩溃日志/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>需要保存到日志里面的信息有：手机号  设备标识UUID  设备类型  网络类型  是否越狱 版本号 操作系统版本   时间   崩溃原因</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 崩溃日志收集</span><br><span class="line"> */</span><br><span class="line">@interface LQUncaughtExceptionHandler : NSObject</span><br><span class="line"></span><br><span class="line">+ (void)setDefaultHandler;</span><br><span class="line"></span><br><span class="line">+ (NSUncaughtExceptionHandler *)getHandler;</span><br><span class="line"></span><br><span class="line">+ (void)takeException:(NSException *)exception;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;LQUncaughtExceptionHandler.h&quot;</span><br><span class="line">#import &quot;LoginInfoManager.h&quot;</span><br><span class="line">#import &quot;DeviceInfo.h&quot;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 沙盒地址</span><br><span class="line"></span><br><span class="line"> @return 返回沙盒地址字符串</span><br><span class="line"> */</span><br><span class="line">NSString *applicationDocumentsDirectory() &#123;</span><br><span class="line"></span><br><span class="line">    return  [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void UncaughtExceptionHandler(NSException *exception) &#123;</span><br><span class="line">    NSDate   *date = [NSDate date];</span><br><span class="line">	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">	[formatter setDateStyle:NSDateFormatterMediumStyle];</span><br><span class="line">	[formatter setTimeStyle:NSDateFormatterShortStyle];</span><br><span class="line">	[formatter setDateFormat:@&quot;YYYY-MM-dd hh:mm:ss&quot;];</span><br><span class="line"></span><br><span class="line">	NSString *mobile = [LoginInfoManager sharedInstance].user.mobile;</span><br><span class="line">	NSString *uuid = [DeviceInfo getDeviceNumber];</span><br><span class="line">	NSString *deviceString = [DeviceInfo deviceString];</span><br><span class="line">	NSString *network = [DeviceInfo getNetWork];</span><br><span class="line">	NSString *prisonBreak = [DeviceInfo getSystemStatus];</span><br><span class="line">	NSString *version = APP_VERSION;</span><br><span class="line">	NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];</span><br><span class="line">	NSString *dateTime = [formatter stringFromDate:date];</span><br><span class="line">	NSString *name = [exception name];</span><br><span class="line">	NSString *reason = [exception reason];   // 崩溃的原因  可以有崩溃的原因(数组越界,字典nil,调用未知方法...) 崩溃的控制器以及方法</span><br><span class="line">	NSArray  *callStackSymbolsArray = [exception callStackSymbols];</span><br><span class="line"></span><br><span class="line">	NSString *logInfo = [NSString stringWithFormat:@&quot;========异常错误报告========\nmobile:%@\nuuid:%@\ndeviceString:%@\nnet:%@\nprisonBreak:%@\nversion:%@\ndateTime:%@\nphoneVersion:%@\nname:%@\nreason:\n%@\ncallStackSymbols:\n%@&quot;,mobile,uuid,deviceString,network,prisonBreak,version,phoneVersion,dateTime,name,reason,[callStackSymbolsArray componentsJoinedByString:@&quot;\n&quot;]];</span><br><span class="line">	NSString *path = [applicationDocumentsDirectory() stringByAppendingPathComponent:@&quot;ExceptionLog.txt&quot;];</span><br><span class="line">	[logInfo writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@implementation LQUncaughtExceptionHandler</span><br><span class="line"></span><br><span class="line">// 沙盒地址</span><br><span class="line">- (NSString *)applicationDocumentsDirectory &#123;</span><br><span class="line">	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)setDefaultHandler &#123;</span><br><span class="line">  NSSetUncaughtExceptionHandler(&amp;UncaughtExceptionHandler);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSUncaughtExceptionHandler *)getHandler &#123;</span><br><span class="line">	return NSGetUncaughtExceptionHandler();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)takeException:(NSException *)exception &#123;</span><br><span class="line">  	NSDate   *date = [NSDate date];</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    [formatter setDateStyle:NSDateFormatterMediumStyle];</span><br><span class="line">    [formatter setTimeStyle:NSDateFormatterShortStyle];</span><br><span class="line">    [formatter setDateFormat:@&quot;YYYY-MM-dd hh:mm:ss&quot;];</span><br><span class="line">    </span><br><span class="line">    NSString *mobile = [LoginInfoManager sharedInstance].user.mobile;</span><br><span class="line">    NSString *uuid = [DeviceInfo getDeviceNumber];</span><br><span class="line">    NSString *deviceString = [DeviceInfo deviceString];</span><br><span class="line">    NSString *network = [DeviceInfo getNetWork];</span><br><span class="line">    NSString *prisonBreak = [DeviceInfo getSystemStatus];</span><br><span class="line">    NSString *version = APP_VERSION;</span><br><span class="line">    NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];</span><br><span class="line">    NSString *reason = [exception reason];   // 崩溃的原因  可以有崩溃的原因(数组越界,字典nil,调用未知方法...) 崩溃的控制器以及方法</span><br><span class="line">    NSString *name = [exception name];</span><br><span class="line">    NSString *dateTime = [formatter stringFromDate:date];</span><br><span class="line">    NSArray  *callStackSymbolsArray = [exception callStackSymbols];</span><br><span class="line">    </span><br><span class="line">    NSString *logInfo = [NSString stringWithFormat:@&quot;========异常错误报告========\nmobile:%@\nuuid:%@\ndeviceString:%@\nnet:%@\nprisonBreak:%@\nversion:%@\ndateTime:%@\nphoneVersion:%@\nname:%@\nreason:\n%@\ncallStackSymbols:\n%@&quot;,mobile,uuid,deviceString,network,prisonBreak,version,dateTime,phoneVersion,name,reason,[callStackSymbolsArray componentsJoinedByString:@&quot;\n&quot;]];</span><br><span class="line">    NSString *path = [applicationDocumentsDirectory() stringByAppendingPathComponent:@&quot;ExceptionLog.txt&quot;];</span><br><span class="line">    [logInfo writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">#import &lt;SystemConfiguration/CaptiveNetwork.h&gt;  //  获取wifi</span><br><span class="line">#import &lt;CoreMotion/CoreMotion.h&gt;  //  加速计</span><br><span class="line">#import &lt;ifaddrs.h&gt;    //获取Ip</span><br><span class="line">#import &lt;arpa/inet.h&gt;</span><br><span class="line">#import &lt;net/if.h&gt;</span><br><span class="line">#define IOS_CELLULAR    @&quot;pdp_ip0&quot;</span><br><span class="line">#define IOS_WIFI        @&quot;en0&quot;</span><br><span class="line">#define IOS_VPN         @&quot;utun0&quot;</span><br><span class="line">#define IP_ADDR_IPv4    @&quot;ipv4&quot;</span><br><span class="line">#define IP_ADDR_IPv6    @&quot;ipv6&quot;</span><br><span class="line"></span><br><span class="line">@interface DeviceInfo : NSObject</span><br><span class="line">#pragma mark - 获取设备当前网络IP地址</span><br><span class="line">+ (NSString *)getIPAddress:(BOOL)preferIPv4;</span><br><span class="line">+ (NSString *)getWifiName;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getDeviceNumber;</span><br><span class="line">+ (NSString *)getSystemStatus;  // 0 代表没有越狱。 1 代表越狱</span><br><span class="line">+ (NSString *)getSystemVersion;</span><br><span class="line">+ (NSString *)deviceString;</span><br><span class="line">+ (NSString *)getNetWork;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># import &quot;DeviceInfo.h&quot;</span><br><span class="line"># import &quot;sys/utsname.h&quot;</span><br><span class="line"># import &lt;CoreTelephony/CoreTelephonyDefines.h&gt;</span><br><span class="line"># import &lt;CoreTelephony/CTTelephonyNetworkInfo.h&gt;</span><br><span class="line"># import &lt;AFNetworkReachabilityManager.h&gt; //有用到AFNetworking</span><br><span class="line"></span><br><span class="line"># define ARRAY_SIZE(a) sizeof(a)/sizeof(a[0])    //获取是否越狱</span><br><span class="line"></span><br><span class="line">const char* jailbreak_tool_pathes[] = &#123;</span><br><span class="line">	&quot;/Applications/Cydia.app&quot;,</span><br><span class="line">	&quot;/Library/MobileSubstrate/MobileSubstrate.dylib&quot;,</span><br><span class="line">	&quot;/bin/bash&quot;,</span><br><span class="line">	&quot;/usr/sbin/sshd&quot;,</span><br><span class="line">	&quot;/etc/apt&quot;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br></pre></td><td class="code"><pre><span class="line">@implementation DeviceInfo</span><br><span class="line"></span><br><span class="line">+ (NSString *)getIPAddress:(BOOL)preferIPv4</span><br><span class="line">&#123;</span><br><span class="line">    NSArray *searchArray = preferIPv4 ?</span><br><span class="line">    @[ IOS_VPN @&quot;/&quot; IP_ADDR_IPv4, IOS_VPN @&quot;/&quot; IP_ADDR_IPv6, IOS_WIFI @&quot;/&quot; IP_ADDR_IPv4, IOS_WIFI @&quot;/&quot; IP_ADDR_IPv6, IOS_CELLULAR @&quot;/&quot; IP_ADDR_IPv4, IOS_CELLULAR @&quot;/&quot; IP_ADDR_IPv6 ] :</span><br><span class="line">    @[ IOS_VPN @&quot;/&quot; IP_ADDR_IPv6, IOS_VPN @&quot;/&quot; IP_ADDR_IPv4, IOS_WIFI @&quot;/&quot; IP_ADDR_IPv6, IOS_WIFI @&quot;/&quot; IP_ADDR_IPv4, IOS_CELLULAR @&quot;/&quot; IP_ADDR_IPv6, IOS_CELLULAR @&quot;/&quot; IP_ADDR_IPv4 ] ;</span><br><span class="line">    </span><br><span class="line">    NSDictionary *addresses = [self getIPAddresses];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    __block NSString *address;</span><br><span class="line">    [searchArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop)</span><br><span class="line">     &#123;</span><br><span class="line">         address = addresses[key];</span><br><span class="line">         //筛选出IP地址格式</span><br><span class="line">         if([self isValidatIP:address]) *stop = YES;</span><br><span class="line">     &#125; ];</span><br><span class="line">    return address ? address : @&quot;0.0.0.0&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL)isValidatIP:(NSString *)ipAddress &#123;</span><br><span class="line">    if (ipAddress.length == 0) &#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line">    NSString *urlRegEx = @&quot;^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot;</span><br><span class="line">    &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot;</span><br><span class="line">    &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.&quot;</span><br><span class="line">    &quot;([01]?\\d\\d?|2[0-4]\\d|25[0-5])$&quot;;</span><br><span class="line">    </span><br><span class="line">    NSError *error;</span><br><span class="line">    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:urlRegEx options:0 error:&amp;error];</span><br><span class="line">    </span><br><span class="line">    if (regex != nil) &#123;</span><br><span class="line">        NSTextCheckingResult *firstMatch=[regex firstMatchInString:ipAddress options:0 range:NSMakeRange(0, [ipAddress length])];</span><br><span class="line">        </span><br><span class="line">        if (firstMatch) &#123;</span><br><span class="line">            NSRange resultRange = [firstMatch rangeAtIndex:0];</span><br><span class="line">            NSString *result=[ipAddress substringWithRange:resultRange];</span><br><span class="line">            //输出结果</span><br><span class="line">            NSLog(@&quot;%@&quot;,result);</span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSDictionary *)getIPAddresses</span><br><span class="line">&#123;</span><br><span class="line">    NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];</span><br><span class="line">    </span><br><span class="line">    // retrieve the current interfaces - returns 0 on success</span><br><span class="line">    struct ifaddrs *interfaces;</span><br><span class="line">    if(!getifaddrs(&amp;interfaces)) &#123;</span><br><span class="line">        // Loop through linked list of interfaces</span><br><span class="line">        struct ifaddrs *interface;</span><br><span class="line">        for(interface=interfaces; interface; interface=interface-&gt;ifa_next) &#123;</span><br><span class="line">            if(!(interface-&gt;ifa_flags &amp; IFF_UP) /* || (interface-&gt;ifa_flags &amp; IFF_LOOPBACK) */ ) &#123;</span><br><span class="line">                continue; // deeply nested code harder to read</span><br><span class="line">            &#125;</span><br><span class="line">            const struct sockaddr_in *addr = (const struct sockaddr_in*)interface-&gt;ifa_addr;</span><br><span class="line">            char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];</span><br><span class="line">            if(addr &amp;&amp; (addr-&gt;sin_family==AF_INET || addr-&gt;sin_family==AF_INET6)) &#123;</span><br><span class="line">                NSString *name = [NSString stringWithUTF8String:interface-&gt;ifa_name];</span><br><span class="line">                NSString *type;</span><br><span class="line">                if(addr-&gt;sin_family == AF_INET) &#123;</span><br><span class="line">                    if(inet_ntop(AF_INET, &amp;addr-&gt;sin_addr, addrBuf, INET_ADDRSTRLEN)) &#123;</span><br><span class="line">                        type = IP_ADDR_IPv4;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface-&gt;ifa_addr;</span><br><span class="line">                    if(inet_ntop(AF_INET6, &amp;addr6-&gt;sin6_addr, addrBuf, INET6_ADDRSTRLEN)) &#123;</span><br><span class="line">                        type = IP_ADDR_IPv6;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if(type) &#123;</span><br><span class="line">                    NSString *key = [NSString stringWithFormat:@&quot;%@/%@&quot;, name, type];</span><br><span class="line">                    addresses[key] = [NSString stringWithUTF8String:addrBuf];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // Free memory</span><br><span class="line">        freeifaddrs(interfaces);</span><br><span class="line">    &#125;</span><br><span class="line">    return [addresses count] ? addresses : nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ (NSString *)getWifiName</span><br><span class="line">&#123;</span><br><span class="line">    NSString *wifiName = @&quot;&quot;;</span><br><span class="line">    </span><br><span class="line">    CFArrayRef wifiInterfaces = CNCopySupportedInterfaces();</span><br><span class="line">    </span><br><span class="line">    if (!wifiInterfaces) &#123;</span><br><span class="line">        return @&quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSArray *interfaces = (__bridge NSArray *)wifiInterfaces;</span><br><span class="line">    </span><br><span class="line">    for (NSString *interfaceName in interfaces) &#123;</span><br><span class="line">        CFDictionaryRef dictRef = CNCopyCurrentNetworkInfo((__bridge CFStringRef)(interfaceName));</span><br><span class="line">        </span><br><span class="line">        if (dictRef) &#123;</span><br><span class="line">            NSDictionary *networkInfo = (__bridge NSDictionary *)dictRef;</span><br><span class="line">            NSLog(@&quot;network info -&gt; %@&quot;, networkInfo);</span><br><span class="line">            wifiName = [networkInfo objectForKey:(__bridge NSString *)kCNNetworkInfoKeySSID];</span><br><span class="line">            </span><br><span class="line">            CFRelease(dictRef);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    CFRelease(wifiInterfaces);</span><br><span class="line">    return wifiName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getDeviceNumber&#123;</span><br><span class="line">    NSString *deviceNumber = [self uuid];  //自己项目里面获取UUID的方法</span><br><span class="line">    return deviceNumber;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getSystemVersion&#123;</span><br><span class="line">    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];</span><br><span class="line">    return systemVersion;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getSystemStatus&#123;</span><br><span class="line">    BOOL isJailBreak = [self checkIsJailBreak];</span><br><span class="line">    NSString *systemStatus = @&quot;&quot;;</span><br><span class="line">    if (isJailBreak) &#123;</span><br><span class="line">        systemStatus = @&quot;1&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        systemStatus = @&quot;0&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return systemStatus;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL)checkIsJailBreak&#123;</span><br><span class="line">    for (int i=0; i&lt;ARRAY_SIZE(jailbreak_tool_pathes); i++) &#123;</span><br><span class="line">        if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithUTF8String:jailbreak_tool_pathes[i]]]) &#123;</span><br><span class="line">            NSLog(@&quot;The device is jail broken!&quot;);</span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;The device is NOT jail broken!&quot;);</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)deviceString &#123;</span><br><span class="line">    struct utsname systemInfo;</span><br><span class="line">    uname(&amp;systemInfo);</span><br><span class="line">    return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getNetWork &#123;</span><br><span class="line">    </span><br><span class="line">    UIApplication *app = [UIApplication sharedApplication];</span><br><span class="line">    NSArray *children;</span><br><span class="line">    if ([[app valueForKeyPath:@&quot;_statusBar&quot;] isKindOfClass:NSClassFromString(@&quot;UIStatusBar_Modern&quot;)]) &#123;</span><br><span class="line">        return [self getIphoneXNetInfo];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        children = [[[app valueForKeyPath:@&quot;_statusBar&quot;] valueForKeyPath:@&quot;foregroundView&quot;] subviews];</span><br><span class="line">    &#125;</span><br><span class="line">    int type = 0;</span><br><span class="line">    for (id child in children) &#123;</span><br><span class="line">        if ([child isKindOfClass:[NSClassFromString(@&quot;UIStatusBarDataNetworkItemView&quot;) class]]) &#123;</span><br><span class="line">            type = [[child valueForKeyPath:@&quot;dataNetworkType&quot;] intValue];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NSString *stateString = @&quot;wifi&quot;;</span><br><span class="line">    switch (type) &#123;</span><br><span class="line">        case 0:</span><br><span class="line">            stateString = @&quot;&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case 1:</span><br><span class="line">            stateString = @&quot;2G&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case 2:</span><br><span class="line">            stateString = @&quot;3G&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case 3:</span><br><span class="line">            stateString = @&quot;4G&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case 4:</span><br><span class="line">            stateString = @&quot;LTE&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case 5:</span><br><span class="line">            stateString = @&quot;wifi&quot;;</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return stateString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)getIphoneXNetInfo &#123;</span><br><span class="line">    AFNetworkReachabilityStatus status = [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus;</span><br><span class="line">    if(status == AFNetworkReachabilityStatusReachableViaWiFi) &#123;</span><br><span class="line">        return @&quot;wifi&quot;;</span><br><span class="line">    &#125;else if(status == AFNetworkReachabilityStatusNotReachable) &#123;</span><br><span class="line">        return @&quot;&quot;;</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        NSArray *typeStrings2G = @[CTRadioAccessTechnologyEdge,</span><br><span class="line">                                   CTRadioAccessTechnologyGPRS,</span><br><span class="line">                                   CTRadioAccessTechnologyCDMA1x];</span><br><span class="line">        NSArray *typeStrings3G = @[CTRadioAccessTechnologyHSDPA,</span><br><span class="line">                                   CTRadioAccessTechnologyWCDMA,</span><br><span class="line">                                   CTRadioAccessTechnologyHSUPA,</span><br><span class="line">                                   CTRadioAccessTechnologyCDMAEVDORev0,</span><br><span class="line">                                   CTRadioAccessTechnologyCDMAEVDORevA,</span><br><span class="line">                                   CTRadioAccessTechnologyCDMAEVDORevB,</span><br><span class="line">                                   CTRadioAccessTechnologyeHRPD];</span><br><span class="line">        </span><br><span class="line">        NSArray *typeStrings4G = @[CTRadioAccessTechnologyLTE];</span><br><span class="line">        // 该 API 在 iOS7 以上系统才有效</span><br><span class="line">        if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7.0) &#123;</span><br><span class="line">            CTTelephonyNetworkInfo *teleInfo= [[CTTelephonyNetworkInfo alloc] init];</span><br><span class="line">            NSString *accessString = teleInfo.currentRadioAccessTechnology;</span><br><span class="line">            if ([typeStrings4G containsObject:accessString]) &#123;</span><br><span class="line">                return @&quot;4G&quot;;</span><br><span class="line">            &#125; else if ([typeStrings3G containsObject:accessString]) &#123;</span><br><span class="line">                return @&quot;3G&quot;;</span><br><span class="line">            &#125; else if ([typeStrings2G containsObject:accessString]) &#123;</span><br><span class="line">                return @&quot;2G&quot;;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return @&quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return @&quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>最后一步，在项目的APPDelegate里面进行调用一下就可以了~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">   </span><br><span class="line">    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];</span><br><span class="line">    self.window.backgroundColor = [UIColor whiteColor];</span><br><span class="line">    [self.window makeKeyAndVisible];</span><br><span class="line">    //收集崩溃日志</span><br><span class="line">    [self uploadExceptionLog];</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)uploadExceptionLog &#123;</span><br><span class="line">    [YQUncaughtExceptionHandler setDefaultHandler];</span><br><span class="line">    // 发送崩溃日志</span><br><span class="line">    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">    NSString *dataPath = [path stringByAppendingPathComponent:@&quot;ExceptionLog.txt&quot;];</span><br><span class="line">    NSData *data = [NSData dataWithContentsOfFile:dataPath];</span><br><span class="line">    if (data != nil) &#123;</span><br><span class="line">        [self sendExceptionLogWithData:data path:dataPath];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 到这就ok了，祝工作愉快！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/30/AndroidStudio-gradle/" rel="next" title="Android Studio gradle">
+                <i class="fa fa-chevron-left"></i> Android Studio gradle
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/06/零散问题/" rel="prev" title="零散问题">
+                零散问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2017/12/05/iOS崩溃日志/"
+           data-title="iOS崩溃日志收集上传" data-url="http://yoursite.com/2017/12/05/iOS崩溃日志/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="iLeo" />
+            
+              <p class="site-author-name" itemprop="name">iLeo</p>
+              <p class="site-description motion-element" itemprop="description">Hello Everyone!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">iLeo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"leoitachi"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
